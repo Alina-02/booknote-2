@@ -11,6 +11,9 @@ import {
 import React from 'react';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CloseIcon from '@mui/icons-material/Close';
+import { addNewBook } from '../firebase/database_services';
+import { useForm } from '../hooks/useForm';
+import { Book } from '../models/books';
 
 interface Props {
   open: boolean;
@@ -19,6 +22,27 @@ interface Props {
 
 const AddBookModal = (props: Props) => {
   const { open, onClose } = props;
+
+  const { handleLogInFormChange, title, author, error, setError, setForm } =
+    useForm({
+      initialState: {
+        title: '',
+        author: '',
+      },
+    });
+
+  const createNewBook = () => {
+    const book: Book = {
+      title: title,
+      author: author,
+    };
+    addNewBook(book);
+    setForm({
+      title: '',
+      author: '',
+    });
+  };
+
   return (
     <Dialog open={open} onClose={onClose}>
       <IconButton
@@ -41,11 +65,21 @@ const AddBookModal = (props: Props) => {
         <Stack direction="row" spacing={2}>
           <Stack>
             <Typography variant="body1">Title</Typography>
-            <TextField name="Title" title="Title" />
+            <TextField
+              name="title"
+              title="Title"
+              onChange={handleLogInFormChange}
+              value={title}
+            />
           </Stack>
           <Stack>
             <Typography variant="body1">Author</Typography>
-            <TextField name="Author" title="Author" />
+            <TextField
+              name="author"
+              title="Author"
+              onChange={handleLogInFormChange}
+              value={author}
+            />
           </Stack>
         </Stack>
         <Stack>
@@ -88,7 +122,7 @@ const AddBookModal = (props: Props) => {
           <Button variant="contained" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="contained" onClick={onClose}>
+          <Button variant="contained" onClick={createNewBook}>
             Accept
           </Button>
         </Stack>

@@ -2,20 +2,19 @@ import { Button, TextField, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLogInForm } from '../hooks/useLogInForm';
+import { useForm } from '../hooks/useForm';
 import { AuthContext } from '../context/authContext';
 
 const LogIn = () => {
   const navigate = useNavigate();
   const { handleLoginWithCredentials } = useContext(AuthContext);
 
-  const { handleLogInFormChange, password, email, error, setError } =
-    useLogInForm({
-      initialState: {
-        password: '',
-        email: '',
-      },
-    });
+  const { handleLogInFormChange, password, email, error, setError } = useForm({
+    initialState: {
+      password: '',
+      email: '',
+    },
+  });
 
   const handleLogIn = (e: { preventDefault: () => void }) => {
     e.preventDefault();

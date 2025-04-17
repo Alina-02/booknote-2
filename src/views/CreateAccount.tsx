@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router';
-import { useLogInForm } from '../hooks/useLogInForm';
+import { useForm } from '../hooks/useForm';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import { AuthContext } from '../context/authContext';
 
@@ -8,7 +8,7 @@ const CreateAccount = () => {
   const navigate = useNavigate();
   const { handleRegisterWithCredentials } = useContext(AuthContext);
 
-  const { handleLogInFormChange, password, email } = useLogInForm({
+  const { handleLogInFormChange, password, email } = useForm({
     initialState: {
       password: '',
       email: '',
