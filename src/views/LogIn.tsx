@@ -1,12 +1,13 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLogInForm } from '../hooks/useLogInForm';
-import { logInWithCredentials } from '../firebase/services';
+import { AuthContext } from '../context/authContext';
 
 const LogIn = () => {
   const navigate = useNavigate();
+  const { handleLoginWithCredentials } = useContext(AuthContext);
 
   const { handleLogInFormChange, password, email, error, setError } =
     useLogInForm({
@@ -19,7 +20,7 @@ const LogIn = () => {
   const handleLogIn = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    logInWithCredentials({ email, password }).then((uid) => {
+    handleLoginWithCredentials(email, password).then((uid) => {
       console.log(uid);
 
       if (uid !== undefined) goToMain();

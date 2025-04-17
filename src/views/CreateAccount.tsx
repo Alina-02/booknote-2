@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { useLogInForm } from '../hooks/useLogInForm';
-import { signInWithCredentials } from '../firebase/services';
 import { Button, Stack, TextField, Typography } from '@mui/material';
+import { AuthContext } from '../context/authContext';
 
 const CreateAccount = () => {
   const navigate = useNavigate();
+  const { handleRegisterWithCredentials } = useContext(AuthContext);
 
   const { handleLogInFormChange, password, email } = useLogInForm({
     initialState: {
@@ -16,7 +17,7 @@ const CreateAccount = () => {
 
   const handleCreateAccount = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    signInWithCredentials({ email, password });
+    handleRegisterWithCredentials(email, password);
     goToLogIn();
   };
 
