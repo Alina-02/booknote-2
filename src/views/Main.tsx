@@ -9,6 +9,7 @@ import { Book } from '../models/books';
 import BookCard from '../components/BookCard';
 import AddBookModal from '../components/AddBookModal';
 import AddQuoteModal from '../components/AddQuoteModal';
+import ProfilePopover from '../components/ProfilePopover';
 
 const librosdeprueba: Book[] = [
   {
@@ -30,6 +31,11 @@ const librosdeprueba: Book[] = [
 
 const Main = () => {
   const [seeMenu, setSeeMenu] = useState<boolean>(false);
+  const [openProfilePopover, setOpenProfilePopover] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
   const [openBookModal, setOpenBookModal] = useState<boolean>(false);
   const [openQuoteModal, setOpenQuoteModal] = useState<boolean>(false);
 
@@ -42,6 +48,11 @@ const Main = () => {
       <AddQuoteModal
         open={openQuoteModal}
         onClose={() => setOpenQuoteModal(false)}
+      />
+      <ProfilePopover
+        open={openProfilePopover}
+        handleClose={() => setOpenProfilePopover(false)}
+        anchorEl={anchorEl}
       />
       {seeMenu && (
         <Stack
@@ -107,6 +118,10 @@ const Main = () => {
           position: 'absolute',
           top: 10,
           right: 10,
+        }}
+        onClick={(e) => {
+          setAnchorEl(e.currentTarget);
+          setOpenProfilePopover(true);
         }}
       >
         <PersonIcon />

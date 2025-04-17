@@ -52,8 +52,8 @@ export const AuthProvider = ({ children }: IElement) => {
     setSession((prev) => ({ ...prev, status: 'checking' }));
 
   const handleLoginWithCredentials = async (
-    password: string,
-    email: string
+    email: string,
+    password: string
   ) => {
     checking();
     const userId = await logInWithCredentials({ email, password });
@@ -61,8 +61,8 @@ export const AuthProvider = ({ children }: IElement) => {
   };
 
   const handleRegisterWithCredentials = async (
-    password: string,
-    email: string
+    email: string,
+    password: string
   ) => {
     checking();
     const userId = await signInWithCredentials({ email, password });

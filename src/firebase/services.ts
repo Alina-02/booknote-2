@@ -36,7 +36,8 @@ export const signInWithCredentials = async (props: PropsRegister) => {
 
 export const logInWithCredentials = async (props: PropsRegister) => {
   const { email, password } = props;
-
+  console.log(email);
+  console.log(password);
   try {
     const resp = await signInWithEmailAndPassword(
       FirebaseAuth,

@@ -19,13 +19,8 @@ const LogIn = () => {
 
   const handleLogIn = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    handleLoginWithCredentials(email, password).then((uid) => {
-      console.log(uid);
-
-      if (uid !== undefined) goToMain();
-      else setError(true);
-    });
+    handleLoginWithCredentials(email, password);
+    goToMain();
   };
 
   const goToMain = () => {
