@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Tooltip, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import React, { useState } from 'react';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -7,6 +7,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Book } from '../models/books';
 import BookCard from '../components/BookCard';
+import AddBookModal from '../components/AddBookModal';
+import AddQuoteModal from '../components/AddQuoteModal';
 
 const librosdeprueba: Book[] = [
   {
@@ -28,19 +30,35 @@ const librosdeprueba: Book[] = [
 
 const Main = () => {
   const [seeMenu, setSeeMenu] = useState<boolean>(false);
+  const [openBookModal, setOpenBookModal] = useState<boolean>(false);
+  const [openQuoteModal, setOpenQuoteModal] = useState<boolean>(false);
+
   return (
     <Stack direction="row">
+      <AddBookModal
+        open={openBookModal}
+        onClose={() => setOpenBookModal(false)}
+      />
+      <AddQuoteModal
+        open={openQuoteModal}
+        onClose={() => setOpenQuoteModal(false)}
+      />
       {seeMenu && (
         <Stack
-          height="100%"
+          minHeight="100%"
           width="350px"
           padding={2}
-          spacing={1}
+          justifyContent="space-between"
           sx={{ backgroundColor: 'gray' }}
         >
-          {librosdeprueba.map((book) => (
-            <BookCard book={book} />
-          ))}
+          <Stack spacing={1}>
+            {librosdeprueba.map((book) => (
+              <BookCard book={book} />
+            ))}
+          </Stack>
+          <Button variant="contained" onClick={() => setOpenQuoteModal(true)}>
+            Add book
+          </Button>
         </Stack>
       )}
       <Stack
@@ -60,13 +78,25 @@ const Main = () => {
           <TextField />
           <Button variant="contained">Search</Button>
         </Stack>
-        <Stack direction="row">
-          <Button>
-            <MenuBookIcon />
-          </Button>
-          <Button>
-            <FormatQuoteIcon />
-          </Button>
+        <Stack direction="row" spacing={2}>
+          <Tooltip title="Add book" arrow>
+            <Button
+              variant="contained"
+              sx={{ borderRadius: 100 }}
+              onClick={() => setOpenBookModal(true)}
+            >
+              <MenuBookIcon />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Add quote" arrow>
+            <Button
+              variant="contained"
+              sx={{ borderRadius: 100 }}
+              onClick={() => setOpenQuoteModal(true)}
+            >
+              <FormatQuoteIcon />
+            </Button>
+          </Tooltip>
         </Stack>
       </Stack>
       <Button
