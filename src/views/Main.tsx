@@ -56,7 +56,7 @@ const Main = () => {
               <BookCard book={book} />
             ))}
           </Stack>
-          <Button variant="contained" onClick={() => setOpenQuoteModal(true)}>
+          <Button variant="contained" onClick={() => setOpenBookModal(true)}>
             Add book
           </Button>
         </Stack>
