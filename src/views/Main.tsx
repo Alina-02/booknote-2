@@ -34,7 +34,7 @@ const Main = () => {
   const [openQuoteModal, setOpenQuoteModal] = useState<boolean>(false);
 
   return (
-    <Stack direction="row">
+    <Stack direction="row" height="100%" display="flex">
       <AddBookModal
         open={openBookModal}
         onClose={() => setOpenBookModal(false)}

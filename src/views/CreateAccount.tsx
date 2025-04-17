@@ -1,38 +1,27 @@
-import { Button, TextField, Typography } from '@mui/material';
-import { Stack } from '@mui/system';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useLogInForm } from '../hooks/useLogInForm';
-import { logInWithCredentials } from '../firebase/services';
+import { signInWithCredentials } from '../firebase/services';
+import { Button, Stack, TextField, Typography } from '@mui/material';
 
-const LogIn = () => {
+const CreateAccount = () => {
   const navigate = useNavigate();
 
-  const { handleLogInFormChange, password, email, error, setError } =
-    useLogInForm({
-      initialState: {
-        password: '',
-        email: '',
-      },
-    });
+  const { handleLogInFormChange, password, email } = useLogInForm({
+    initialState: {
+      password: '',
+      email: '',
+    },
+  });
 
-  const handleLogIn = (e: { preventDefault: () => void }) => {
+  const handleCreateAccount = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    logInWithCredentials({ email, password }).then((uid) => {
-      console.log(uid);
-
-      if (uid !== undefined) goToMain();
-      else setError(true);
-    });
+    signInWithCredentials({ email, password });
+    goToLogIn();
   };
 
-  const goToMain = () => {
-    navigate('/main');
-  };
-
-  const goToCreateAccount = () => {
-    navigate('/create-account');
+  const goToLogIn = () => {
+    navigate('/');
   };
 
   return (
@@ -49,7 +38,6 @@ const LogIn = () => {
             name="email"
             onChange={handleLogInFormChange}
             value={email}
-            error={error}
             fullWidth
           />
         </Stack>
@@ -61,29 +49,22 @@ const LogIn = () => {
             name="password"
             onChange={handleLogInFormChange}
             value={password}
-            error={error}
             fullWidth
           />
-          <Typography variant="caption">
-            Have you forgot your password?
-          </Typography>
         </Stack>
         <Stack alignItems="center" spacing={0.5}>
           <Button
             type="submit"
             variant="contained"
-            onClick={handleLogIn}
+            onClick={handleCreateAccount}
             fullWidth
           >
-            Log in
+            Create account
           </Button>
-          <Typography variant="caption" onClick={goToCreateAccount}>
-            Create an account
-          </Typography>
         </Stack>
       </Stack>
     </Stack>
   );
 };
 
-export default LogIn;
+export default CreateAccount;
