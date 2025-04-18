@@ -3,17 +3,18 @@ import {
   Button,
   Chip,
   Dialog,
-  IconButton,
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import { addNewBook } from '../firebase/database_services';
 import { useForm } from '../hooks/useForm';
 import { Book } from '../models/books';
+import { BookTags } from '../constants/bookTags';
 
 interface Props {
   open: boolean;
@@ -23,18 +24,30 @@ interface Props {
 const AddBookModal = (props: Props) => {
   const { open, onClose } = props;
 
-  const { handleLogInFormChange, title, author, error, setError, setForm } =
-    useForm({
-      initialState: {
-        title: '',
-        author: '',
-      },
-    });
+  const theme = useTheme();
+
+  const [tags, setTags] = useState<string[]>([]);
+
+  const {
+    handleLogInFormChange,
+    title,
+    author,
+
+    error,
+    setError,
+    setForm,
+  } = useForm({
+    initialState: {
+      title: '',
+      author: '',
+    },
+  });
 
   const createNewBook = () => {
     const book: Book = {
       title: title,
       author: author,
+      tags: tags,
     };
     addNewBook(book);
     setForm({
@@ -44,8 +57,8 @@ const AddBookModal = (props: Props) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <IconButton
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
+      <Button
         aria-label="close"
         onClick={onClose}
         sx={(theme) => ({
@@ -55,62 +68,92 @@ const AddBookModal = (props: Props) => {
           color: theme.palette.grey[500],
         })}
       >
-        <CloseIcon />
-      </IconButton>
-      <Stack margin={3} spacing={3}>
+        <CloseIcon fontSize="large" color="primary" />
+      </Button>
+      <Stack mx={3} mb={3} mt={1} spacing={3}>
         <Stack alignItems="center">
           <Typography variant="h2">Add book</Typography>
         </Stack>
 
         <Stack direction="row" spacing={2}>
-          <Stack>
-            <Typography variant="body1">Title</Typography>
+          <Stack width="100%">
+            <Typography variant="body1" fontWeight={600}>
+              Title
+            </Typography>
             <TextField
               name="title"
               title="Title"
               onChange={handleLogInFormChange}
               value={title}
+              fullWidth
             />
           </Stack>
-          <Stack>
-            <Typography variant="body1">Author</Typography>
+          <Stack width="100%">
+            <Typography variant="body1" fontWeight={600}>
+              Author
+            </Typography>
             <TextField
               name="author"
               title="Author"
               onChange={handleLogInFormChange}
               value={author}
+              fullWidth
             />
           </Stack>
         </Stack>
-        <Stack>
-          <Typography variant="body1">Add tags</Typography>
+        <Stack spacing={1}>
+          <Typography variant="body1" fontWeight={600}>
+            Add tags
+          </Typography>
           <Stack direction="row" spacing={1}>
-            <Chip label="Fantasy" />
-            <Chip label="Romance" />
-            <Chip label="Novel" />
-            <Chip label="Terror" />
+            {BookTags.map((tag) => {
+              const selected = tags?.includes(tag?.name);
+              return (
+                <Chip
+                  label={tag.name}
+                  sx={{
+                    backgroundColor: selected ? tag.color : 'auto',
+                  }}
+                  clickable
+                  onClick={() => {
+                    if (selected) {
+                      setTags(tags.filter((t) => t !== tag.name));
+                    } else {
+                      setTags([...tags, tag.name]);
+                    }
+                  }}
+                />
+              );
+            })}
           </Stack>
         </Stack>
-        <Stack direction="row" spacing={2}>
-          <Stack width="30%">
-            <Typography variant="body1">Cover</Typography>
+        <Stack direction="row" spacing={3}>
+          <Stack width="20%" spacing={1}>
+            <Typography variant="body1" fontWeight={600}>
+              Cover
+            </Typography>
             <Box
-              height="125px"
+              height="175px"
+              width="175px"
               display="flex"
               justifyContent="center"
               alignItems="center"
-              sx={{ backgroundColor: 'gray' }}
+              borderRadius="10px"
+              sx={{ backgroundColor: theme.palette.primary.light }}
             >
               <Button>
-                <FileUploadIcon />
+                <FileUploadIcon fontSize="large" />
               </Button>
             </Box>
           </Stack>
-          <Stack width="70%">
-            <Typography variant="body1">First quote</Typography>
-            <Box height="125px">
+          <Stack width="80%" spacing={1}>
+            <Typography variant="body1" fontWeight={600}>
+              First quote
+            </Typography>
+
+            <Box height="175px">
               <TextField
-                sx={{ height: '125px' }}
+                sx={{ height: '175px' }}
                 maxRows="4"
                 multiline
                 fullWidth
@@ -118,11 +161,21 @@ const AddBookModal = (props: Props) => {
             </Box>
           </Stack>
         </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Button variant="contained" onClick={onClose}>
+        <Stack direction="row" justifyContent="space-between" spacing={30}>
+          <Button
+            variant="outlined"
+            onClick={onClose}
+            sx={{ height: '40px' }}
+            fullWidth
+          >
             Cancel
           </Button>
-          <Button variant="contained" onClick={createNewBook}>
+          <Button
+            variant="contained"
+            onClick={createNewBook}
+            sx={{ height: '40px' }}
+            fullWidth
+          >
             Accept
           </Button>
         </Stack>

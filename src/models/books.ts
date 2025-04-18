@@ -4,4 +4,5 @@ export interface Book {
   favQuote?: string;
   bookId?: string;
   bookCover?: string;
+  tags: string[];
 }

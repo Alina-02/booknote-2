@@ -67,6 +67,15 @@ theme.typography.h1 = {
   },
 };
 
+theme.typography.h2 = {
+  fontSize: '5rem',
+  fontWeight: 'bold',
+  letterSpacing: -3,
+  '@media (min-width:600px)': {
+    fontSize: '5rem',
+  },
+};
+
 theme.typography.h3 = {
   fontSize: '4rem',
   fontWeight: 'bold',
