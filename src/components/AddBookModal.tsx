@@ -77,7 +77,7 @@ const AddBookModal = (props: Props) => {
 
         <Stack direction="row" spacing={2}>
           <Stack width="100%">
-            <Typography variant="body1" fontWeight={600}>
+            <Typography variant="body1" fontWeight={600} ml={1}>
               Title
             </Typography>
             <TextField
@@ -89,7 +89,7 @@ const AddBookModal = (props: Props) => {
             />
           </Stack>
           <Stack width="100%">
-            <Typography variant="body1" fontWeight={600}>
+            <Typography variant="body1" fontWeight={600} ml={1}>
               Author
             </Typography>
             <TextField
@@ -102,7 +102,7 @@ const AddBookModal = (props: Props) => {
           </Stack>
         </Stack>
         <Stack spacing={1}>
-          <Typography variant="body1" fontWeight={600}>
+          <Typography variant="body1" fontWeight={600} ml={1}>
             Add tags
           </Typography>
           <Stack direction="row" spacing={1}>
@@ -129,7 +129,7 @@ const AddBookModal = (props: Props) => {
         </Stack>
         <Stack direction="row" spacing={3}>
           <Stack width="20%" spacing={1}>
-            <Typography variant="body1" fontWeight={600}>
+            <Typography variant="body1" fontWeight={600} ml={1}>
               Cover
             </Typography>
             <Box
@@ -147,7 +147,7 @@ const AddBookModal = (props: Props) => {
             </Box>
           </Stack>
           <Stack width="80%" spacing={1}>
-            <Typography variant="body1" fontWeight={600}>
+            <Typography variant="body1" fontWeight={600} ml={1}>
               First quote
             </Typography>
 
