@@ -33,7 +33,9 @@ const LogIn = () => {
   return (
     <Stack height="100%" display="flex" alignItems="center">
       <Stack margin={10} alignItems="center">
-        <Typography variant="h3">Save your</Typography>
+        <Typography variant="h3" sx={{ height: '55px' }}>
+          Save your
+        </Typography>
         <Typography variant="h1">BookNotes</Typography>
       </Stack>
       <Stack spacing={2} width="300px">
