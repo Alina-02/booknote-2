@@ -28,20 +28,13 @@ const AddBookModal = (props: Props) => {
 
   const [tags, setTags] = useState<string[]>([]);
 
-  const {
-    handleLogInFormChange,
-    title,
-    author,
-
-    error,
-    setError,
-    setForm,
-  } = useForm({
-    initialState: {
-      title: '',
-      author: '',
-    },
-  });
+  const { handleLogInFormChange, title, author, error, setError, setForm } =
+    useForm({
+      initialState: {
+        title: '',
+        author: '',
+      },
+    });
 
   const createNewBook = () => {
     const book: Book = {

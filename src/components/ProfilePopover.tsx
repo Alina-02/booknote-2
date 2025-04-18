@@ -45,13 +45,13 @@ const ProfilePopover = (props: Props) => {
       <MenuList sx={{ marginX: 1 }}>
         <MenuItem>
           <ListItemIcon>
-            <ContrastIcon fontSize="small" />
+            <ContrastIcon fontSize="small" color="primary" />
           </ListItemIcon>
           <ListItemText>Theme</ListItemText>
         </MenuItem>
         <MenuItem onClick={logOut}>
           <ListItemIcon>
-            <LogoutIcon fontSize="small" />
+            <LogoutIcon fontSize="small" color="primary" />
           </ListItemIcon>
           <ListItemText>Log-out</ListItemText>
         </MenuItem>

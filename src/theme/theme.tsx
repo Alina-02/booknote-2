@@ -55,6 +55,14 @@ export const theme = createTheme({
         },
       },
     },
+    MuiPopover: {
+      styleOverrides: {
+        paper: {
+          boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.2)',
+          borderRadius: '10px',
+        },
+      },
+    },
   },
 });
 
