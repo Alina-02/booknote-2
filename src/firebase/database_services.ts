@@ -29,11 +29,25 @@ export const addNewBook = async (book: Book) => {
 };
 
 export const deleteBook = async (book: Book) => {
-  await deleteDoc(doc(FirebaseDatabase, 'books', ''));
+  if (book.bookId) {
+    await deleteDoc(doc(FirebaseDatabase, 'books', book.bookId));
+  }
 };
 
-export const updateBook = (book: Book) => {
-  //const { bookId, title, author, favQuote, bookCover } = book;
+export const updateBook = async (book: Book) => {
+  if (book.bookId) {
+    const bookRef = doc(FirebaseDatabase, 'books', book.bookId);
+
+    const { bookId, title, author, favQuote, bookCover } = book;
+
+    await setDoc(bookRef, {
+      bookId: bookId,
+      title: title,
+      author: author,
+      favQuote: favQuote ? favQuote : null,
+      bookCover: bookCover ? bookCover : null,
+    });
+  }
 };
 
 export const getAllBooks = async () => {
