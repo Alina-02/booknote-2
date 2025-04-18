@@ -1,6 +1,6 @@
 import { Button, TextField, Tooltip, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import PersonIcon from '@mui/icons-material/Person';
@@ -10,6 +10,7 @@ import BookCard from '../components/BookCard';
 import AddBookModal from '../components/AddBookModal';
 import AddQuoteModal from '../components/AddQuoteModal';
 import ProfilePopover from '../components/ProfilePopover';
+import { getAllBooks } from '../firebase/database_services';
 
 const librosdeprueba: Book[] = [
   {
@@ -39,6 +40,12 @@ const Main = () => {
   const [openBookModal, setOpenBookModal] = useState<boolean>(false);
   const [openQuoteModal, setOpenQuoteModal] = useState<boolean>(false);
 
+  const [books, setBooks] = useState<Book[]>([]);
+
+  useEffect(() => {
+    getAllBooks().then((books) => setBooks(books));
+  }, []);
+
   return (
     <Stack direction="row" height="100vh" display="flex">
       <AddBookModal
@@ -56,14 +63,13 @@ const Main = () => {
       />
       {seeMenu && (
         <Stack
-          minHeight="100%"
           width="350px"
           padding={2}
           justifyContent="space-between"
           sx={{ backgroundColor: 'gray' }}
         >
           <Stack spacing={1}>
-            {librosdeprueba.map((book) => (
+            {books?.map((book) => (
               <BookCard book={book} />
             ))}
           </Stack>
@@ -73,7 +79,6 @@ const Main = () => {
         </Stack>
       )}
       <Stack
-        height="100%"
         width="100%"
         display="flex"
         justifyContent="center"
