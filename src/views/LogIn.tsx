@@ -66,7 +66,7 @@ const LogIn = () => {
             fullWidth
           />
           <Typography variant="body1" ml={1} sx={{ cursor: 'pointer' }}>
-            Have you forgot your password?
+            Have you forgotten your password?
           </Typography>
         </Stack>
         <Stack alignItems="center" spacing={0.5}>

@@ -1,5 +1,5 @@
 import { Button, TextField, Tooltip, Typography } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Stack, useTheme } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
@@ -11,6 +11,7 @@ import AddBookModal from '../components/AddBookModal';
 import AddQuoteModal from '../components/AddQuoteModal';
 import ProfilePopover from '../components/ProfilePopover';
 import { getAllBooks } from '../firebase/database_services';
+import SearchBar from '../components/SearchBar';
 
 const librosdeprueba: Book[] = [
   {
@@ -31,6 +32,8 @@ const librosdeprueba: Book[] = [
 ];
 
 const Main = () => {
+  const theme = useTheme();
+
   const [seeMenu, setSeeMenu] = useState<boolean>(false);
   const [openProfilePopover, setOpenProfilePopover] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -66,7 +69,7 @@ const Main = () => {
           width="350px"
           padding={2}
           justifyContent="space-between"
-          sx={{ backgroundColor: 'gray' }}
+          sx={{ backgroundColor: theme.palette.primary.light }}
         >
           <Stack spacing={1}>
             {books?.map((book) => (
@@ -87,13 +90,12 @@ const Main = () => {
         margin={10}
       >
         <Stack alignItems="center">
-          <Typography variant="h3">Find a</Typography>
+          <Typography variant="h3" sx={{ height: '55px' }}>
+            Find a
+          </Typography>
           <Typography variant="h1">BookNote</Typography>
         </Stack>
-        <Stack direction="row">
-          <TextField />
-          <Button variant="contained">Search</Button>
-        </Stack>
+        <SearchBar />
         <Stack direction="row" spacing={2}>
           <Tooltip title="Add book" arrow>
             <Button
@@ -129,7 +131,7 @@ const Main = () => {
           setOpenProfilePopover(true);
         }}
       >
-        <PersonIcon />
+        <PersonIcon fontSize="large" />
       </Button>
       <Button
         size="small"
@@ -144,7 +146,7 @@ const Main = () => {
           setSeeMenu(!seeMenu);
         }}
       >
-        <MenuIcon />
+        <MenuIcon fontSize="large" />
       </Button>
     </Stack>
   );

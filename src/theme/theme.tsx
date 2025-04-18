@@ -23,6 +23,10 @@ export const theme = createTheme({
   palette: {
     primary: { main: Colors.primary },
     secondary: { main: Colors.secondary },
+    tonalOffset: {
+      light: 0.7,
+      dark: 0.2,
+    },
   },
   components: {
     MuiOutlinedInput: {
@@ -30,10 +34,14 @@ export const theme = createTheme({
         root: {
           borderRadius: 10,
           height: 57,
+          display: 'flex',
+          alignItems: 'center',
         },
         notchedOutline: {
           borderRadius: 10,
           height: 57,
+          display: 'flex',
+          alignItems: 'center',
         },
       },
     },

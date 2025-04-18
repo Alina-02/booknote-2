@@ -17,7 +17,7 @@ const BookCard = (props: Props) => {
   const theme = useTheme();
   const { book } = props;
   return (
-    <Card sx={{ display: 'flex', width: '100%' }}>
+    <Card sx={{ display: 'flex', width: '100%', cursor: 'pointer' }}>
       <CardContent sx={{ flex: '1 0 auto' }}>
         <Stack direction="row" alignItems="center">
           <Typography component="div" variant="h6">
