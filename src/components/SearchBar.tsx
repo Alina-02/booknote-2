@@ -1,7 +1,12 @@
 import { Box, Button, InputBase, useTheme } from '@mui/material';
 import React from 'react';
 
-const SearchBar = () => {
+interface Props {
+  handleSearch: () => void;
+}
+
+const SearchBar = (props: Props) => {
+  const { handleSearch } = props;
   const theme = useTheme();
   return (
     <Box
@@ -24,6 +29,7 @@ const SearchBar = () => {
         }}
       />
       <Button
+        onClick={handleSearch}
         variant="contained"
         sx={{
           borderRadius: 0,
