@@ -38,9 +38,11 @@ const LogIn = () => {
         </Typography>
         <Typography variant="h1">BookNotes</Typography>
       </Stack>
-      <Stack spacing={2} width="300px">
+      <Stack spacing={3} width="370px">
         <Stack>
-          <Typography variant="body1">Email</Typography>
+          <Typography variant="body1" fontWeight="600" ml={1}>
+            Email
+          </Typography>
           <TextField
             title="Email"
             name="email"
@@ -51,7 +53,9 @@ const LogIn = () => {
           />
         </Stack>
         <Stack alignItems="start">
-          <Typography variant="body1">Password</Typography>
+          <Typography variant="body1" fontWeight="600" ml={1}>
+            Password
+          </Typography>
           <TextField
             type="password"
             title="Password"
@@ -61,7 +65,7 @@ const LogIn = () => {
             error={error}
             fullWidth
           />
-          <Typography variant="caption">
+          <Typography variant="body1" ml={1} sx={{ cursor: 'pointer' }}>
             Have you forgot your password?
           </Typography>
         </Stack>
@@ -74,7 +78,11 @@ const LogIn = () => {
           >
             Log in
           </Button>
-          <Typography variant="caption" onClick={goToCreateAccount}>
+          <Typography
+            variant="body1"
+            onClick={goToCreateAccount}
+            sx={{ cursor: 'pointer' }}
+          >
             Create an account
           </Typography>
         </Stack>

@@ -1,5 +1,10 @@
 import { createTheme } from '@mui/material';
 
+const Colors = {
+  primary: '#785d53',
+  secondary: '#F06292',
+};
+
 export const theme = createTheme({
   typography: {
     fontFamily: [
@@ -14,6 +19,34 @@ export const theme = createTheme({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
+  },
+  palette: {
+    primary: { main: Colors.primary },
+    secondary: { main: Colors.secondary },
+  },
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 10,
+          height: 57,
+        },
+        notchedOutline: {
+          borderRadius: 10,
+          height: 57,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '1.1rem',
+          textTransform: 'none',
+          borderRadius: 10,
+          height: 55,
+        },
+      },
+    },
   },
 });
 
