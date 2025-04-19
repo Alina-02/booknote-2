@@ -50,6 +50,7 @@ const Main = () => {
       <AddQuoteModal
         open={openQuoteModal}
         onClose={() => setOpenQuoteModal(false)}
+        books={books}
       />
       <ProfilePopover
         open={openProfilePopover}

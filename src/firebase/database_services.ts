@@ -11,7 +11,7 @@ import {
 export const addNewBook = async (book: Book) => {
   const booksRef = collection(FirebaseDatabase, 'books');
 
-  const { title, author, favQuote, bookCover } = book;
+  const { title, author, favQuote, bookCover, quotes } = book;
   const bookId =
     'id' +
     title.trim().toLowerCase() +
@@ -24,6 +24,7 @@ export const addNewBook = async (book: Book) => {
     author: author,
     favQuote: favQuote ? favQuote : null,
     bookCover: bookCover ? bookCover : null,
+    quotes: quotes ? quotes : [],
   });
 };
 
@@ -61,14 +62,17 @@ export const getAllBooks = async () => {
 };
 
 export const addNewQuote = async (quote: string, book: Book) => {
-  const booksRef = collection(FirebaseDatabase, 'books');
+  if (book.bookId) {
+    const booksRef = doc(FirebaseDatabase, 'books', book.bookId);
 
-  const { quotes } = book;
+    const { quotes } = book;
+    quotes.push(quote);
 
-  await setDoc(doc(booksRef), {
-    ...book,
-    quotes: [...quotes, quote],
-  });
+    await setDoc(booksRef, {
+      ...book,
+      quotes: quotes,
+    });
+  }
 };
 
 export const deleteQuote = async (quote: string, book: Book) => {

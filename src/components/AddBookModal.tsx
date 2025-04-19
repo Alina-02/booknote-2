@@ -48,6 +48,7 @@ const AddBookModal = (props: Props) => {
       title: '',
       author: '',
     });
+    onClose();
   };
 
   return (

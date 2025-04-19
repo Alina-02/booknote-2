@@ -1,14 +1,41 @@
-import { Button, Dialog, Stack, TextField, Typography } from '@mui/material';
-import React from 'react';
+import {
+  Button,
+  Dialog,
+  MenuItem,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
+import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import { useForm } from '../hooks/useForm';
+import { Book } from '../models/books';
+import { addNewQuote } from '../firebase/database_services';
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  books: Book[];
 }
 
 const AddQuoteModal = (props: Props) => {
-  const { open, onClose } = props;
+  const { open, onClose, books } = props;
+
+  const [selectedBook, setSelectedBook] = useState<Book>({} as Book);
+
+  const { handleLogInFormChange, quote, error, setError, setForm } = useForm({
+    initialState: {
+      quote: '',
+    },
+  });
+
+  const createNewQuote = () => {
+    addNewQuote(quote, selectedBook);
+    setForm({
+      quote: '',
+    });
+    onClose();
+  };
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -33,13 +60,36 @@ const AddQuoteModal = (props: Props) => {
             <Typography variant="body1" fontWeight={600} ml={1}>
               Book
             </Typography>
-            <TextField></TextField>
+            <TextField
+              name="book"
+              title="Book"
+              onChange={(e) => {
+                setSelectedBook(
+                  books?.find((b) => b.bookId === e.target.value) ??
+                    ({} as Book)
+                );
+              }}
+              value={selectedBook.bookId}
+              select
+            >
+              {books.map((b) => (
+                <MenuItem key={b.title + b.author} value={b.bookId}>
+                  {b?.title}
+                </MenuItem>
+              ))}
+            </TextField>
           </Stack>
           <Stack>
             <Typography variant="body1" fontWeight={600} ml={1}>
               Quote
             </Typography>
-            <TextField multiline />
+            <TextField
+              name="quote"
+              title="Quote"
+              onChange={handleLogInFormChange}
+              value={quote}
+              multiline
+            />
           </Stack>
         </Stack>
         <Stack direction="row" justifyContent="space-between" spacing={30}>
@@ -53,7 +103,7 @@ const AddQuoteModal = (props: Props) => {
           </Button>
           <Button
             variant="contained"
-            onClick={onClose}
+            onClick={createNewQuote}
             sx={{ height: '40px' }}
             fullWidth
           >
