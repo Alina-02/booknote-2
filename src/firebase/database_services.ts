@@ -60,10 +60,28 @@ export const getAllBooks = async () => {
   return books;
 };
 
-export const addNewQuote = () => {};
+export const addNewQuote = async (quote: string, book: Book) => {
+  const booksRef = collection(FirebaseDatabase, 'books');
 
-export const deleteQuote = () => {};
+  const { quotes } = book;
+
+  await setDoc(doc(booksRef), {
+    ...book,
+    quotes: [...quotes, quote],
+  });
+};
+
+export const deleteQuote = async (quote: string, book: Book) => {
+  const booksRef = collection(FirebaseDatabase, 'books');
+
+  const { quotes } = book;
+
+  await setDoc(doc(booksRef), {
+    ...book,
+    quotes: quotes.filter((q) => quote !== q),
+  });
+};
 
 export const udpateQuote = () => {};
 
-export const getQuotesFromBook = () => {};
+export const getQuotesFromBook = (bookId: Book) => {};

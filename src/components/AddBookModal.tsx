@@ -41,6 +41,7 @@ const AddBookModal = (props: Props) => {
       title: title,
       author: author,
       tags: tags,
+      quotes: [],
     };
     addNewBook(book);
     setForm({
