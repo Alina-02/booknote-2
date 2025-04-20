@@ -33,7 +33,7 @@ const Main = () => {
 
   useEffect(() => {
     getAllBooks().then((books) => setBooks(books));
-  }, []);
+  }, [openBookModal, openQuoteModal]);
 
   const MotionBox = motion(Box);
 
