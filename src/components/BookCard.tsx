@@ -17,30 +17,47 @@ const BookCard = (props: Props) => {
   const theme = useTheme();
   const { book } = props;
   return (
-    <Card sx={{ display: 'flex', width: '100%', cursor: 'pointer' }}>
-      <CardContent sx={{ flex: '1 0 auto' }}>
-        <Stack direction="row" alignItems="center">
-          <Typography component="div" variant="h6">
+    <Card
+      sx={{
+        display: 'flex',
+        width: '100%',
+        cursor: 'pointer',
+      }}
+    >
+      <CardContent sx={{ flex: '1 0 auto', width: '250px', paddingTop: 0 }}>
+        <Stack direction="row" alignItems="center" height="50px">
+          <Typography
+            component="div"
+            variant="body1"
+            fontWeight={600}
+            textOverflow="ellipsis"
+            overflow="hidden"
+            whiteSpace="nowrap"
+          >
             {book?.title}
           </Typography>
-          <Typography component="div" variant="body1" fontStyle="italic">
-            - {book?.author}
-          </Typography>
         </Stack>
-        <Typography component="div" variant="body1">
-          {book?.favQuote ?? 'Add a favorite quote.'}
+        <Typography
+          component="div"
+          variant="body1"
+          fontStyle="italic"
+          textOverflow="ellipsis"
+          overflow="hidden"
+          whiteSpace="nowrap"
+        >
+          - {book?.author}
         </Typography>
       </CardContent>
       {book?.bookCover && (
         <CardMedia
           component="img"
-          sx={{ width: 151 }}
+          sx={{ width: 140 }}
           alt={`${book.title} cover`}
         />
       )}
       {!book?.bookCover && (
         <CardMedia
-          sx={{ width: 151, backgroundColor: theme.palette.primary.main }}
+          sx={{ width: 140, backgroundColor: theme.palette.primary.main }}
         />
       )}
     </Card>
