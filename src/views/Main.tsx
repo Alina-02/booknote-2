@@ -1,4 +1,4 @@
-import { Box, Button, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Grid, Tooltip, Typography } from '@mui/material';
 import { Stack, useTheme } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 
@@ -15,6 +15,7 @@ import ProfilePopover from '../components/ProfilePopover';
 import { getAllBooks } from '../firebase/database_services';
 import SearchBar from '../components/SearchBar';
 import { motion } from 'framer-motion';
+import QuoteCard from '../components/QuoteCard';
 
 const Main = () => {
   const theme = useTheme();
@@ -30,6 +31,7 @@ const Main = () => {
   const [openQuoteModal, setOpenQuoteModal] = useState<boolean>(false);
 
   const [books, setBooks] = useState<Book[]>([]);
+  const [selectedBook, setSelectedBook] = useState<Book>();
 
   useEffect(() => {
     getAllBooks().then((books) => setBooks(books));
@@ -39,6 +41,11 @@ const Main = () => {
 
   const handleSearch = () => {
     setUpsideDown(true);
+  };
+
+  const onClickBookCard = (book: Book) => {
+    setUpsideDown(true);
+    setSelectedBook(book);
   };
 
   return (
@@ -67,7 +74,7 @@ const Main = () => {
         >
           <Stack spacing={1}>
             {books?.map((book) => (
-              <BookCard book={book} />
+              <BookCard book={book} onClick={() => onClickBookCard(book)} />
             ))}
           </Stack>
           <Button variant="contained" onClick={() => setOpenBookModal(true)}>
@@ -139,7 +146,13 @@ const Main = () => {
             </Tooltip>
           </Stack>
         )}
+        <Grid container spacing={2}>
+          {selectedBook?.quotes?.map((quote) => (
+            <QuoteCard quote={quote} />
+          ))}
+        </Grid>
       </Stack>
+
       <Button
         size="small"
         sx={{

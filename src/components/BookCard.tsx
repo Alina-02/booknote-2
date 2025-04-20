@@ -2,6 +2,7 @@ import React from 'react';
 import { Book } from '../models/books';
 import {
   Card,
+  CardActionArea,
   CardContent,
   CardMedia,
   Stack,
@@ -11,43 +12,45 @@ import {
 
 interface Props {
   book: Book;
+  onClick: () => void;
 }
 
 const BookCard = (props: Props) => {
   const theme = useTheme();
-  const { book } = props;
+  const { book, onClick } = props;
   return (
     <Card
       sx={{
         display: 'flex',
         width: '100%',
-        cursor: 'pointer',
       }}
     >
-      <CardContent sx={{ flex: '1 0 auto', width: '250px', paddingTop: 0 }}>
-        <Stack direction="row" alignItems="center" height="50px">
+      <CardActionArea onClick={onClick}>
+        <CardContent sx={{ flex: '1 0 auto', width: '250px', paddingTop: 0 }}>
+          <Stack direction="row" alignItems="center" height="50px">
+            <Typography
+              component="div"
+              variant="body1"
+              fontWeight={600}
+              textOverflow="ellipsis"
+              overflow="hidden"
+              whiteSpace="nowrap"
+            >
+              {book?.title}
+            </Typography>
+          </Stack>
           <Typography
             component="div"
             variant="body1"
-            fontWeight={600}
+            fontStyle="italic"
             textOverflow="ellipsis"
             overflow="hidden"
             whiteSpace="nowrap"
           >
-            {book?.title}
+            - {book?.author}
           </Typography>
-        </Stack>
-        <Typography
-          component="div"
-          variant="body1"
-          fontStyle="italic"
-          textOverflow="ellipsis"
-          overflow="hidden"
-          whiteSpace="nowrap"
-        >
-          - {book?.author}
-        </Typography>
-      </CardContent>
+        </CardContent>
+      </CardActionArea>
       {book?.bookCover && (
         <CardMedia
           component="img"
