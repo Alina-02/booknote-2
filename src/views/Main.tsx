@@ -7,6 +7,7 @@ import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
 import Masonry from '@mui/lab/Masonry';
+import ReplyIcon from '@mui/icons-material/Reply';
 
 import { Book } from '../models/books';
 import BookCard from '../components/BookCard';
@@ -52,6 +53,7 @@ const Main = () => {
 
   const onClickBookCard = (book: Book) => {
     setUpsideDown(true);
+    setSeeMenu(false);
     setSelectedBook(book);
   };
 
@@ -174,7 +176,6 @@ const Main = () => {
           </Masonry>
         )}
       </Stack>
-
       <Button
         size="small"
         sx={{
@@ -206,6 +207,25 @@ const Main = () => {
       >
         <MenuIcon fontSize="large" />
       </Button>
+
+      {upsideDown && (
+        <Button
+          size="small"
+          sx={{
+            width: '60px',
+            height: '60px',
+            position: 'absolute',
+            top: !seeMenu ? 50 : 10,
+            left: !seeMenu ? 10 : 60,
+          }}
+          onClick={() => {
+            setUpsideDown(false);
+            setSelectedBook({} as Book);
+          }}
+        >
+          <ReplyIcon fontSize="large" />
+        </Button>
+      )}
     </Stack>
   );
 };
