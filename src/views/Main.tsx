@@ -35,7 +35,13 @@ const Main = () => {
   const [selectedBook, setSelectedBook] = useState<Book>();
 
   useEffect(() => {
-    getAllBooks().then((books) => setBooks(books));
+    getAllBooks().then((books) => {
+      setBooks(books);
+      if (selectedBook) {
+        const b = books.find((b) => b.bookId === selectedBook.bookId);
+        setSelectedBook(b);
+      }
+    });
   }, [openBookModal, openQuoteModal]);
 
   const MotionBox = motion(Box);
@@ -87,7 +93,6 @@ const Main = () => {
       <Stack
         width="100%"
         display="flex"
-        justifyContent="center"
         alignItems="center"
         spacing={4}
         margin={10}

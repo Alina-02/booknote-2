@@ -1,3 +1,5 @@
+import { Quote } from './quotes';
+
 export interface Book {
   title: string;
   author: string;
@@ -5,5 +7,5 @@ export interface Book {
   bookId?: string;
   bookCover?: string;
   tags: string[];
-  quotes: string[];
+  quotes: Quote[];
 }

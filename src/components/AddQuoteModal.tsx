@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from '../hooks/useForm';
 import { Book } from '../models/books';
 import { addNewQuote } from '../firebase/database_services';
+import { Quote } from '../models/quotes';
 
 interface Props {
   open: boolean;
@@ -21,9 +22,9 @@ interface Props {
 
 const AddQuoteModal = (props: Props) => {
   const { open, onClose, books, book } = props;
-  console.log(book);
+
   const [selectedBook, setSelectedBook] = useState<Book>(
-    book ? book : ({} as Book)
+    book !== undefined ? book : ({} as Book)
   );
 
   const { handleLogInFormChange, quote, error, setError, setForm } = useForm({
@@ -41,7 +42,10 @@ const AddQuoteModal = (props: Props) => {
   };
 
   const createNewQuote = () => {
-    addNewQuote(quote, selectedBook);
+    const q: Quote = {
+      text: quote,
+    };
+    addNewQuote(q, selectedBook);
     closeQuoteModal();
   };
 
@@ -97,6 +101,7 @@ const AddQuoteModal = (props: Props) => {
               onChange={handleLogInFormChange}
               value={quote}
               multiline
+              maxRows={2}
             />
           </Stack>
         </Stack>

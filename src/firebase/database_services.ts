@@ -7,6 +7,7 @@ import {
   getDocs,
   setDoc,
 } from 'firebase/firestore';
+import { Quote } from '../models/quotes';
 
 export const addNewBook = async (book: Book) => {
   try {
@@ -77,7 +78,7 @@ export const getAllBooks = async () => {
   return books;
 };
 
-export const addNewQuote = async (quote: string, book: Book) => {
+export const addNewQuote = async (quote: Quote, book: Book) => {
   try {
     if (book.bookId) {
       const booksRef = doc(FirebaseDatabase, 'books', book.bookId);
@@ -95,7 +96,7 @@ export const addNewQuote = async (quote: string, book: Book) => {
   }
 };
 
-export const deleteQuote = async (quote: string, book: Book) => {
+export const deleteQuote = async (quote: Quote, book: Book) => {
   try {
     const booksRef = collection(FirebaseDatabase, 'books');
 
@@ -103,7 +104,7 @@ export const deleteQuote = async (quote: string, book: Book) => {
 
     await setDoc(doc(booksRef), {
       ...book,
-      quotes: quotes.filter((q) => quote !== q),
+      quotes: quotes.filter((q) => quote.text !== q.text),
     });
   } catch (e) {
     alert((e as Error).message + ' deleting a quote.');

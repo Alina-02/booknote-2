@@ -1,8 +1,9 @@
 import { Paper, Typography, useTheme } from '@mui/material';
 import React from 'react';
+import { Quote } from '../models/quotes';
 
 interface Props {
-  quote: string;
+  quote: Quote;
 }
 
 const QuoteCard = (props: Props) => {
@@ -17,7 +18,7 @@ const QuoteCard = (props: Props) => {
         borderRadius: '10px',
       }}
     >
-      <Typography variant="body1">{quote}</Typography>
+      <Typography variant="body1">{quote.text}</Typography>
     </Paper>
   );
 };
