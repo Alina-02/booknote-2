@@ -16,12 +16,15 @@ interface Props {
   open: boolean;
   onClose: () => void;
   books: Book[];
+  book?: Book;
 }
 
 const AddQuoteModal = (props: Props) => {
-  const { open, onClose, books } = props;
-
-  const [selectedBook, setSelectedBook] = useState<Book>({} as Book);
+  const { open, onClose, books, book } = props;
+  console.log(book);
+  const [selectedBook, setSelectedBook] = useState<Book>(
+    book ? book : ({} as Book)
+  );
 
   const { handleLogInFormChange, quote, error, setError, setForm } = useForm({
     initialState: {
@@ -29,16 +32,21 @@ const AddQuoteModal = (props: Props) => {
     },
   });
 
-  const createNewQuote = () => {
-    addNewQuote(quote, selectedBook);
+  const closeQuoteModal = () => {
     setForm({
       quote: '',
     });
+    setSelectedBook({} as Book);
     onClose();
   };
 
+  const createNewQuote = () => {
+    addNewQuote(quote, selectedBook);
+    closeQuoteModal();
+  };
+
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={closeQuoteModal}>
       <Button
         aria-label="close"
         onClick={onClose}
@@ -95,7 +103,7 @@ const AddQuoteModal = (props: Props) => {
         <Stack direction="row" justifyContent="space-between" spacing={30}>
           <Button
             variant="outlined"
-            onClick={onClose}
+            onClick={closeQuoteModal}
             sx={{ height: '40px' }}
             fullWidth
           >

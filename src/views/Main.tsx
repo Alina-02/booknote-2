@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Grid, Paper, Tooltip, Typography } from '@mui/material';
 import { Stack, useTheme } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 
@@ -6,6 +6,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
+import Masonry from '@mui/lab/Masonry';
 
 import { Book } from '../models/books';
 import BookCard from '../components/BookCard';
@@ -58,6 +59,7 @@ const Main = () => {
         open={openQuoteModal}
         onClose={() => setOpenQuoteModal(false)}
         books={books}
+        book={selectedBook}
       />
       <ProfilePopover
         open={openProfilePopover}
@@ -146,11 +148,26 @@ const Main = () => {
             </Tooltip>
           </Stack>
         )}
-        <Grid container spacing={2}>
-          {selectedBook?.quotes?.map((quote) => (
-            <QuoteCard quote={quote} />
-          ))}
-        </Grid>
+        {upsideDown && (
+          <Masonry columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
+            <Paper
+              elevation={2}
+              sx={{
+                backgroundColor: theme.palette.primary.light,
+                borderRadius: '10px',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <Button fullWidth onClick={() => setOpenQuoteModal(true)}>
+                Add quote
+              </Button>
+            </Paper>
+            {selectedBook?.quotes?.map((quote) => (
+              <QuoteCard quote={quote} />
+            ))}
+          </Masonry>
+        )}
       </Stack>
 
       <Button

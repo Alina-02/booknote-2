@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Paper, Typography, useTheme } from '@mui/material';
 import React from 'react';
 
 interface Props {
@@ -9,13 +9,16 @@ const QuoteCard = (props: Props) => {
   const { quote } = props;
   const theme = useTheme();
   return (
-    <Box
-      padding={2}
-      borderRadius={'10px'}
-      sx={{ backgroundColor: theme.palette.primary.light }}
+    <Paper
+      elevation={2}
+      sx={{
+        backgroundColor: theme.palette.primary.light,
+        padding: 2,
+        borderRadius: '10px',
+      }}
     >
       <Typography variant="body1">{quote}</Typography>
-    </Box>
+    </Paper>
   );
 };
 
