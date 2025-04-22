@@ -96,8 +96,10 @@ const Main = () => {
         width="100%"
         display="flex"
         alignItems="center"
+        justifyContent={upsideDown ? 'normal' : 'center'}
         spacing={4}
-        margin={10}
+        margin={7}
+        marginTop={2}
       >
         {!upsideDown && (
           <Stack alignItems="center">
@@ -179,8 +181,8 @@ const Main = () => {
       <Button
         size="small"
         sx={{
-          width: '60px',
-          height: '60px',
+          width: '50px',
+          height: '50px',
           position: 'absolute',
           top: 10,
           right: 10,
@@ -195,8 +197,8 @@ const Main = () => {
       <Button
         size="small"
         sx={{
-          width: '60px',
-          height: '60px',
+          width: '50px',
+          height: '50px',
           position: 'absolute',
           top: 10,
           left: 10,
@@ -212,8 +214,8 @@ const Main = () => {
         <Button
           size="small"
           sx={{
-            width: '60px',
-            height: '60px',
+            width: '50px',
+            height: '50px',
             position: 'absolute',
             top: !seeMenu ? 50 : 10,
             left: !seeMenu ? 10 : 60,

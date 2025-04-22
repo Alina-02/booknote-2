@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject, useEffect } from 'react';
 import { Book } from '../models/books';
 import {
   Card,
@@ -9,6 +9,8 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import { ref, getDownloadURL } from 'firebase/storage';
+import { FirebaseStorage } from '../firebase/config';
 
 interface Props {
   book: Book;
@@ -18,6 +20,23 @@ interface Props {
 const BookCard = (props: Props) => {
   const theme = useTheme();
   const { book, onClick } = props;
+
+  const coverRef = React.createRef();
+
+  useEffect(() => {
+    if (book?.bookCover) {
+      getDownloadURL(ref(FirebaseStorage, `images/${book.bookId}`)).then(
+        (url) => {
+          const img = coverRef.current;
+
+          if (img != null) {
+            img.setAttribute('src', url);
+          }
+        }
+      );
+    }
+  }, []);
+
   return (
     <Card
       sx={{
@@ -54,6 +73,7 @@ const BookCard = (props: Props) => {
       {book?.bookCover && (
         <CardMedia
           component="img"
+          ref={coverRef as RefObject<HTMLImageElement | null>}
           sx={{ width: 140 }}
           alt={`${book.title} cover`}
         />

@@ -8,13 +8,14 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import { addNewBook } from '../firebase/database_services';
 import { useForm } from '../hooks/useForm';
 import { Book } from '../models/books';
 import { BookTags } from '../constants/bookTags';
+import { FirebaseStorage } from '../firebase/config';
 
 interface Props {
   open: boolean;
@@ -27,6 +28,8 @@ const AddBookModal = (props: Props) => {
   const theme = useTheme();
 
   const [tags, setTags] = useState<string[]>([]);
+  const [cover, setCover] = useState<File | null>(null);
+  const hiddenFileInput = useRef(null);
 
   const { handleLogInFormChange, title, author, error, setError, setForm } =
     useForm({
@@ -36,6 +39,12 @@ const AddBookModal = (props: Props) => {
       },
     });
 
+  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setCover(e.target.files[0]);
+    }
+  };
+
   const createNewBook = () => {
     const book: Book = {
       title: title,
@@ -44,6 +53,8 @@ const AddBookModal = (props: Props) => {
       quotes: [],
     };
     addNewBook(book);
+
+    setTags([]);
     setForm({
       title: '',
       author: '',
@@ -123,7 +134,7 @@ const AddBookModal = (props: Props) => {
           </Stack>
         </Stack>
         <Stack direction="row" spacing={3}>
-          <Stack width="20%" spacing={1}>
+          <Stack spacing={1}>
             <Typography variant="body1" fontWeight={600} ml={1}>
               Cover
             </Typography>
@@ -136,12 +147,28 @@ const AddBookModal = (props: Props) => {
               borderRadius="10px"
               sx={{ backgroundColor: theme.palette.primary.light }}
             >
-              <Button>
+              <input
+                id="file"
+                type="file"
+                style={{ display: 'none' }}
+                onChange={handleCoverChange}
+                ref={hiddenFileInput}
+                accept="image/png,image/jpeg"
+              />
+              <Button
+                fullWidth
+                sx={{ height: '100%' }}
+                onClick={() => {
+                  if (hiddenFileInput !== null) {
+                    hiddenFileInput?.current.click();
+                  }
+                }}
+              >
                 <FileUploadIcon fontSize="large" />
               </Button>
             </Box>
           </Stack>
-          <Stack width="80%" spacing={1}>
+          <Stack minWidth="200px" spacing={1} width="100%">
             <Typography variant="body1" fontWeight={600} ml={1}>
               First quote
             </Typography>
