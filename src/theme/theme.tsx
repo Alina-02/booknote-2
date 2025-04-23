@@ -92,3 +92,12 @@ theme.typography.h3 = {
     fontSize: '4rem',
   },
 };
+
+theme.typography.h5 = {
+  fontSize: '2rem',
+  fontWeight: '600',
+  letterSpacing: -2,
+  '@media (min-width:600px)': {
+    fontSize: '2rem',
+  },
+};

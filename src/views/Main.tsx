@@ -7,7 +7,7 @@ import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
 import Masonry from '@mui/lab/Masonry';
-import ReplyIcon from '@mui/icons-material/Reply';
+import HomeIcon from '@mui/icons-material/Home';
 
 import { Book } from '../models/books';
 import BookCard from '../components/BookCard';
@@ -52,7 +52,7 @@ const Main = () => {
   };
 
   const onClickBookCard = (book: Book) => {
-    setUpsideDown(true);
+    setUpsideDown(false);
     setSeeMenu(false);
     setSelectedBook(book);
   };
@@ -96,21 +96,20 @@ const Main = () => {
         width="100%"
         display="flex"
         alignItems="center"
-        justifyContent={upsideDown ? 'normal' : 'center'}
+        justifyContent={selectedBook ? 'start' : 'center'}
         spacing={4}
         margin={7}
         marginTop={2}
       >
-        {!upsideDown && (
+        {!upsideDown && !selectedBook && (
           <Stack alignItems="center">
             <Typography variant="h3" sx={{ height: '55px' }}>
               Find a
             </Typography>
-
             <Typography variant="h1">BookNote</Typography>
           </Stack>
         )}
-        {upsideDown && (
+        {upsideDown && !selectedBook && (
           <MotionBox
             initial={{ rotate: '0deg' }}
             animate={{
@@ -124,18 +123,25 @@ const Main = () => {
             </Stack>
           </MotionBox>
         )}
-        <MotionBox
-          width={675}
-          initial={false}
-          animate={{
-            y: upsideDown ? -450 : 0,
-          }}
-          transition={{ type: 'spring', stiffness: 100 }}
-        >
-          <SearchBar handleSearch={handleSearch} />
-        </MotionBox>
-
-        {!upsideDown && (
+        {!upsideDown && selectedBook && (
+          <Stack alignItems="center">
+            <Typography variant="h5">{selectedBook.title}</Typography>
+          </Stack>
+        )}
+        {!selectedBook && (
+          <MotionBox
+            width={550}
+            maxWidth={675}
+            initial={false}
+            animate={{
+              y: upsideDown ? -450 : 0,
+            }}
+            transition={{ type: 'spring', stiffness: 100 }}
+          >
+            <SearchBar handleSearch={handleSearch} />
+          </MotionBox>
+        )}
+        {!upsideDown && !selectedBook && (
           <Stack direction="row" spacing={2}>
             <Tooltip title="Add book" arrow>
               <Button
@@ -157,7 +163,7 @@ const Main = () => {
             </Tooltip>
           </Stack>
         )}
-        {upsideDown && (
+        {selectedBook && (
           <Masonry columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
             <Paper
               elevation={2}
@@ -197,7 +203,7 @@ const Main = () => {
       <Button
         size="small"
         sx={{
-          width: '50px',
+          width: '30px',
           height: '50px',
           position: 'absolute',
           top: 10,
@@ -210,23 +216,26 @@ const Main = () => {
         <MenuIcon fontSize="large" />
       </Button>
 
-      {upsideDown && (
-        <Button
-          size="small"
-          sx={{
-            width: '50px',
-            height: '50px',
-            position: 'absolute',
-            top: !seeMenu ? 50 : 10,
-            left: !seeMenu ? 10 : 60,
-          }}
-          onClick={() => {
-            setUpsideDown(false);
-            setSelectedBook({} as Book);
-          }}
-        >
-          <ReplyIcon fontSize="large" />
-        </Button>
+      {upsideDown && seeMenu && (
+        <>
+          <Button
+            size="small"
+            sx={{
+              width: '30px',
+              height: '50px',
+              position: 'absolute',
+              top: !seeMenu ? 50 : 10,
+              left: !seeMenu ? 10 : 60,
+            }}
+            onClick={() => {
+              setUpsideDown(false);
+              setSeeMenu(false);
+              setSelectedBook({} as Book);
+            }}
+          >
+            <HomeIcon fontSize="large" />
+          </Button>
+        </>
       )}
     </Stack>
   );
