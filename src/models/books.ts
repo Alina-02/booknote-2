@@ -5,7 +5,7 @@ export interface Book {
   author: string;
   favQuote?: string;
   bookId?: string;
-  bookCover?: string;
+  bookCover?: boolean;
   tags: string[];
   quotes: Quote[];
 }

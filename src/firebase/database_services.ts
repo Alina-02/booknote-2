@@ -25,7 +25,7 @@ export const addNewBook = async (book: Book) => {
       title: title,
       author: author,
       favQuote: favQuote ? favQuote : null,
-      bookCover: bookCover ? bookCover : null,
+      bookCover: bookCover ? true : false,
       quotes: quotes ? quotes : [],
     });
   } catch (e) {

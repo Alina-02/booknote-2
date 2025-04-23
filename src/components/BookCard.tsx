@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { FirebaseStorage } from '../firebase/config';
+import { getCoverId } from '../utils/utils';
 
 interface Props {
   book: Book;
@@ -25,15 +26,14 @@ const BookCard = (props: Props) => {
 
   useEffect(() => {
     if (book?.bookCover) {
-      getDownloadURL(ref(FirebaseStorage, `images/${book.bookId}`)).then(
-        (url) => {
-          const img = coverRef.current;
+      const coverId = getCoverId(book);
+      getDownloadURL(ref(FirebaseStorage, `images/${coverId}`)).then((url) => {
+        const img = coverRef.current;
 
-          if (img != null) {
-            img.setAttribute('src', url);
-          }
+        if (img != null) {
+          img.setAttribute('src', url);
         }
-      );
+      });
     }
   }, []);
 

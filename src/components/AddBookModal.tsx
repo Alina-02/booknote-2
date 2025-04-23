@@ -16,6 +16,8 @@ import { useForm } from '../hooks/useForm';
 import { Book } from '../models/books';
 import { BookTags } from '../constants/bookTags';
 import { FirebaseStorage } from '../firebase/config';
+import { getCoverId } from '../utils/utils';
+import { ref, uploadBytes } from 'firebase/storage';
 
 interface Props {
   open: boolean;
@@ -52,6 +54,13 @@ const AddBookModal = (props: Props) => {
       tags: tags,
       quotes: [],
     };
+
+    if (cover) {
+      const coverId = getCoverId(book);
+      const imageRef = ref(FirebaseStorage, `images/${coverId}`);
+      uploadBytes(imageRef, cover);
+    }
+
     addNewBook(book);
 
     setTags([]);
