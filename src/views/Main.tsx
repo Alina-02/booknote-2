@@ -42,7 +42,7 @@ const Main = () => {
         setSelectedBook(b);
       }
     });
-  }, [openBookModal, openQuoteModal]);
+  }, [openBookModal]);
 
   const MotionBox = motion(Box);
 

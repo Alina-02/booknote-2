@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Book } from '../../models/books';
 import { useForm } from '../../hooks/useForm';
@@ -23,9 +23,7 @@ interface Props {
 const AddQuoteModal = (props: Props) => {
   const { open, onClose, books, book } = props;
 
-  const [selectedBook, setSelectedBook] = useState<Book>(
-    book !== undefined ? book : ({} as Book)
-  );
+  const [selectedBook, setSelectedBook] = useState<Book | undefined>(book);
 
   const { handleLogInFormChange, quote, error, setError, setForm } = useForm({
     initialState: {
@@ -33,11 +31,16 @@ const AddQuoteModal = (props: Props) => {
     },
   });
 
+  useEffect(() => {
+    if (book) {
+      setSelectedBook(book);
+    }
+  }, [book]);
+
   const closeQuoteModal = () => {
     setForm({
       quote: '',
     });
-    setSelectedBook({} as Book);
     onClose();
   };
 
@@ -45,7 +48,9 @@ const AddQuoteModal = (props: Props) => {
     const q: Quote = {
       text: quote,
     };
-    addNewQuote(q, selectedBook);
+    if (selectedBook !== undefined) {
+      addNewQuote(q, selectedBook);
+    }
     closeQuoteModal();
   };
 
@@ -77,12 +82,11 @@ const AddQuoteModal = (props: Props) => {
               title="Book"
               onChange={(e) => {
                 setSelectedBook(
-                  books?.find((b) => b.bookId === e.target.value) ??
-                    ({} as Book)
+                  books?.find((b) => b.bookId === e.target.value) ?? undefined
                 );
               }}
               disabled={book !== undefined}
-              value={selectedBook.bookId}
+              value={selectedBook?.bookId}
               select
             >
               {books.map((b) => (
