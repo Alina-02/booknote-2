@@ -33,7 +33,7 @@ const SelectedBook = (props: Props) => {
             </Button>
           </Paper>
           {selectedBook?.quotes?.map((quote) => (
-            <QuoteCard quote={quote} />
+            <QuoteCard quote={quote} onClick={() => setOpenQuoteModal(true)} />
           ))}
         </Masonry>
       ) : (

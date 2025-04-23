@@ -1,24 +1,57 @@
-import { Paper, Typography, useTheme } from '@mui/material';
-import React from 'react';
-import { Quote } from '../models/quotes';
+import { Button, Paper, Stack, Typography, useTheme } from '@mui/material';
+import React, { useState } from 'react';
+import { Quote } from '../../models/quotes';
+import SettingsButtons from '../SettingsButtons';
 
 interface Props {
   quote: Quote;
+  onClick: () => void;
 }
 
 const QuoteCard = (props: Props) => {
-  const { quote } = props;
+  const { quote, onClick } = props;
   const theme = useTheme();
+
+  const [hover, setHover] = useState<boolean>(false);
+
   return (
     <Paper
       elevation={2}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       sx={{
-        backgroundColor: theme.palette.primary.light,
+        position: 'relative',
         padding: 2,
+        backgroundColor: theme.palette.primary.light,
         borderRadius: '10px',
       }}
     >
-      <Typography variant="body1">{quote.text}</Typography>
+      <Typography variant="body1" textAlign="justify">
+        {quote.text}
+      </Typography>
+
+      {hover && (
+        <Stack
+          height="100%"
+          width="100%"
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            borderRadius: '10px',
+            backgroundColor: theme.palette.primary.light,
+          }}
+        >
+          <SettingsButtons
+            spacing={5}
+            direction="row"
+            onClickDeleteButton={() => {}}
+            onClickEditButton={onClick}
+          />
+        </Stack>
+      )}
     </Paper>
   );
 };
