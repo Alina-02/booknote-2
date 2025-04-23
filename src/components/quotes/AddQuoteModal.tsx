@@ -8,10 +8,10 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import { useForm } from '../hooks/useForm';
-import { Book } from '../models/books';
-import { addNewQuote } from '../firebase/database_services';
-import { Quote } from '../models/quotes';
+import { Book } from '../../models/books';
+import { useForm } from '../../hooks/useForm';
+import { Quote } from '../../models/quotes';
+import { addNewQuote } from '../../firebase/database_services';
 
 interface Props {
   open: boolean;
@@ -81,6 +81,7 @@ const AddQuoteModal = (props: Props) => {
                     ({} as Book)
                 );
               }}
+              disabled={book !== undefined}
               value={selectedBook.bookId}
               select
             >

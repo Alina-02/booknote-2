@@ -9,7 +9,7 @@ interface Props {
   onClickEditButotn: () => void;
 }
 
-const Settings = (props: Props) => {
+const SettingsButtons = (props: Props) => {
   const { onClickDeleteButton, onClickEditButotn } = props;
   return (
     <>
@@ -43,4 +43,4 @@ const Settings = (props: Props) => {
   );
 };
 
-export default Settings;
+export default SettingsButtons;

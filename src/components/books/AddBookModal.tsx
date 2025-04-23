@@ -11,12 +11,12 @@ import {
 import React, { useRef, useState } from 'react';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CloseIcon from '@mui/icons-material/Close';
-import { addNewBook } from '../firebase/database_services';
-import { useForm } from '../hooks/useForm';
-import { Book } from '../models/books';
-import { BookTags } from '../constants/bookTags';
-import { FirebaseStorage } from '../firebase/config';
-import { getCoverId } from '../utils/utils';
+import { addNewBook } from '../../firebase/database_services';
+import { useForm } from '../../hooks/useForm';
+import { Book } from '../../models/books';
+import { BookTags } from '../../constants/bookTags';
+import { FirebaseStorage } from '../../firebase/config';
+import { getCoverId } from '../../utils/utils';
 import { ref, uploadBytes } from 'firebase/storage';
 
 interface Props {

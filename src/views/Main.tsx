@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Paper, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { Stack, useTheme } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 
@@ -6,18 +6,17 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
-import Masonry from '@mui/lab/Masonry';
 import HomeIcon from '@mui/icons-material/Home';
 
 import { Book } from '../models/books';
-import BookCard from '../components/BookCard';
-import AddBookModal from '../components/AddBookModal';
-import AddQuoteModal from '../components/AddQuoteModal';
+import BookCard from '../components/books/BookCard';
+import AddBookModal from '../components/books/AddBookModal';
 import ProfilePopover from '../components/ProfilePopover';
 import { getAllBooks } from '../firebase/database_services';
 import SearchBar from '../components/SearchBar';
 import { motion } from 'framer-motion';
-import QuoteCard from '../components/QuoteCard';
+import AddQuoteModal from '../components/quotes/AddQuoteModal';
+import SelectedBook from '../components/screen/SelectedBook';
 
 const Main = () => {
   const theme = useTheme();
@@ -123,11 +122,6 @@ const Main = () => {
             </Stack>
           </MotionBox>
         )}
-        {!upsideDown && selectedBook && (
-          <Stack alignItems="center">
-            <Typography variant="h5">{selectedBook.title}</Typography>
-          </Stack>
-        )}
         {!selectedBook && (
           <MotionBox
             width={550}
@@ -164,24 +158,10 @@ const Main = () => {
           </Stack>
         )}
         {selectedBook && (
-          <Masonry columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
-            <Paper
-              elevation={2}
-              sx={{
-                backgroundColor: theme.palette.primary.light,
-                borderRadius: '10px',
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <Button fullWidth onClick={() => setOpenQuoteModal(true)}>
-                Add quote
-              </Button>
-            </Paper>
-            {selectedBook?.quotes?.map((quote) => (
-              <QuoteCard quote={quote} />
-            ))}
-          </Masonry>
+          <SelectedBook
+            setOpenQuoteModal={setOpenQuoteModal}
+            selectedBook={selectedBook}
+          />
         )}
       </Stack>
       <Button
@@ -200,23 +180,24 @@ const Main = () => {
       >
         <PersonIcon fontSize="large" />
       </Button>
-      <Button
-        size="small"
-        sx={{
-          width: '30px',
-          height: '50px',
-          position: 'absolute',
-          top: 10,
-          left: 10,
-        }}
-        onClick={() => {
-          setSeeMenu(!seeMenu);
-        }}
-      >
-        <MenuIcon fontSize="large" />
-      </Button>
-
-      {upsideDown && seeMenu && (
+      <Tooltip title="Books" arrow>
+        <Button
+          size="small"
+          sx={{
+            width: '30px',
+            height: '50px',
+            position: 'absolute',
+            top: 10,
+            left: 10,
+          }}
+          onClick={() => {
+            setSeeMenu(!seeMenu);
+          }}
+        >
+          <MenuIcon sx={{ fontSize: '30px' }} />
+        </Button>
+      </Tooltip>
+      {selectedBook && seeMenu && (
         <>
           <Button
             size="small"
@@ -230,10 +211,10 @@ const Main = () => {
             onClick={() => {
               setUpsideDown(false);
               setSeeMenu(false);
-              setSelectedBook({} as Book);
+              setSelectedBook(undefined);
             }}
           >
-            <HomeIcon fontSize="large" />
+            <HomeIcon sx={{ fontSize: '30px' }} />
           </Button>
         </>
       )}
