@@ -3,14 +3,16 @@ import { Button, Paper, Stack, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import QuoteCard from '../quotes/QuoteCard';
 import { Book } from '../../models/books';
+import { Quote } from '../../models/quotes';
 
 interface Props {
   setOpenQuoteModal: React.Dispatch<React.SetStateAction<boolean>>;
   selectedBook: Book;
+  setSelectedQuote: React.Dispatch<React.SetStateAction<Quote | undefined>>;
 }
 
 const SelectedBook = (props: Props) => {
-  const { setOpenQuoteModal, selectedBook } = props;
+  const { setOpenQuoteModal, selectedBook, setSelectedQuote } = props;
   const theme = useTheme();
   return (
     <>
@@ -33,7 +35,14 @@ const SelectedBook = (props: Props) => {
             </Button>
           </Paper>
           {selectedBook?.quotes?.map((quote) => (
-            <QuoteCard quote={quote} onClick={() => setOpenQuoteModal(true)} />
+            <QuoteCard
+              quote={quote}
+              book={selectedBook}
+              onClick={() => {
+                setSelectedQuote(quote);
+                setOpenQuoteModal(true);
+              }}
+            />
           ))}
         </Masonry>
       ) : (

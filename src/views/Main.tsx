@@ -17,6 +17,7 @@ import SearchBar from '../components/SearchBar';
 import { motion } from 'framer-motion';
 import AddQuoteModal from '../components/quotes/AddQuoteModal';
 import SelectedBook from '../components/screen/SelectedBook';
+import { Quote } from '../models/quotes';
 
 const Main = () => {
   const theme = useTheme();
@@ -33,6 +34,7 @@ const Main = () => {
 
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book>();
+  const [selectedQuote, setSelectedQuote] = useState<Quote>();
 
   useEffect(() => {
     getAllBooks().then((books) => {
@@ -64,9 +66,13 @@ const Main = () => {
       />
       <AddQuoteModal
         open={openQuoteModal}
-        onClose={() => setOpenQuoteModal(false)}
+        onClose={() => {
+          setSelectedQuote(undefined);
+          setOpenQuoteModal(false);
+        }}
         books={books}
         book={selectedBook}
+        selectedQuote={selectedQuote}
       />
       <ProfilePopover
         open={openProfilePopover}
@@ -161,6 +167,7 @@ const Main = () => {
           <SelectedBook
             setOpenQuoteModal={setOpenQuoteModal}
             selectedBook={selectedBook}
+            setSelectedQuote={setSelectedQuote}
           />
         )}
       </Stack>

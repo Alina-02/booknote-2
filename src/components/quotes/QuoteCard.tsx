@@ -1,15 +1,18 @@
-import { Button, Paper, Stack, Typography, useTheme } from '@mui/material';
+import { Paper, Stack, Typography, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 import { Quote } from '../../models/quotes';
 import SettingsButtons from '../SettingsButtons';
+import { Book } from '../../models/books';
+import { deleteQuote } from '../../firebase/database_services';
 
 interface Props {
   quote: Quote;
+  book: Book;
   onClick: () => void;
 }
 
 const QuoteCard = (props: Props) => {
-  const { quote, onClick } = props;
+  const { quote, book, onClick } = props;
   const theme = useTheme();
 
   const [hover, setHover] = useState<boolean>(false);
@@ -47,7 +50,9 @@ const QuoteCard = (props: Props) => {
           <SettingsButtons
             spacing={5}
             direction="row"
-            onClickDeleteButton={() => {}}
+            onClickDeleteButton={() => {
+              deleteQuote(quote, book);
+            }}
             onClickEditButton={onClick}
           />
         </Stack>

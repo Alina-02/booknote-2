@@ -6,6 +6,7 @@ import {
   doc,
   getDocs,
   setDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { Quote } from '../models/quotes';
 
@@ -14,14 +15,8 @@ export const addNewBook = async (book: Book) => {
     const booksRef = collection(FirebaseDatabase, 'books');
 
     const { title, author, favQuote, bookCover, quotes } = book;
-    const bookId =
-      'id' +
-      title.trim().toLowerCase() +
-      author.trim().toLowerCase() +
-      Math.random().toString(4).slice(2);
 
     await setDoc(doc(booksRef), {
-      bookId: bookId,
       title: title,
       author: author,
       favQuote: favQuote ? favQuote : null,
@@ -48,10 +43,9 @@ export const updateBook = async (book: Book) => {
     if (book.bookId) {
       const bookRef = doc(FirebaseDatabase, 'books', book.bookId);
 
-      const { bookId, title, author, favQuote, bookCover } = book;
+      const { title, author, favQuote, bookCover } = book;
 
       await setDoc(bookRef, {
-        bookId: bookId,
         title: title,
         author: author,
         favQuote: favQuote ? favQuote : null,
@@ -98,19 +92,43 @@ export const addNewQuote = async (quote: Quote, book: Book) => {
 
 export const deleteQuote = async (quote: Quote, book: Book) => {
   try {
-    const booksRef = collection(FirebaseDatabase, 'books');
+    if (book.bookId) {
+      const bookDoc = doc(FirebaseDatabase, 'books', book.bookId);
 
-    const { quotes } = book;
+      const { quotes } = book;
 
-    await setDoc(doc(booksRef), {
-      ...book,
-      quotes: quotes.filter((q) => quote.text !== q.text),
-    });
+      await updateDoc(bookDoc, {
+        ...book,
+        quotes: quotes.filter((q) => quote.text !== q.text),
+      });
+    }
   } catch (e) {
     alert((e as Error).message + ' deleting a quote.');
   }
 };
 
-export const udpateQuote = () => {};
+export const udpateQuote = async (
+  quote: Quote,
+  selectedQuote: Quote,
+  book: Book
+) => {
+  try {
+    if (book.bookId) {
+      const bookDoc = doc(FirebaseDatabase, 'books', book.bookId);
+
+      const { quotes } = book;
+
+      const index = quotes.findIndex((q) => q.text === selectedQuote.text);
+      quotes[index] = quote;
+
+      await updateDoc(bookDoc, {
+        ...book,
+        quotes: quotes,
+      });
+    }
+  } catch (e) {
+    alert((e as Error).message + ' deleting a quote.');
+  }
+};
 
 export const getQuotesFromBook = (bookId: Book) => {};

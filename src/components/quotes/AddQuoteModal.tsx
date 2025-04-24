@@ -11,17 +11,18 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Book } from '../../models/books';
 import { useForm } from '../../hooks/useForm';
 import { Quote } from '../../models/quotes';
-import { addNewQuote } from '../../firebase/database_services';
+import { addNewQuote, udpateQuote } from '../../firebase/database_services';
 
 interface Props {
   open: boolean;
   onClose: () => void;
   books: Book[];
   book?: Book;
+  selectedQuote?: Quote;
 }
 
 const AddQuoteModal = (props: Props) => {
-  const { open, onClose, books, book } = props;
+  const { open, onClose, books, book, selectedQuote } = props;
 
   const [selectedBook, setSelectedBook] = useState<Book | undefined>(book);
 
@@ -36,6 +37,14 @@ const AddQuoteModal = (props: Props) => {
       setSelectedBook(book);
     }
   }, [book]);
+
+  useEffect(() => {
+    if (selectedQuote !== undefined) {
+      setForm({
+        quote: selectedQuote.text,
+      });
+    }
+  }, [selectedQuote]);
 
   const closeQuoteModal = () => {
     setForm({
@@ -54,11 +63,21 @@ const AddQuoteModal = (props: Props) => {
     closeQuoteModal();
   };
 
+  const updateQuote = () => {
+    const q: Quote = {
+      text: quote,
+    };
+    if (selectedBook !== undefined && selectedQuote !== undefined) {
+      udpateQuote(q, selectedQuote, selectedBook);
+    }
+    closeQuoteModal();
+  };
+
   return (
     <Dialog open={open} onClose={closeQuoteModal}>
       <Button
         aria-label="close"
-        onClick={onClose}
+        onClick={closeQuoteModal}
         sx={(theme) => ({
           position: 'absolute',
           right: 8,
@@ -121,7 +140,7 @@ const AddQuoteModal = (props: Props) => {
           </Button>
           <Button
             variant="contained"
-            onClick={createNewQuote}
+            onClick={selectedQuote ? updateQuote : createNewQuote}
             sx={{ height: '40px' }}
             fullWidth
           >
