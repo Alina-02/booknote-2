@@ -3,6 +3,7 @@ import {
   Button,
   Chip,
   Dialog,
+  getContrastRatio,
   Stack,
   TextField,
   Typography,
@@ -120,7 +121,12 @@ const AddBookModal = (props: Props) => {
           <Typography variant="body1" fontWeight={600} ml={1}>
             Add tags
           </Typography>
-          <Stack direction="row" spacing={1}>
+          <Stack
+            direction="row"
+            spacing={1}
+            paddingBottom={1}
+            sx={{ overflowX: 'scroll' }}
+          >
             {BookTags.map((tag) => {
               const selected = tags?.includes(tag?.name);
               return (
@@ -128,6 +134,11 @@ const AddBookModal = (props: Props) => {
                   label={tag.name}
                   sx={{
                     backgroundColor: selected ? tag.color : 'auto',
+                    color: selected
+                      ? getContrastRatio(tag.color, '#fff') > 4.5
+                        ? '#fff'
+                        : '#111'
+                      : 'auto',
                   }}
                   clickable
                   onClick={() => {
