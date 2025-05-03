@@ -12,13 +12,14 @@ import {
 import React, { useRef, useState } from 'react';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CloseIcon from '@mui/icons-material/Close';
-import { addNewBook } from '../../firebase/database_services';
+//import { addNewBook } from '../../firebase/database_services';
 import { useForm } from '../../hooks/useForm';
 import { Book } from '../../models/books';
 import { BookTags } from '../../constants/bookTags';
 import { FirebaseStorage } from '../../firebase/config';
 import { getCoverId } from '../../utils/utils';
 import { ref, uploadBytes } from 'firebase/storage';
+import { addNewBook } from '../../firebase/realtime_database_services';
 
 interface Props {
   open: boolean;
@@ -61,6 +62,8 @@ const AddBookModal = (props: Props) => {
       const imageRef = ref(FirebaseStorage, `images/${coverId}`);
       uploadBytes(imageRef, cover);
     }
+
+    //addNewBook(book);
 
     addNewBook(book);
 
@@ -131,6 +134,7 @@ const AddBookModal = (props: Props) => {
               const selected = tags?.includes(tag?.name);
               return (
                 <Chip
+                  key={tag.name}
                   label={tag.name}
                   sx={{
                     backgroundColor: selected ? tag.color : 'auto',
