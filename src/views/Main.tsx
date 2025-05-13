@@ -170,6 +170,7 @@ const Main = () => {
         {selectedBook && (
           <SelectedBook
             setOpenQuoteModal={setOpenQuoteModal}
+            setOpenBookModal={setOpenBookModal}
             selectedBook={selectedBook}
             setSelectedQuote={setSelectedQuote}
           />
@@ -193,6 +194,7 @@ const Main = () => {
       </Button>
       <Tooltip title="Books" arrow>
         <Button
+          variant={seeMenu ? 'text' : 'contained'}
           size="small"
           sx={{
             width: '30px',
@@ -209,25 +211,23 @@ const Main = () => {
         </Button>
       </Tooltip>
       {selectedBook && seeMenu && (
-        <>
-          <Button
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-              position: 'absolute',
-              top: !seeMenu ? 50 : 10,
-              left: !seeMenu ? 10 : 60,
-            }}
-            onClick={() => {
-              setUpsideDown(false);
-              setSeeMenu(false);
-              setSelectedBook(undefined);
-            }}
-          >
-            <HomeIcon sx={{ fontSize: '30px' }} />
-          </Button>
-        </>
+        <Button
+          size="small"
+          sx={{
+            width: '30px',
+            height: '50px',
+            position: 'absolute',
+            top: !seeMenu ? 50 : 10,
+            left: !seeMenu ? 10 : 60,
+          }}
+          onClick={() => {
+            setUpsideDown(false);
+            setSeeMenu(false);
+            setSelectedBook(undefined);
+          }}
+        >
+          <HomeIcon sx={{ fontSize: '30px' }} />
+        </Button>
       )}
     </Stack>
   );

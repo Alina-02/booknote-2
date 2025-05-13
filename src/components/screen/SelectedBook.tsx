@@ -1,21 +1,71 @@
 import Masonry from '@mui/lab/Masonry';
-import { Button, Paper, Stack, Typography, useTheme } from '@mui/material';
+import {
+  Button,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import React from 'react';
 import QuoteCard from '../quotes/QuoteCard';
 import { Book } from '../../models/books';
 import { Quote } from '../../models/quotes';
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 interface Props {
   setOpenQuoteModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenBookModal: React.Dispatch<React.SetStateAction<boolean>>;
   selectedBook: Book;
   setSelectedQuote: React.Dispatch<React.SetStateAction<Quote | undefined>>;
 }
 
 const SelectedBook = (props: Props) => {
-  const { setOpenQuoteModal, selectedBook, setSelectedQuote } = props;
+  const {
+    setOpenQuoteModal,
+    setOpenBookModal,
+    selectedBook,
+    setSelectedQuote,
+  } = props;
   const theme = useTheme();
   return (
     <>
+      <>
+        <Tooltip title="Edit book">
+          <Button
+            variant="contained"
+            size="small"
+            sx={{
+              width: '30px',
+              height: '50px',
+              position: 'absolute',
+              top: 10,
+              left: 60,
+            }}
+            onClick={(e) => {
+              setOpenBookModal(selectedBook);
+            }}
+          >
+            <EditIcon fontSize="medium" />
+          </Button>
+        </Tooltip>
+        <Tooltip title="Delete book">
+          <Button
+            variant="contained"
+            size="small"
+            sx={{
+              width: '30px',
+              height: '50px',
+              position: 'absolute',
+              top: 10,
+              left: 90,
+            }}
+            onClick={(e) => {}}
+          >
+            <DeleteIcon fontSize="medium" />
+          </Button>
+        </Tooltip>
+      </>
       <Stack alignItems="center">
         <Typography variant="h5">{selectedBook.title}</Typography>
       </Stack>
