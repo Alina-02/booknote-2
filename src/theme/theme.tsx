@@ -101,3 +101,13 @@ theme.typography.h5 = {
     fontSize: '2rem',
   },
 };
+
+theme.typography.body1 = {
+  fontSize: '1rem',
+  fontWeight: '400',
+};
+
+theme.typography.body2 = {
+  fontSize: '1rem',
+  fontWeight: '500',
+};

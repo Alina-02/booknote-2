@@ -16,18 +16,19 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from '../../hooks/useForm';
 import { Book } from '../../models/books';
 import { BookTags } from '../../constants/bookTags';
-import { FirebaseStorage } from '../../firebase/config';
 import { getCoverId } from '../../utils/utils';
 import { ref, uploadBytes } from 'firebase/storage';
-import { addNewBook } from '../../firebase/realtime_database_services';
+import { addNewBook } from '../../firebase/database_services';
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  setBooks: React.Dispatch<React.SetStateAction<Book[]>>;
+  books: Book[];
 }
 
 const AddBookModal = (props: Props) => {
-  const { open, onClose } = props;
+  const { open, onClose, setBooks, books } = props;
 
   const theme = useTheme();
 
@@ -59,14 +60,19 @@ const AddBookModal = (props: Props) => {
 
     if (cover) {
       const coverId = getCoverId(book);
-      const imageRef = ref(FirebaseStorage, `images/${coverId}`);
-      uploadBytes(imageRef, cover);
+      //const imageRef = ref(FirebaseStorage, `images/${coverId}`);
+      //uploadBytes(imageRef, cover);
     }
-
-    //addNewBook(book);
 
     addNewBook(book);
 
+    const newBooks = [...books, book];
+    setBooks(newBooks);
+
+    closeBookModal();
+  };
+
+  const closeBookModal = () => {
     setTags([]);
     setForm({
       title: '',

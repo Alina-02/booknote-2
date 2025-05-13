@@ -18,8 +18,6 @@ import { motion } from 'framer-motion';
 import AddQuoteModal from '../components/quotes/AddQuoteModal';
 import SelectedBook from '../components/screen/SelectedBook';
 import { Quote } from '../models/quotes';
-import { getBooksRef } from '../firebase/realtime_database_services';
-import { snapshot } from 'node:test';
 import { onValue } from 'firebase/database';
 
 const Main = () => {
@@ -42,16 +40,13 @@ const Main = () => {
   useEffect(() => {
     getAllBooks().then((books) => {
       setBooks(books);
+      localStorage.setItem('books', JSON.stringify(books));
       if (selectedBook) {
         const b = books.find((b) => b.bookId === selectedBook.bookId);
         setSelectedBook(b);
       }
     });
-    /**onValue(getBooksRef, (snapshot) => {
-      const data = snapshot.val();
-      setBooks(data);
-    });**/
-  }, [openBookModal]);
+  }, []);
 
   const MotionBox = motion(Box);
 
@@ -70,6 +65,8 @@ const Main = () => {
       <AddBookModal
         open={openBookModal}
         onClose={() => setOpenBookModal(false)}
+        setBooks={setBooks}
+        books={books}
       />
       <AddQuoteModal
         open={openQuoteModal}

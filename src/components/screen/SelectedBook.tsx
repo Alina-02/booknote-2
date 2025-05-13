@@ -20,7 +20,7 @@ const SelectedBook = (props: Props) => {
         <Typography variant="h5">{selectedBook.title}</Typography>
       </Stack>
       {selectedBook.quotes.length > 0 ? (
-        <Masonry columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
+        <Masonry columns={{ xs: 1, sm: 2, md: 3 }} spacing={1}>
           <Paper
             elevation={2}
             sx={{

@@ -12,7 +12,7 @@ import { Quote } from '../models/quotes';
 
 export const addNewBook = async (book: Book) => {
   try {
-    /**  const booksRef = collection(FirebaseDatabase, 'books');
+    const booksRef = collection(FirebaseDatabase, 'books');
 
     const { title, author, favQuote, bookCover, quotes } = book;
 
@@ -22,7 +22,7 @@ export const addNewBook = async (book: Book) => {
       favQuote: favQuote ? favQuote : null,
       bookCover: bookCover ? true : false,
       quotes: quotes ? quotes : [],
-    });*/
+    });
   } catch (e) {
     alert((e as Error).message + ' adding a book.');
   }
@@ -31,8 +31,7 @@ export const addNewBook = async (book: Book) => {
 export const deleteBook = async (book: Book) => {
   try {
     if (book.bookId) {
-      /*
-      await deleteDoc(doc(FirebaseDatabase, 'books', book.bookId));*/
+      await deleteDoc(doc(FirebaseDatabase, 'books', book.bookId));
     }
   } catch (e) {
     alert((e as Error).message + ' deleting a book.');
@@ -42,7 +41,6 @@ export const deleteBook = async (book: Book) => {
 export const updateBook = async (book: Book) => {
   try {
     if (book.bookId) {
-      /*
       const bookRef = doc(FirebaseDatabase, 'books', book.bookId);
 
       const { title, author, favQuote, bookCover } = book;
@@ -52,7 +50,7 @@ export const updateBook = async (book: Book) => {
         author: author,
         favQuote: favQuote ? favQuote : null,
         bookCover: bookCover ? bookCover : null,
-      });*/
+      });
     }
   } catch (e) {
     alert((e as Error).message + ' updating a book.');
@@ -62,13 +60,12 @@ export const updateBook = async (book: Book) => {
 export const getAllBooks = async () => {
   const books: Book[] = [];
   try {
-    /*
     const querySnapshot = await getDocs(collection(FirebaseDatabase, 'books'));
 
     querySnapshot.forEach((doc) => {
       const book: Book = doc.data() as Book;
       books.push({ ...book, bookId: doc.id });
-    });*/
+    });
   } catch (e) {
     alert((e as Error).message + ' getting books.');
   }
@@ -78,7 +75,6 @@ export const getAllBooks = async () => {
 export const addNewQuote = async (quote: Quote, book: Book) => {
   try {
     if (book.bookId) {
-      /*
       const booksRef = doc(FirebaseDatabase, 'books', book.bookId);
 
       const { quotes } = book;
@@ -87,7 +83,7 @@ export const addNewQuote = async (quote: Quote, book: Book) => {
       await setDoc(booksRef, {
         ...book,
         quotes: quotes,
-      });*/
+      });
     }
   } catch (e) {
     alert((e as Error).message + ' creating a quote.');
@@ -97,7 +93,6 @@ export const addNewQuote = async (quote: Quote, book: Book) => {
 export const deleteQuote = async (quote: Quote, book: Book) => {
   try {
     if (book.bookId) {
-      /*
       const bookDoc = doc(FirebaseDatabase, 'books', book.bookId);
 
       const { quotes } = book;
@@ -105,7 +100,7 @@ export const deleteQuote = async (quote: Quote, book: Book) => {
       await updateDoc(bookDoc, {
         ...book,
         quotes: quotes.filter((q) => quote.text !== q.text),
-      });*/
+      });
     }
   } catch (e) {
     alert((e as Error).message + ' deleting a quote.');
@@ -119,7 +114,6 @@ export const udpateQuote = async (
 ) => {
   try {
     if (book.bookId) {
-      /*
       const bookDoc = doc(FirebaseDatabase, 'books', book.bookId);
 
       const { quotes } = book;
@@ -130,7 +124,7 @@ export const udpateQuote = async (
       await updateDoc(bookDoc, {
         ...book,
         quotes: quotes,
-      });*/
+      });
     }
   } catch (e) {
     alert((e as Error).message + ' deleting a quote.');
