@@ -7,12 +7,13 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import QuoteCard from '../quotes/QuoteCard';
 import { Book } from '../../models/books';
 import { Quote } from '../../models/quotes';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteBookModal from '../books/DeleteBookModal';
 interface Props {
   setOpenQuoteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenBookModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,6 +31,8 @@ const SelectedBook = (props: Props) => {
     seeMenu,
   } = props;
   const theme = useTheme();
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+
   return (
     <>
       {!seeMenu && (
@@ -63,7 +66,9 @@ const SelectedBook = (props: Props) => {
                 top: 100,
                 left: 10,
               }}
-              onClick={(e) => {}}
+              onClick={(e) => {
+                setDeleteModal(true);
+              }}
             >
               <DeleteIcon fontSize="medium" />
             </Button>
@@ -73,8 +78,17 @@ const SelectedBook = (props: Props) => {
       <Stack alignItems="center">
         <Typography variant="h5">{selectedBook.title}</Typography>
       </Stack>
+      <DeleteBookModal
+        open={deleteModal}
+        setOpen={setDeleteModal}
+        title={selectedBook?.title}
+      />
       {selectedBook.quotes.length > 0 ? (
-        <Masonry columns={{ xs: 1, sm: 2, md: 3 }} spacing={1}>
+        <Masonry
+          sx={{ paddingLeft: seeMenu ? 0 : 4 }}
+          columns={{ xs: 1, sm: 2, md: 3 }}
+          spacing={1}
+        >
           <Paper
             elevation={2}
             sx={{

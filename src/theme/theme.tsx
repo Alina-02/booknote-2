@@ -47,12 +47,12 @@ export const theme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: {
-          fontSize: '1.1rem',
+        root: ({ ownerState }) => ({
+          fontSize: ownerState.size === 'small' ? '0.95rem' : '1.1rem',
           textTransform: 'none',
           borderRadius: 10,
-          height: 55,
-        },
+          height: ownerState.size === 'small' ? 35 : 55,
+        }),
       },
     },
     MuiPopover: {
