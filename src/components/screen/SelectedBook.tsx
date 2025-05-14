@@ -18,6 +18,7 @@ interface Props {
   setOpenBookModal: React.Dispatch<React.SetStateAction<boolean>>;
   selectedBook: Book;
   setSelectedQuote: React.Dispatch<React.SetStateAction<Quote | undefined>>;
+  seeMenu: boolean;
 }
 
 const SelectedBook = (props: Props) => {
@@ -26,46 +27,49 @@ const SelectedBook = (props: Props) => {
     setOpenBookModal,
     selectedBook,
     setSelectedQuote,
+    seeMenu,
   } = props;
   const theme = useTheme();
   return (
     <>
-      <>
-        <Tooltip title="Edit book">
-          <Button
-            variant="contained"
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-              position: 'absolute',
-              top: 10,
-              left: 60,
-            }}
-            onClick={(e) => {
-              setOpenBookModal(selectedBook);
-            }}
-          >
-            <EditIcon fontSize="medium" />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Delete book">
-          <Button
-            variant="contained"
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-              position: 'absolute',
-              top: 10,
-              left: 90,
-            }}
-            onClick={(e) => {}}
-          >
-            <DeleteIcon fontSize="medium" />
-          </Button>
-        </Tooltip>
-      </>
+      {!seeMenu && (
+        <>
+          <Tooltip title="Edit book" placement="right" arrow>
+            <Button
+              variant="contained"
+              size="small"
+              sx={{
+                width: '30px',
+                height: '50px',
+                position: 'absolute',
+                top: 70,
+                left: 10,
+              }}
+              onClick={(e) => {
+                setOpenBookModal(true);
+              }}
+            >
+              <EditIcon fontSize="medium" />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Delete book" placement="right" arrow>
+            <Button
+              variant="contained"
+              size="small"
+              sx={{
+                width: '30px',
+                height: '50px',
+                position: 'absolute',
+                top: 100,
+                left: 10,
+              }}
+              onClick={(e) => {}}
+            >
+              <DeleteIcon fontSize="medium" />
+            </Button>
+          </Tooltip>
+        </>
+      )}
       <Stack alignItems="center">
         <Typography variant="h5">{selectedBook.title}</Typography>
       </Stack>

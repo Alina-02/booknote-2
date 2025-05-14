@@ -25,22 +25,25 @@ interface Props {
   onClose: () => void;
   setBooks: React.Dispatch<React.SetStateAction<Book[]>>;
   books: Book[];
+  selectedBook?: Book;
 }
 
 const AddBookModal = (props: Props) => {
-  const { open, onClose, setBooks, books } = props;
+  const { open, onClose, setBooks, books, selectedBook } = props;
 
   const theme = useTheme();
 
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(
+    selectedBook ? selectedBook.tags : []
+  );
   const [cover, setCover] = useState<File | null>(null);
   const hiddenFileInput = useRef(null);
 
   const { handleLogInFormChange, title, author, error, setError, setForm } =
     useForm({
       initialState: {
-        title: '',
-        author: '',
+        title: selectedBook ? selectedBook?.title : '',
+        author: selectedBook ? selectedBook?.author : '',
       },
     });
 
