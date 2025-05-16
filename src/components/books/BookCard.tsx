@@ -42,10 +42,18 @@ const BookCard = (props: Props) => {
       sx={{
         display: 'flex',
         width: '100%',
+        minHeight: '85px',
       }}
     >
       <CardActionArea onClick={onClick}>
-        <CardContent sx={{ flex: '1 0 auto', width: '250px', paddingTop: 0 }}>
+        <CardContent
+          sx={{
+            flex: '1 0 auto',
+            width: '250px',
+
+            paddingTop: 0,
+          }}
+        >
           <Stack direction="row" alignItems="center" height="50px">
             <Typography
               component="div"

@@ -9,7 +9,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 
 import { Book } from '../models/books';
-import BookCard from '../components/books/BookCard';
 import AddBookModal from '../components/books/AddBookModal';
 import ProfilePopover from '../components/ProfilePopover';
 import { getAllBooks } from '../firebase/database_services';
@@ -18,7 +17,7 @@ import { motion } from 'framer-motion';
 import AddQuoteModal from '../components/quotes/AddQuoteModal';
 import SelectedBook from '../components/screen/SelectedBook';
 import { Quote } from '../models/quotes';
-import { onValue } from 'firebase/database';
+import LateralMenu from '../components/LateralMenu';
 
 const Main = () => {
   const theme = useTheme();
@@ -85,22 +84,15 @@ const Main = () => {
         anchorEl={anchorEl}
       />
       {seeMenu && (
-        <Stack
-          width="350px"
-          padding={2}
-          paddingTop={10}
-          justifyContent="space-between"
-          sx={{ backgroundColor: theme.palette.primary.light }}
-        >
-          <Stack spacing={1}>
-            {books?.map((book) => (
-              <BookCard book={book} onClick={() => onClickBookCard(book)} />
-            ))}
-          </Stack>
-          <Button variant="contained" onClick={() => setOpenBookModal(true)}>
-            Add book
-          </Button>
-        </Stack>
+        <LateralMenu
+          books={books}
+          seeMenu={seeMenu}
+          setSeeMenu={setSeeMenu}
+          setUpsideDown={setUpsideDown}
+          setSelectedBook={setSelectedBook}
+          onClickBookCard={onClickBookCard}
+          setOpenBookModal={setOpenBookModal}
+        />
       )}
       <Stack
         width="100%"
@@ -194,25 +186,27 @@ const Main = () => {
       >
         <PersonIcon fontSize="large" />
       </Button>
-      <Tooltip title="Books" placement={seeMenu ? 'bottom' : 'right'} arrow>
-        <Button
-          variant={seeMenu ? 'text' : 'contained'}
-          size="small"
-          sx={{
-            width: '30px',
-            height: '50px',
-            position: 'absolute',
-            top: 10,
-            left: 10,
-          }}
-          onClick={() => {
-            setSeeMenu(!seeMenu);
-          }}
-        >
-          <MenuIcon sx={{ fontSize: '30px' }} />
-        </Button>
-      </Tooltip>
-      {selectedBook && seeMenu && (
+      {!seeMenu && (
+        <Tooltip title="Books" placement={'right'} arrow>
+          <Button
+            variant={'contained'}
+            size="small"
+            sx={{
+              width: '30px',
+              height: '50px',
+              position: 'absolute',
+              top: 10,
+              left: 10,
+            }}
+            onClick={() => {
+              setSeeMenu(!seeMenu);
+            }}
+          >
+            <MenuIcon sx={{ fontSize: '30px' }} />
+          </Button>
+        </Tooltip>
+      )}
+      {selectedBook && !seeMenu && (
         <Tooltip title="Main page" arrow>
           <Button
             size="small"
