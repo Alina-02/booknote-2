@@ -82,6 +82,7 @@ const SelectedBook = (props: Props) => {
         open={deleteModal}
         setOpen={setDeleteModal}
         title={selectedBook?.title}
+        selectedBook={selectedBook}
       />
       {selectedBook.quotes.length > 0 ? (
         <Masonry
