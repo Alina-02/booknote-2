@@ -61,13 +61,12 @@ export const getAllBooks = async () => {
   const books: Book[] = [];
   try {
     const querySnapshot = await getDocs(collection(FirebaseDatabase, 'books'));
-
     querySnapshot.forEach((doc) => {
       const book: Book = doc.data() as Book;
       books.push({ ...book, bookId: doc.id });
     });
   } catch (e) {
-    alert((e as Error).message + ' getting books.');
+    console.log((e as Error).message + ' getting books.');
   }
   return books;
 };

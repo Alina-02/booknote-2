@@ -4,9 +4,6 @@ import React, { useEffect, useState } from 'react';
 
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
-import PersonIcon from '@mui/icons-material/Person';
-import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
 
 import { Book } from '../models/books';
 import AddBookModal from '../components/books/AddBookModal';
@@ -18,6 +15,7 @@ import AddQuoteModal from '../components/quotes/AddQuoteModal';
 import SelectedBook from '../components/screen/SelectedBook';
 import { Quote } from '../models/quotes';
 import LateralMenu from '../components/LateralMenu';
+import ButtonsMenu from '../components/ButtonsMenu';
 
 const Main = () => {
   const theme = useTheme();
@@ -170,63 +168,15 @@ const Main = () => {
           />
         )}
       </Stack>
-      <Button
-        size="small"
-        sx={{
-          width: '50px',
-          height: '50px',
-          position: 'absolute',
-          top: 10,
-          right: 10,
-        }}
-        onClick={(e) => {
-          setAnchorEl(e.currentTarget);
-          setOpenProfilePopover(true);
-        }}
-      >
-        <PersonIcon fontSize="large" />
-      </Button>
-      {!seeMenu && (
-        <Tooltip title="Books" placement={'right'} arrow>
-          <Button
-            variant={'contained'}
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-              position: 'absolute',
-              top: 10,
-              left: 10,
-            }}
-            onClick={() => {
-              setSeeMenu(!seeMenu);
-            }}
-          >
-            <MenuIcon sx={{ fontSize: '30px' }} />
-          </Button>
-        </Tooltip>
-      )}
-      {selectedBook && !seeMenu && (
-        <Tooltip title="Main page" arrow>
-          <Button
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-              position: 'absolute',
-              top: !seeMenu ? 50 : 10,
-              left: !seeMenu ? 10 : 60,
-            }}
-            onClick={() => {
-              setUpsideDown(false);
-              setSeeMenu(false);
-              setSelectedBook(undefined);
-            }}
-          >
-            <HomeIcon sx={{ fontSize: '30px' }} />
-          </Button>
-        </Tooltip>
-      )}
+      <ButtonsMenu
+        setAnchorEl={setAnchorEl}
+        seeMenu={seeMenu}
+        setSeeMenu={setSeeMenu}
+        selectedBook={selectedBook}
+        setSelectedBook={setSelectedBook}
+        setUpsideDown={setUpsideDown}
+        setOpenProfilePopover={setOpenProfilePopover}
+      />
     </Stack>
   );
 };
