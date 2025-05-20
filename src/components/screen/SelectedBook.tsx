@@ -47,7 +47,8 @@ const SelectedBook = (props: Props) => {
       direction="row"
     >
       <Stack
-        width="250px"
+        minWidth="70px"
+        width="70px"
         height="100vh"
         sx={{ backgroundColor: theme.palette.primary.main }}
       >
