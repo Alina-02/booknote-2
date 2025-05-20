@@ -38,44 +38,46 @@ const LateralMenu = (props: Props) => {
         backgroundColor: theme.palette.primary.light,
       }}
     >
-      <Stack direction={'row'} marginBottom={2} spacing={1}>
-        <Tooltip title="Books" placement={'bottom'} arrow>
-          <Button
-            variant="contained"
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-            }}
-            onClick={() => {
-              setSeeMenu(!seeMenu);
-            }}
-          >
-            <MenuIcon sx={{ fontSize: '30px' }} />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Main page" arrow>
-          <Button
-            variant="contained"
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-            }}
-            onClick={() => {
-              setUpsideDown(false);
-              setSeeMenu(false);
-              setSelectedBook(undefined);
-            }}
-          >
-            <HomeIcon sx={{ fontSize: '30px' }} />
-          </Button>
-        </Tooltip>
-      </Stack>
-      <Stack spacing={1} sx={{ overflowY: 'scroll' }}>
-        {books?.map((book) => (
-          <BookCard book={book} onClick={() => onClickBookCard(book)} />
-        ))}
+      <Stack spacing={2}>
+        <Stack direction={'row'} spacing={1}>
+          <Tooltip title="Books" placement={'bottom'} arrow>
+            <Button
+              variant="contained"
+              size="small"
+              sx={{
+                width: '30px',
+                height: '50px',
+              }}
+              onClick={() => {
+                setSeeMenu(!seeMenu);
+              }}
+            >
+              <MenuIcon sx={{ fontSize: '30px' }} />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Main page" arrow>
+            <Button
+              variant="contained"
+              size="small"
+              sx={{
+                width: '30px',
+                height: '50px',
+              }}
+              onClick={() => {
+                setUpsideDown(false);
+                setSeeMenu(false);
+                setSelectedBook(undefined);
+              }}
+            >
+              <HomeIcon sx={{ fontSize: '30px' }} />
+            </Button>
+          </Tooltip>
+        </Stack>
+        <Stack spacing={1} sx={{ overflowY: 'scroll' }}>
+          {books?.map((book) => (
+            <BookCard book={book} onClick={() => onClickBookCard(book)} />
+          ))}
+        </Stack>
       </Stack>
       <Button
         sx={{ marginTop: 2 }}

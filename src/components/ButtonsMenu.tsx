@@ -44,7 +44,7 @@ const ButtonsMenu = (props: Props) => {
       >
         <PersonIcon fontSize="large" />
       </Button>
-      {!seeMenu && (
+      {!seeMenu && !selectedBook && (
         <Tooltip title="Books" placement={'right'} arrow>
           <Button
             variant={'contained'}

@@ -92,82 +92,86 @@ const Main = () => {
           setOpenBookModal={setOpenBookModal}
         />
       )}
-      <Stack
-        width="100%"
-        display="flex"
-        alignItems="center"
-        justifyContent={selectedBook ? 'start' : 'center'}
-        spacing={4}
-        margin={7}
-        marginTop={2}
-      >
-        {!upsideDown && !selectedBook && (
-          <Stack alignItems="center">
-            <Typography variant="h3" sx={{ height: '55px' }}>
-              Find a
-            </Typography>
-            <Typography variant="h1">BookNote</Typography>
-          </Stack>
-        )}
-        {upsideDown && !selectedBook && (
-          <MotionBox
-            initial={{ rotate: '0deg' }}
-            animate={{
-              y: -240,
-              rotate: '180deg',
-            }}
-            transition={{ type: 'spring', stiffness: 100 }}
-          >
+      {selectedBook && (
+        <SelectedBook
+          setOpenQuoteModal={setOpenQuoteModal}
+          setOpenBookModal={setOpenBookModal}
+          selectedBook={selectedBook}
+          setSelectedQuote={setSelectedQuote}
+          seeMenu={seeMenu}
+          setSeeMenu={setSeeMenu}
+        />
+      )}
+
+      {!selectedBook && (
+        <Stack
+          width="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent={selectedBook ? 'start' : 'center'}
+          spacing={4}
+          margin={7}
+          marginTop={2}
+        >
+          {!upsideDown && !selectedBook && (
             <Stack alignItems="center">
+              <Typography variant="h3" sx={{ height: '55px' }}>
+                Find a
+              </Typography>
               <Typography variant="h1">BookNote</Typography>
             </Stack>
-          </MotionBox>
-        )}
-        {!selectedBook && (
-          <MotionBox
-            width={550}
-            maxWidth={675}
-            initial={false}
-            animate={{
-              y: upsideDown ? -450 : 0,
-            }}
-            transition={{ type: 'spring', stiffness: 100 }}
-          >
-            <SearchBar handleSearch={handleSearch} />
-          </MotionBox>
-        )}
-        {!upsideDown && !selectedBook && (
-          <Stack direction="row" spacing={2}>
-            <Tooltip title="Add book" arrow>
-              <Button
-                variant="contained"
-                sx={{ borderRadius: 100 }}
-                onClick={() => setOpenBookModal(true)}
-              >
-                <MenuBookIcon />
-              </Button>
-            </Tooltip>
-            <Tooltip title="Add quote" arrow>
-              <Button
-                variant="contained"
-                sx={{ borderRadius: 100 }}
-                onClick={() => setOpenQuoteModal(true)}
-              >
-                <FormatQuoteIcon />
-              </Button>
-            </Tooltip>
-          </Stack>
-        )}
-        {selectedBook && (
-          <SelectedBook
-            setOpenQuoteModal={setOpenQuoteModal}
-            setOpenBookModal={setOpenBookModal}
-            selectedBook={selectedBook}
-            setSelectedQuote={setSelectedQuote}
-            seeMenu={seeMenu}
-          />
-        )}
-      </Stack>
+          )}
+          {upsideDown && !selectedBook && (
+            <MotionBox
+              initial={{ rotate: '0deg' }}
+              animate={{
+                y: -240,
+                rotate: '180deg',
+              }}
+              transition={{ type: 'spring', stiffness: 100 }}
+            >
+              <Stack alignItems="center">
+                <Typography variant="h1">BookNote</Typography>
+              </Stack>
+            </MotionBox>
+          )}
+          {!selectedBook && (
+            <MotionBox
+              width={550}
+              maxWidth={675}
+              initial={false}
+              animate={{
+                y: upsideDown ? -450 : 0,
+              }}
+              transition={{ type: 'spring', stiffness: 100 }}
+            >
+              <SearchBar handleSearch={handleSearch} />
+            </MotionBox>
+          )}
+          {!upsideDown && !selectedBook && (
+            <Stack direction="row" spacing={2}>
+              <Tooltip title="Add book" arrow>
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 100 }}
+                  onClick={() => setOpenBookModal(true)}
+                >
+                  <MenuBookIcon />
+                </Button>
+              </Tooltip>
+              <Tooltip title="Add quote" arrow>
+                <Button
+                  variant="contained"
+                  sx={{ borderRadius: 100 }}
+                  onClick={() => setOpenQuoteModal(true)}
+                >
+                  <FormatQuoteIcon />
+                </Button>
+              </Tooltip>
+            </Stack>
+          )}
+        </Stack>
+      )}
       <ButtonsMenu
         setAnchorEl={setAnchorEl}
         seeMenu={seeMenu}
