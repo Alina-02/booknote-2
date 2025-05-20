@@ -30,6 +30,7 @@ interface Props {
 
 const AddBookModal = (props: Props) => {
   const { open, onClose, setBooks, books, selectedBook } = props;
+  console.log(selectedBook);
 
   const theme = useTheme();
 
@@ -46,6 +47,9 @@ const AddBookModal = (props: Props) => {
         author: selectedBook ? selectedBook?.author : '',
       },
     });
+
+  console.log(title);
+  console.log(selectedBook?.title);
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -104,6 +108,7 @@ const AddBookModal = (props: Props) => {
         </Stack>
 
         <Stack direction="row" spacing={2}>
+          <Formik></Formik>
           <Stack width="100%">
             <Typography variant="body1" fontWeight={600} ml={1}>
               Title
