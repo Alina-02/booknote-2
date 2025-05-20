@@ -98,7 +98,13 @@ const SelectedBook = (props: Props) => {
           </Button>
         </Tooltip>
       </Stack>
-      <Stack height="100%" paddingX={3}>
+      <Stack
+        width="100%"
+        height="100%"
+        paddingX={3}
+        paddingBottom={3}
+        overflow="scroll"
+      >
         <Stack alignItems="center" padding={5}>
           <Typography variant="h5">{selectedBook.title}</Typography>
         </Stack>
@@ -141,10 +147,11 @@ const SelectedBook = (props: Props) => {
         ) : (
           <Stack
             height="100%"
+            alignItems="center"
             justifyContent="center"
             onClick={() => setOpenQuoteModal(true)}
           >
-            <Button variant="contained">
+            <Button variant="contained" sx={{ width: '500px' }}>
               Nothing to see, but you can add something
             </Button>
           </Stack>
