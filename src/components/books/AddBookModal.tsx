@@ -18,7 +18,7 @@ import { Book } from '../../models/books';
 import { BookTags } from '../../constants/bookTags';
 import { getCoverId } from '../../utils/utils';
 import { ref, uploadBytes } from 'firebase/storage';
-import { addNewBook } from '../../firebase/database_services';
+import { addNewBook, updateBook } from '../../firebase/database_services';
 import { Formik } from 'formik';
 
 interface Props {
@@ -66,17 +66,20 @@ const AddBookModal = (props: Props) => {
       quotes: [],
     };
 
-    if (cover) {
-      const coverId = getCoverId(book);
-      //const imageRef = ref(FirebaseStorage, `images/${coverId}`);
-      //uploadBytes(imageRef, cover);
+    if (selectedBook) {
+      updateBook({ ...book, bookId: selectedBook.bookId });
+    } else {
+      if (cover) {
+        const coverId = getCoverId(book);
+        //const imageRef = ref(FirebaseStorage, `images/${coverId}`);
+        //uploadBytes(imageRef, cover);
+      }
+
+      addNewBook(book);
+
+      const newBooks = [...books, book];
+      setBooks(newBooks);
     }
-
-    addNewBook(book);
-
-    const newBooks = [...books, book];
-    setBooks(newBooks);
-
     closeBookModal();
   };
 

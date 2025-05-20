@@ -44,7 +44,6 @@ export const updateBook = async (book: Book) => {
       const bookRef = doc(FirebaseDatabase, 'books', book.bookId);
 
       const { title, author, favQuote, bookCover } = book;
-
       await setDoc(bookRef, {
         title: title,
         author: author,
@@ -77,7 +76,7 @@ export const addNewQuote = async (quote: Quote, book: Book) => {
       const booksRef = doc(FirebaseDatabase, 'books', book.bookId);
 
       const { quotes } = book;
-      quotes.push(quote);
+      quotes?.push(quote);
 
       await setDoc(booksRef, {
         ...book,
@@ -98,7 +97,7 @@ export const deleteQuote = async (quote: Quote, book: Book) => {
 
       await updateDoc(bookDoc, {
         ...book,
-        quotes: quotes.filter((q) => quote.text !== q.text),
+        quotes: quotes?.filter((q) => quote.text !== q.text),
       });
     }
   } catch (e) {
@@ -117,7 +116,7 @@ export const udpateQuote = async (
 
       const { quotes } = book;
 
-      const index = quotes.findIndex((q) => q.text === selectedQuote.text);
+      const index = quotes?.findIndex((q) => q.text === selectedQuote.text);
       quotes[index] = quote;
 
       await updateDoc(bookDoc, {
