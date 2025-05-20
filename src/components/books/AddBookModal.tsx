@@ -19,6 +19,7 @@ import { BookTags } from '../../constants/bookTags';
 import { getCoverId } from '../../utils/utils';
 import { ref, uploadBytes } from 'firebase/storage';
 import { addNewBook } from '../../firebase/database_services';
+import { Formik } from 'formik';
 
 interface Props {
   open: boolean;
@@ -57,11 +58,11 @@ const AddBookModal = (props: Props) => {
     }
   };
 
-  const createNewBook = () => {
+  const createNewBook = (values: Book) => {
     const book: Book = {
-      title: title,
-      author: author,
-      tags: tags,
+      title: values.title,
+      author: values.author,
+      tags: values.tags,
       quotes: [],
     };
 
@@ -107,138 +108,173 @@ const AddBookModal = (props: Props) => {
           <Typography variant="h2">Add book</Typography>
         </Stack>
 
-        <Stack direction="row" spacing={2}>
-          <Formik></Formik>
-          <Stack width="100%">
-            <Typography variant="body1" fontWeight={600} ml={1}>
-              Title
-            </Typography>
-            <TextField
-              name="title"
-              title="Title"
-              onChange={handleLogInFormChange}
-              value={title}
-              fullWidth
-            />
-          </Stack>
-          <Stack width="100%">
-            <Typography variant="body1" fontWeight={600} ml={1}>
-              Author
-            </Typography>
-            <TextField
-              name="author"
-              title="Author"
-              onChange={handleLogInFormChange}
-              value={author}
-              fullWidth
-            />
-          </Stack>
-        </Stack>
-        <Stack spacing={1}>
-          <Typography variant="body1" fontWeight={600} ml={1}>
-            Add tags
-          </Typography>
-          <Stack
-            direction="row"
-            spacing={1}
-            paddingBottom={1}
-            sx={{ overflowX: 'scroll' }}
-          >
-            {BookTags.map((tag) => {
-              const selected = tags?.includes(tag?.name);
-              return (
-                <Chip
-                  key={tag.name}
-                  label={tag.name}
-                  sx={{
-                    backgroundColor: selected ? tag.color : 'auto',
-                    color: selected
-                      ? getContrastRatio(tag.color, '#fff') > 4.5
-                        ? '#fff'
-                        : '#111'
-                      : 'auto',
-                  }}
-                  clickable
-                  onClick={() => {
-                    if (selected) {
-                      setTags(tags.filter((t) => t !== tag.name));
-                    } else {
-                      setTags([...tags, tag.name]);
-                    }
-                  }}
-                />
-              );
-            })}
-          </Stack>
-        </Stack>
-        <Stack direction="row" spacing={3}>
-          <Stack spacing={1}>
-            <Typography variant="body1" fontWeight={600} ml={1}>
-              Cover
-            </Typography>
-            <Box
-              height="175px"
-              width="175px"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              borderRadius="10px"
-              sx={{ backgroundColor: theme.palette.primary.light }}
-            >
-              <input
-                id="file"
-                type="file"
-                style={{ display: 'none' }}
-                onChange={handleCoverChange}
-                ref={hiddenFileInput}
-                accept="image/png,image/jpeg"
-              />
-              <Button
-                fullWidth
-                sx={{ height: '100%' }}
-                onClick={() => {
-                  if (hiddenFileInput !== null) {
-                    hiddenFileInput?.current.click();
-                  }
-                }}
-              >
-                <FileUploadIcon fontSize="large" />
-              </Button>
-            </Box>
-          </Stack>
-          <Stack minWidth="200px" spacing={1} width="100%">
-            <Typography variant="body1" fontWeight={600} ml={1}>
-              First quote
-            </Typography>
+        <Formik
+          initialValues={
+            selectedBook
+              ? {
+                  title: selectedBook.title,
+                  author: selectedBook.author,
+                  tags: selectedBook.tags,
+                }
+              : { title: '', author: '', tags: [''], quotes: [] }
+          }
+          onSubmit={createNewBook}
+        >
+          {({
+            values,
+            handleSubmit,
+            handleChange,
+            isSubmitting,
+            setFieldValue,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <Stack spacing={1}>
+                <Stack direction="row" spacing={2}>
+                  <Stack width="100%">
+                    <Typography variant="body1" fontWeight={600} ml={1}>
+                      Title
+                    </Typography>
+                    <TextField
+                      name="title"
+                      title="Title"
+                      onChange={handleChange}
+                      value={values.title}
+                      fullWidth
+                    />
+                  </Stack>
+                  <Stack width="100%">
+                    <Typography variant="body1" fontWeight={600} ml={1}>
+                      Author
+                    </Typography>
+                    <TextField
+                      name="author"
+                      title="Author"
+                      onChange={handleChange}
+                      value={values.author}
+                      fullWidth
+                    />
+                  </Stack>
+                </Stack>
+                <Stack spacing={1}>
+                  <Typography variant="body1" fontWeight={600} ml={1}>
+                    Add tags
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    paddingBottom={1}
+                    sx={{ overflowX: 'scroll' }}
+                  >
+                    {BookTags.map((tag) => {
+                      const selected = values.tags?.includes(tag?.name);
+                      return (
+                        <Chip
+                          key={tag.name}
+                          label={tag.name}
+                          sx={{
+                            backgroundColor: selected ? tag.color : 'auto',
+                            color: selected
+                              ? getContrastRatio(tag.color, '#fff') > 4.5
+                                ? '#fff'
+                                : '#111'
+                              : 'auto',
+                          }}
+                          clickable
+                          onClick={() => {
+                            if (selected) {
+                              setFieldValue(
+                                'tags',
+                                tags.filter((t) => t !== tag.name)
+                              );
+                            } else {
+                              setFieldValue('tags', [...tags, tag.name]);
+                            }
+                          }}
+                        />
+                      );
+                    })}
+                  </Stack>
+                </Stack>
+                <Stack direction="row" spacing={3}>
+                  <Stack spacing={1}>
+                    <Typography variant="body1" fontWeight={600} ml={1}>
+                      Cover
+                    </Typography>
+                    <Box
+                      height="175px"
+                      width="175px"
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      borderRadius="10px"
+                      sx={{ backgroundColor: theme.palette.primary.light }}
+                    >
+                      <input
+                        id="file"
+                        type="file"
+                        style={{ display: 'none' }}
+                        onChange={handleChange}
+                        ref={hiddenFileInput}
+                        accept="image/png,image/jpeg"
+                      />
+                      <Button
+                        fullWidth
+                        sx={{ height: '100%' }}
+                        onClick={() => {
+                          if (hiddenFileInput !== null) {
+                            hiddenFileInput?.current.click();
+                          }
+                        }}
+                      >
+                        <FileUploadIcon fontSize="large" />
+                      </Button>
+                    </Box>
+                  </Stack>
+                  <Stack minWidth="200px" spacing={1} width="100%">
+                    <Typography variant="body1" fontWeight={600} ml={1}>
+                      First quote
+                    </Typography>
 
-            <Box height="175px">
-              <TextField
-                sx={{ height: '175px' }}
-                maxRows="4"
-                multiline
-                fullWidth
-              />
-            </Box>
-          </Stack>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between" spacing={30}>
-          <Button
-            variant="outlined"
-            onClick={onClose}
-            sx={{ height: '40px' }}
-            fullWidth
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={createNewBook}
-            sx={{ height: '40px' }}
-            fullWidth
-          >
-            Accept
-          </Button>
-        </Stack>
+                    <Box height="175px">
+                      <TextField
+                        sx={{ height: '175px' }}
+                        onChange={handleChange}
+                        value={values.quotes ? values.quotes[0] : ''}
+                        maxRows="4"
+                        multiline
+                        fullWidth
+                      />
+                    </Box>
+                  </Stack>
+                </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  spacing={30}
+                  paddingTop={2}
+                >
+                  <Button
+                    variant="outlined"
+                    onClick={onClose}
+                    sx={{ height: '40px' }}
+                    fullWidth
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    sx={{ height: '40px' }}
+                    disabled={isSubmitting}
+                    fullWidth
+                  >
+                    Accept
+                  </Button>
+                </Stack>
+              </Stack>
+            </form>
+          )}
+        </Formik>
       </Stack>
     </Dialog>
   );

@@ -7,5 +7,5 @@ export interface Book {
   bookId?: string;
   bookCover?: boolean;
   tags: string[];
-  quotes: Quote[];
+  quotes?: Quote[];
 }
