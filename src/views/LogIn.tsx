@@ -1,13 +1,40 @@
-import { Alert, Button, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Button,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { Stack } from '@mui/system';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '../hooks/useForm';
 import { AuthContext } from '../context/authContext';
 
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 const LogIn = () => {
   const navigate = useNavigate();
   const { handleLoginWithCredentials, status } = useContext(AuthContext);
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   const { handleLogInFormChange, password, email, error, setError } = useForm({
     initialState: {
@@ -75,13 +102,31 @@ const LogIn = () => {
           <Typography variant="body1" fontWeight="600" ml={1}>
             Password
           </Typography>
-          <TextField
-            type="password"
+          <OutlinedInput
+            type={showPassword ? '' : 'password'}
             title="Password"
             name="password"
             onChange={handleLogInFormChange}
             value={password}
             fullWidth
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label={
+                    showPassword ? 'hide the password' : 'display the password'
+                  }
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  onMouseUp={handleMouseUpPassword}
+                  edge="end"
+                  sx={{
+                    padding: '1rem',
+                  }}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
           />
           <Typography variant="body1" ml={1} sx={{ cursor: 'pointer' }}>
             Have you forgotten your password?
