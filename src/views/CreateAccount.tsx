@@ -68,6 +68,13 @@ const CreateAccount = () => {
           >
             Create account
           </Button>
+          <Typography
+            variant="body1"
+            onClick={goToLogIn}
+            sx={{ cursor: 'pointer' }}
+          >
+            Return to log in
+          </Typography>
         </Stack>
       </Stack>
     </Stack>

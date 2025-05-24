@@ -30,14 +30,12 @@ export const signInWithCredentials = async (props: PropsRegister) => {
     );
     return resp.user.uid;
   } catch (e) {
-    alert((e as Error).message);
+    console.log((e as Error).message);
   }
 };
 
 export const logInWithCredentials = async (props: PropsRegister) => {
   const { email, password } = props;
-  console.log(email);
-  console.log(password);
   try {
     const resp = await signInWithEmailAndPassword(
       FirebaseAuth,
@@ -46,7 +44,7 @@ export const logInWithCredentials = async (props: PropsRegister) => {
     );
     return resp.user.uid;
   } catch (e) {
-    alert((e as Error).message);
+    console.log((e as Error).message);
   }
 };
 

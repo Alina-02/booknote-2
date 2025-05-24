@@ -45,6 +45,16 @@ export const theme = createTheme({
         },
       },
     },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          borderRadius: 10,
+          height: 57,
+          display: 'flex',
+          alignItems: 'center',
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
@@ -59,6 +69,13 @@ export const theme = createTheme({
       styleOverrides: {
         paper: {
           boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.2)',
+          borderRadius: '10px',
+        },
+      },
+    },
+    MuiAlert: {
+      styleOverrides: {
+        root: {
           borderRadius: '10px',
         },
       },

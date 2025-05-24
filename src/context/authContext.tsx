@@ -9,10 +9,12 @@ import { logInWithCredentials } from '../firebase/services';
 export interface AuthStateContext {
   userId: string | null;
   status: 'checking' | 'authenticated' | 'no-authenticated';
+
   handleLoginWithCredentials: (
     password: string,
     email: string
   ) => Promise<void>;
+
   handleRegisterWithCredentials: (
     password: string,
     email: string

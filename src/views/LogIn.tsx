@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from '@mui/material';
+import { Alert, Button, TextField, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { AuthContext } from '../context/authContext';
 
 const LogIn = () => {
   const navigate = useNavigate();
-  const { handleLoginWithCredentials } = useContext(AuthContext);
+  const { handleLoginWithCredentials, status } = useContext(AuthContext);
 
   const { handleLogInFormChange, password, email, error, setError } = useForm({
     initialState: {
@@ -18,8 +18,16 @@ const LogIn = () => {
 
   const handleLogIn = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    handleLoginWithCredentials(email, password);
-    goToMain();
+
+    handleLoginWithCredentials(email, password).then(() => {
+      if (status === 'authenticated') {
+        console.log('hola');
+        goToMain();
+      } else {
+        console.log('aaa');
+        setError(true);
+      }
+    });
   };
 
   const goToMain = () => {
@@ -30,6 +38,15 @@ const LogIn = () => {
     navigate('/create-account');
   };
 
+  if (status === 'checking')
+    return (
+      <Stack height="100vh" justifyContent="center" alignItems="center">
+        <Typography variant="h5">
+          Checking credentials, wait a moment...
+        </Typography>
+      </Stack>
+    );
+
   return (
     <Stack height="100%" display="flex" alignItems="center">
       <Stack margin={10} alignItems="center">
@@ -38,7 +55,10 @@ const LogIn = () => {
         </Typography>
         <Typography variant="h1">BookNotes</Typography>
       </Stack>
-      <Stack spacing={3} width="370px">
+      <Stack spacing={2.5} width="370px">
+        {error && (
+          <Alert severity="error">Invalid login credentials, try again.</Alert>
+        )}
         <Stack>
           <Typography variant="body1" fontWeight="600" ml={1}>
             Email
@@ -48,7 +68,6 @@ const LogIn = () => {
             name="email"
             onChange={handleLogInFormChange}
             value={email}
-            error={error}
             fullWidth
           />
         </Stack>
@@ -62,7 +81,6 @@ const LogIn = () => {
             name="password"
             onChange={handleLogInFormChange}
             value={password}
-            error={error}
             fullWidth
           />
           <Typography variant="body1" ml={1} sx={{ cursor: 'pointer' }}>
