@@ -1,8 +1,14 @@
 import { createTheme } from '@mui/material';
 
-const Colors = {
+const LightColors = {
   primary: '#785d53',
   secondary: '#F06292',
+};
+
+export const DarkColors = {
+  primary: '#785d53',
+  secondary: '#F06292',
+  background: '#362925',
 };
 
 export const theme = createTheme({
@@ -20,14 +26,38 @@ export const theme = createTheme({
       '"Segoe UI Symbol"',
     ].join(','),
   },
-  palette: {
-    primary: { main: Colors.primary },
-    secondary: { main: Colors.secondary },
-    tonalOffset: {
-      light: 0.7,
-      dark: 0.2,
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: { main: LightColors.primary },
+        secondary: { main: LightColors.secondary },
+        tonalOffset: {
+          light: 0.7,
+          dark: 0.2,
+        },
+      },
+    },
+    dark: {
+      palette: {
+        primary: { main: DarkColors.primary },
+        secondary: { main: DarkColors.secondary },
+        background: {
+          default: DarkColors.background,
+          paper: DarkColors.background,
+        },
+        text: {
+          primary: '#ffffff',
+          secondary: '#aaaaaa',
+        },
+        divider: 'rgba(255, 255, 255, 0.12)',
+        tonalOffset: {
+          light: 0.5,
+          dark: 0.2,
+        },
+      },
     },
   },
+
   components: {
     MuiOutlinedInput: {
       styleOverrides: {

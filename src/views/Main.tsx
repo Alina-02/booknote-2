@@ -12,10 +12,11 @@ import { getAllBooks } from '../firebase/database_services';
 import SearchBar from '../components/SearchBar';
 import { motion } from 'framer-motion';
 import AddQuoteModal from '../components/quotes/AddQuoteModal';
-import SelectedBook from '../components/screen/SelectedBook';
+import SelectedBook from './SelectedBook';
 import { Quote } from '../models/quotes';
 import LateralMenu from '../components/LateralMenu';
 import ButtonsMenu from '../components/ButtonsMenu';
+import { DarkColors } from '../theme/theme';
 
 const Main = () => {
   const theme = useTheme();
@@ -58,7 +59,15 @@ const Main = () => {
   };
 
   return (
-    <Stack direction="row" height="100vh" display="flex">
+    <Stack
+      direction="row"
+      height="100vh"
+      display="flex"
+      sx={{
+        backgroundColor:
+          theme.palette.mode === 'dark' ? DarkColors.background : 'white',
+      }}
+    >
       <AddBookModal
         open={openBookModal}
         onClose={() => setOpenBookModal(false)}
@@ -115,10 +124,23 @@ const Main = () => {
         >
           {!upsideDown && !selectedBook && (
             <Stack alignItems="center">
-              <Typography variant="h3" sx={{ height: '55px' }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  height: '55px',
+                  color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                }}
+              >
                 Find a
               </Typography>
-              <Typography variant="h1">BookNote</Typography>
+              <Typography
+                variant="h1"
+                sx={{
+                  color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                }}
+              >
+                BookNote
+              </Typography>
             </Stack>
           )}
           {upsideDown && !selectedBook && (

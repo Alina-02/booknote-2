@@ -4,7 +4,7 @@ import {
   MenuItem,
   MenuList,
   Popover,
-  Typography,
+  useColorScheme,
 } from '@mui/material';
 import React, { useContext } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -20,7 +20,10 @@ interface Props {
 
 const ProfilePopover = (props: Props) => {
   const { open, handleClose, anchorEl } = props;
+
   const navigate = useNavigate();
+  const { mode, setMode } = useColorScheme();
+
   const { handleLogOut } = useContext(AuthContext);
 
   const logOut = () => {
@@ -30,6 +33,14 @@ const ProfilePopover = (props: Props) => {
 
   const goToLogIn = () => {
     navigate('/');
+  };
+
+  const changeTheme = () => {
+    if (mode == 'light') {
+      setMode('dark');
+    } else {
+      setMode('light');
+    }
   };
 
   return (
@@ -43,11 +54,11 @@ const ProfilePopover = (props: Props) => {
       }}
     >
       <MenuList sx={{ marginX: 1 }}>
-        <MenuItem>
+        <MenuItem onClick={changeTheme}>
           <ListItemIcon>
             <ContrastIcon fontSize="small" color="primary" />
           </ListItemIcon>
-          <ListItemText>Theme</ListItemText>
+          <ListItemText>{mode === 'dark' ? 'Light' : 'Dark'}</ListItemText>
         </MenuItem>
         <MenuItem onClick={logOut}>
           <ListItemIcon>

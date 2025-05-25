@@ -1,7 +1,6 @@
 import Masonry from '@mui/lab/Masonry';
 import {
   Button,
-  Divider,
   Paper,
   Stack,
   Tooltip,
@@ -9,14 +8,14 @@ import {
   useTheme,
 } from '@mui/material';
 import React, { useState } from 'react';
-import QuoteCard from '../quotes/QuoteCard';
-import { Book } from '../../models/books';
-import { Quote } from '../../models/quotes';
+import QuoteCard from '../components/quotes/QuoteCard';
+import { Book } from '../models/books';
+import { Quote } from '../models/quotes';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import DeleteBookModal from '../books/DeleteBookModal';
+import DeleteBookModal from '../components/books/DeleteBookModal';
 interface Props {
   setOpenQuoteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenBookModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -105,7 +104,13 @@ const SelectedBook = (props: Props) => {
         paddingBottom={3}
         overflow="scroll"
       >
-        <Stack alignItems="center" padding={5}>
+        <Stack
+          alignItems="center"
+          padding={5}
+          sx={{
+            color: theme.palette.mode === 'dark' ? 'white' : 'black',
+          }}
+        >
           <Typography variant="h5">{selectedBook.title}</Typography>
         </Stack>
         <DeleteBookModal
