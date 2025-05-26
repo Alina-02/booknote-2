@@ -75,16 +75,7 @@ export const theme = createTheme({
         },
       },
     },
-    MuiInputBase: {
-      styleOverrides: {
-        root: {
-          borderRadius: 10,
-          height: 57,
-          display: 'flex',
-          alignItems: 'center',
-        },
-      },
-    },
+
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({

@@ -73,7 +73,7 @@ const LateralMenu = (props: Props) => {
             </Button>
           </Tooltip>
         </Stack>
-        <Stack spacing={1} sx={{ overflowY: 'scroll' }}>
+        <Stack spacing={1} sx={{ overflowY: 'scroll' }} maxHeight="750px">
           {books?.map((book) => (
             <BookCard book={book} onClick={() => onClickBookCard(book)} />
           ))}

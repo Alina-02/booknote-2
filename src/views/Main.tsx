@@ -61,8 +61,8 @@ const Main = () => {
   return (
     <Stack
       direction="row"
-      height="100vh"
       display="flex"
+      height="100vh"
       sx={{
         backgroundColor:
           theme.palette.mode === 'dark' ? DarkColors.background : 'white',
@@ -109,6 +109,7 @@ const Main = () => {
           setSelectedQuote={setSelectedQuote}
           seeMenu={seeMenu}
           setSeeMenu={setSeeMenu}
+          setBooks={setBooks}
         />
       )}
 
