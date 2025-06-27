@@ -17,6 +17,7 @@ import { Quote } from '../models/quotes';
 import LateralMenu from '../components/LateralMenu';
 import ButtonsMenu from '../components/ButtonsMenu';
 import { DarkColors } from '../theme/theme';
+import QuoteCard from '../components/quotes/QuoteCard';
 
 const Main = () => {
   const theme = useTheme();
@@ -32,6 +33,8 @@ const Main = () => {
   const [openQuoteModal, setOpenQuoteModal] = useState<boolean>(false);
 
   const [books, setBooks] = useState<Book[]>([]);
+  const [bookSearch, setBookSearch] = useState<Book[]>([]);
+
   const [selectedBook, setSelectedBook] = useState<Book>();
   const [selectedQuote, setSelectedQuote] = useState<Quote>();
 
@@ -48,8 +51,24 @@ const Main = () => {
 
   const MotionBox = motion(Box);
 
-  const handleSearch = () => {
+  const handleSearch = (inputSearch: string) => {
     setUpsideDown(true);
+
+    console.log(inputSearch);
+    console.log(books);
+
+    const filteredBooks = books.filter((book: Book) => {
+      if (inputSearch === '') {
+        return book;
+      } else {
+        return (
+          book.author.toLowerCase().includes(inputSearch) ||
+          book.title.toLowerCase().includes(inputSearch)
+        );
+      }
+    });
+
+    setBookSearch(filteredBooks);
   };
 
   const onClickBookCard = (book: Book) => {
@@ -159,17 +178,34 @@ const Main = () => {
             </MotionBox>
           )}
           {!selectedBook && (
-            <MotionBox
-              width={550}
-              maxWidth={675}
-              initial={false}
-              animate={{
-                y: upsideDown ? -450 : 0,
-              }}
-              transition={{ type: 'spring', stiffness: 100 }}
-            >
-              <SearchBar handleSearch={handleSearch} />
-            </MotionBox>
+            <>
+              <MotionBox
+                width={550}
+                maxWidth={675}
+                initial={false}
+                animate={{
+                  y: upsideDown ? -450 : 0,
+                }}
+                transition={{ type: 'spring', stiffness: 100 }}
+              >
+                <SearchBar handleSearch={handleSearch} />
+              </MotionBox>
+              <Stack>
+                {bookSearch?.map((book) => {
+                  if (book && book?.quotes && book?.quotes.length) {
+                    return book?.quotes.map((quote: Quote) => {
+                      return (
+                        <QuoteCard
+                          quote={quote}
+                          book={book}
+                          onClick={() => {}}
+                        />
+                      );
+                    });
+                  }
+                })}
+              </Stack>
+            </>
           )}
           {!upsideDown && !selectedBook && (
             <Stack direction="row" spacing={2}>

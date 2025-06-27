@@ -1,12 +1,15 @@
 import { Box, Button, InputBase, useTheme } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 
 interface Props {
-  handleSearch: () => void;
+  handleSearch: (inputSearch: string) => void;
 }
 
 const SearchBar = (props: Props) => {
   const { handleSearch } = props;
+
+  const [inputSearch, setInputSearch] = useState<string>('');
+
   const theme = useTheme();
   return (
     <Box
@@ -27,9 +30,14 @@ const SearchBar = (props: Props) => {
           paddingY: 1.2,
           fontSize: '1rem',
         }}
+        onChange={(e) => {
+          setInputSearch(e.target.value.toLowerCase());
+        }}
       />
       <Button
-        onClick={handleSearch}
+        onClick={() => {
+          handleSearch(inputSearch);
+        }}
         variant="contained"
         sx={{
           borderRadius: 0,

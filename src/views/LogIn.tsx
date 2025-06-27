@@ -48,10 +48,8 @@ const LogIn = () => {
 
     handleLoginWithCredentials(email, password).then(() => {
       if (status === 'authenticated') {
-        console.log('hola');
         goToMain();
       } else {
-        console.log('aaa');
         setError(true);
       }
     });

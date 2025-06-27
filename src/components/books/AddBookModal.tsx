@@ -17,7 +17,6 @@ import { useForm } from '../../hooks/useForm';
 import { Book } from '../../models/books';
 import { BookTags } from '../../constants/bookTags';
 import { getCoverId } from '../../utils/utils';
-import { ref, uploadBytes } from 'firebase/storage';
 import { addNewBook, updateBook } from '../../firebase/database_services';
 import { Formik } from 'formik';
 
@@ -31,7 +30,6 @@ interface Props {
 
 const AddBookModal = (props: Props) => {
   const { open, onClose, setBooks, books, selectedBook } = props;
-  console.log(selectedBook);
 
   const theme = useTheme();
 
@@ -41,16 +39,12 @@ const AddBookModal = (props: Props) => {
   const [cover, setCover] = useState<File | null>(null);
   const hiddenFileInput = useRef(null);
 
-  const { handleLogInFormChange, title, author, error, setError, setForm } =
-    useForm({
-      initialState: {
-        title: selectedBook ? selectedBook?.title : '',
-        author: selectedBook ? selectedBook?.author : '',
-      },
-    });
-
-  console.log(title);
-  console.log(selectedBook?.title);
+  const { setForm } = useForm({
+    initialState: {
+      title: selectedBook ? selectedBook?.title : '',
+      author: selectedBook ? selectedBook?.author : '',
+    },
+  });
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
