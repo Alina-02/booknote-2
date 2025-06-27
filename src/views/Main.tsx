@@ -18,6 +18,7 @@ import LateralMenu from '../components/LateralMenu';
 import ButtonsMenu from '../components/ButtonsMenu';
 import { DarkColors } from '../theme/theme';
 import QuoteCard from '../components/quotes/QuoteCard';
+import Masonry from '@mui/lab/Masonry';
 
 const Main = () => {
   const theme = useTheme();
@@ -167,7 +168,7 @@ const Main = () => {
             <MotionBox
               initial={{ rotate: '0deg' }}
               animate={{
-                y: -240,
+                y: 80,
                 rotate: '180deg',
               }}
               transition={{ type: 'spring', stiffness: 100 }}
@@ -184,13 +185,17 @@ const Main = () => {
                 maxWidth={675}
                 initial={false}
                 animate={{
-                  y: upsideDown ? -450 : 0,
+                  y: upsideDown ? -120 : 0,
                 }}
                 transition={{ type: 'spring', stiffness: 100 }}
               >
                 <SearchBar handleSearch={handleSearch} />
               </MotionBox>
-              <Stack>
+              <Masonry
+                sx={{ paddingLeft: seeMenu ? 0 : 4 }}
+                columns={{ xs: 1, sm: 2, md: 3 }}
+                spacing={1}
+              >
                 {bookSearch?.map((book) => {
                   if (book && book?.quotes && book?.quotes.length) {
                     return book?.quotes.map((quote: Quote) => {
@@ -204,7 +209,7 @@ const Main = () => {
                     });
                   }
                 })}
-              </Stack>
+              </Masonry>
             </>
           )}
           {!upsideDown && !selectedBook && (
