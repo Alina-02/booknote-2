@@ -26,10 +26,12 @@ interface Props {
   setBooks: React.Dispatch<React.SetStateAction<Book[]>>;
   books: Book[];
   selectedBook?: Book;
+  updateBookFunc: (updatedBook: Book) => void;
 }
 
-const AddBookModal = (props: Props) => {
-  const { open, onClose, setBooks, books, selectedBook } = props;
+const BookModal = (props: Props) => {
+  const { open, onClose, setBooks, books, selectedBook, updateBookFunc } =
+    props;
 
   const theme = useTheme();
 
@@ -61,7 +63,7 @@ const AddBookModal = (props: Props) => {
     };
 
     if (selectedBook) {
-      updateBook({ ...book, bookId: selectedBook.bookId });
+      updateBookFunc(book);
     } else {
       if (cover) {
         const coverId = getCoverId(book);
@@ -277,4 +279,4 @@ const AddBookModal = (props: Props) => {
   );
 };
 
-export default AddBookModal;
+export default BookModal;

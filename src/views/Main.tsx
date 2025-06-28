@@ -6,9 +6,9 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 
 import { Book } from '../models/books';
-import AddBookModal from '../components/books/AddBookModal';
+import BookModal from '../components/books/BookModal';
 import ProfilePopover from '../components/ProfilePopover';
-import { getAllBooks } from '../firebase/database_services';
+import { getAllBooks, updateBook } from '../firebase/database_services';
 import SearchBar from '../components/SearchBar';
 import { motion } from 'framer-motion';
 import AddQuoteModal from '../components/quotes/AddQuoteModal';
@@ -55,9 +55,6 @@ const Main = () => {
   const handleSearch = (inputSearch: string) => {
     setUpsideDown(true);
 
-    console.log(inputSearch);
-    console.log(books);
-
     const filteredBooks = books.filter((book: Book) => {
       if (inputSearch === '') {
         return book;
@@ -78,6 +75,15 @@ const Main = () => {
     setSelectedBook(book);
   };
 
+  const updateBookFunc = (updatedBook: Book) => {
+    updateBook({ ...updatedBook, bookId: selectedBook?.bookId });
+    setSelectedBook(updatedBook);
+    const bookIndex = books.findIndex((b) => b.bookId === updatedBook.bookId);
+    const newBooks = books;
+    newBooks[bookIndex] = updatedBook;
+    setBooks(newBooks);
+  };
+
   return (
     <Stack
       direction="row"
@@ -88,12 +94,13 @@ const Main = () => {
           theme.palette.mode === 'dark' ? DarkColors.background : 'white',
       }}
     >
-      <AddBookModal
+      <BookModal
         open={openBookModal}
         onClose={() => setOpenBookModal(false)}
         setBooks={setBooks}
         books={books}
         selectedBook={selectedBook}
+        updateBookFunc={updateBookFunc}
       />
       <AddQuoteModal
         open={openQuoteModal}
