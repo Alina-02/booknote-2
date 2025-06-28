@@ -23,7 +23,7 @@ interface Props {
   setSelectedQuote: React.Dispatch<React.SetStateAction<Quote | undefined>>;
   setSeeMenu: React.Dispatch<React.SetStateAction<boolean>>;
   seeMenu: boolean;
-  setBooks: React.Dispatch<React.SetStateAction<Book[]>>;
+  deleteBookFunc: () => void;
 }
 
 const SelectedBook = (props: Props) => {
@@ -34,7 +34,7 @@ const SelectedBook = (props: Props) => {
     setSeeMenu,
     setSelectedQuote,
     seeMenu,
-    setBooks,
+    deleteBookFunc,
   } = props;
   const theme = useTheme();
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
@@ -119,8 +119,7 @@ const SelectedBook = (props: Props) => {
           open={deleteModal}
           setOpen={setDeleteModal}
           title={selectedBook?.title}
-          selectedBook={selectedBook}
-          setBooks={setBooks}
+          deleteBookFunc={deleteBookFunc}
         />
         {selectedBook?.quotes?.length > 0 ? (
           <Masonry

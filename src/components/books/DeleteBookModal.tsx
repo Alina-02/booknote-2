@@ -1,31 +1,18 @@
 import { Button, Dialog, Stack, Typography } from '@mui/material';
 import React from 'react';
-import { deleteBook } from '../../firebase/database_services';
-import { Book } from '../../models/books';
 
 interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
-  selectedBook: Book;
-  setBooks: React.Dispatch<React.SetStateAction<Book[]>>;
+  deleteBookFunc: () => void;
 }
 
 const DeleteBookModal = (props: Props) => {
-  const { open, setOpen, title, selectedBook, setBooks } = props;
+  const { open, setOpen, title, deleteBookFunc } = props;
 
   const onDeleteBook = () => {
-    deleteBook(selectedBook);
-
-    const booksJSON = localStorage.getItem('books');
-    if (booksJSON) {
-      const books = JSON.parse(booksJSON).filter(
-        (b: Book) => b.bookId !== selectedBook.bookId
-      );
-      localStorage.setItem('books', JSON.stringify(books));
-      setBooks(books);
-    }
-
+    deleteBookFunc();
     setOpen(false);
   };
 

@@ -8,7 +8,11 @@ import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import { Book } from '../models/books';
 import BookModal from '../components/books/BookModal';
 import ProfilePopover from '../components/ProfilePopover';
-import { getAllBooks, updateBook } from '../firebase/database_services';
+import {
+  deleteBook,
+  getAllBooks,
+  updateBook,
+} from '../firebase/database_services';
 import SearchBar from '../components/SearchBar';
 import { motion } from 'framer-motion';
 import AddQuoteModal from '../components/quotes/AddQuoteModal';
@@ -81,7 +85,24 @@ const Main = () => {
     const bookIndex = books.findIndex((b) => b.bookId === updatedBook.bookId);
     const newBooks = books;
     newBooks[bookIndex] = updatedBook;
+    localStorage.setItem('books', JSON.stringify(newBooks));
     setBooks(newBooks);
+  };
+
+  const deleteBookFunc = () => {
+    if (selectedBook) {
+      deleteBook(selectedBook);
+
+      const booksJSON = localStorage.getItem('books');
+      if (booksJSON) {
+        const books = JSON.parse(booksJSON).filter(
+          (b: Book) => b.bookId !== selectedBook?.bookId
+        );
+        localStorage.setItem('books', JSON.stringify(books));
+        setBooks(books);
+      }
+      setSelectedBook(undefined);
+    }
   };
 
   return (
@@ -136,7 +157,7 @@ const Main = () => {
           setSelectedQuote={setSelectedQuote}
           seeMenu={seeMenu}
           setSeeMenu={setSeeMenu}
-          setBooks={setBooks}
+          deleteBookFunc={deleteBookFunc}
         />
       )}
 
