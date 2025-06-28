@@ -138,7 +138,6 @@ const Main = () => {
         handleClose={() => setOpenProfilePopover(false)}
         anchorEl={anchorEl}
       />
-
       <LateralMenu
         books={books}
         seeMenu={seeMenu}
@@ -225,10 +224,12 @@ const Main = () => {
                 spacing={1}
               >
                 {bookSearch?.map((book) => {
+                  console.log(bookSearch);
                   if (book && book?.quotes && book?.quotes.length) {
                     return book?.quotes.map((quote: Quote) => {
                       return (
                         <QuoteCard
+                          key={quote.text}
                           quote={quote}
                           book={book}
                           onClick={() => {}}

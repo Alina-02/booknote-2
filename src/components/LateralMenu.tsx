@@ -33,6 +33,7 @@ const LateralMenu = (props: Props) => {
     <motion.div
       transition={{ type: 'tween' }}
       animate={{ x: seeMenu ? 430 : -430 }}
+      style={{ minWidth: seeMenu ? '450px' : 0 }}
     >
       <Stack
         minWidth="350px"
@@ -42,7 +43,6 @@ const LateralMenu = (props: Props) => {
         sx={{
           backgroundColor: theme.palette.primary.light,
           position: 'absolute',
-
           left: '-430px',
         }}
       >
