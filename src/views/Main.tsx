@@ -138,17 +138,17 @@ const Main = () => {
         handleClose={() => setOpenProfilePopover(false)}
         anchorEl={anchorEl}
       />
-      {seeMenu && (
-        <LateralMenu
-          books={books}
-          seeMenu={seeMenu}
-          setSeeMenu={setSeeMenu}
-          setUpsideDown={setUpsideDown}
-          setSelectedBook={setSelectedBook}
-          onClickBookCard={onClickBookCard}
-          setOpenBookModal={setOpenBookModal}
-        />
-      )}
+
+      <LateralMenu
+        books={books}
+        seeMenu={seeMenu}
+        setSeeMenu={setSeeMenu}
+        setUpsideDown={setUpsideDown}
+        setSelectedBook={setSelectedBook}
+        onClickBookCard={onClickBookCard}
+        setOpenBookModal={setOpenBookModal}
+      />
+
       {selectedBook && (
         <SelectedBook
           setOpenQuoteModal={setOpenQuoteModal}
