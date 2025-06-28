@@ -78,9 +78,10 @@ export const addNewQuote = async (quote: Quote, book: Book) => {
       const { quotes } = book;
       quotes?.push(quote);
 
+      const newQuotes = quotes ?? [quote];
       await setDoc(booksRef, {
         ...book,
-        quotes: quotes,
+        quotes: newQuotes,
       });
     }
   } catch (e) {
