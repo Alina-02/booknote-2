@@ -9,7 +9,6 @@ import BookCard from './books/BookCard';
 import { motion } from 'framer-motion';
 
 interface Props {
-  books: Book[];
   seeMenu: boolean;
   setSeeMenu: React.Dispatch<React.SetStateAction<boolean>>;
   setUpsideDown: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +19,6 @@ interface Props {
 
 const LateralMenu = (props: Props) => {
   const {
-    books,
     seeMenu,
     setSeeMenu,
     setUpsideDown,
@@ -83,7 +81,7 @@ const LateralMenu = (props: Props) => {
             </Tooltip>
           </Stack>
           <Stack spacing={1} sx={{ overflowY: 'scroll' }} maxHeight="750px">
-            {books?.map((book) => (
+            {JSON.parse(localStorage.getItem('books'))?.map((book: Book) => (
               <BookCard book={book} onClick={() => onClickBookCard(book)} />
             ))}
           </Stack>

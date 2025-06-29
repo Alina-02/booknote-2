@@ -37,7 +37,6 @@ const Main = () => {
   const [openBookModal, setOpenBookModal] = useState<boolean>(false);
   const [openQuoteModal, setOpenQuoteModal] = useState<boolean>(false);
 
-  const [books, setBooks] = useState<Book[]>([]);
   const [bookSearch, setBookSearch] = useState<Book[]>([]);
 
   const [selectedBook, setSelectedBook] = useState<Book>();
@@ -45,7 +44,6 @@ const Main = () => {
 
   useEffect(() => {
     getAllBooks().then((books) => {
-      setBooks(books);
       localStorage.setItem('books', JSON.stringify(books));
       if (selectedBook) {
         const b = books.find((b) => b.bookId === selectedBook.bookId);
@@ -59,16 +57,18 @@ const Main = () => {
   const handleSearch = (inputSearch: string) => {
     setUpsideDown(true);
 
-    const filteredBooks = books.filter((book: Book) => {
-      if (inputSearch === '') {
-        return book;
-      } else {
-        return (
-          book.author.toLowerCase().includes(inputSearch) ||
-          book.title.toLowerCase().includes(inputSearch)
-        );
+    const filteredBooks = JSON.parse(localStorage.getItem('books')).filter(
+      (book: Book) => {
+        if (inputSearch === '') {
+          return book;
+        } else {
+          return (
+            book.author.toLowerCase().includes(inputSearch) ||
+            book.title.toLowerCase().includes(inputSearch)
+          );
+        }
       }
-    });
+    );
 
     setBookSearch(filteredBooks);
   };
@@ -82,11 +82,11 @@ const Main = () => {
   const updateBookFunc = (updatedBook: Book) => {
     updateBook({ ...updatedBook, bookId: selectedBook?.bookId });
     setSelectedBook(updatedBook);
+    const books = JSON.parse(localStorage.getItem('books'));
     const bookIndex = books.findIndex((b) => b.bookId === updatedBook.bookId);
     const newBooks = books;
     newBooks[bookIndex] = updatedBook;
     localStorage.setItem('books', JSON.stringify(newBooks));
-    setBooks(newBooks);
   };
 
   const deleteBookFunc = () => {
@@ -99,7 +99,6 @@ const Main = () => {
           (b: Book) => b.bookId !== selectedBook?.bookId
         );
         localStorage.setItem('books', JSON.stringify(books));
-        setBooks(books);
       }
       setSelectedBook(undefined);
     }
@@ -118,8 +117,6 @@ const Main = () => {
       <BookModal
         open={openBookModal}
         onClose={() => setOpenBookModal(false)}
-        setBooks={setBooks}
-        books={books}
         selectedBook={selectedBook}
         updateBookFunc={updateBookFunc}
       />
@@ -129,7 +126,6 @@ const Main = () => {
           setSelectedQuote(undefined);
           setOpenQuoteModal(false);
         }}
-        books={books}
         book={selectedBook}
         selectedQuote={selectedQuote}
       />
@@ -139,7 +135,6 @@ const Main = () => {
         anchorEl={anchorEl}
       />
       <LateralMenu
-        books={books}
         seeMenu={seeMenu}
         setSeeMenu={setSeeMenu}
         setUpsideDown={setUpsideDown}

@@ -16,13 +16,12 @@ import { addNewQuote, udpateQuote } from '../../firebase/database_services';
 interface Props {
   open: boolean;
   onClose: () => void;
-  books: Book[];
   book?: Book;
   selectedQuote?: Quote;
 }
 
 const AddQuoteModal = (props: Props) => {
-  const { open, onClose, books, book, selectedQuote } = props;
+  const { open, onClose, book, selectedQuote } = props;
 
   const [selectedBook, setSelectedBook] = useState<Book | undefined>(book);
 
@@ -101,14 +100,16 @@ const AddQuoteModal = (props: Props) => {
               title="Book"
               onChange={(e) => {
                 setSelectedBook(
-                  books?.find((b) => b.bookId === e.target.value) ?? undefined
+                  JSON.parse(localStorage.getItem('books'))?.find(
+                    (b: Book) => b.bookId === e.target.value
+                  ) ?? undefined
                 );
               }}
               disabled={book !== undefined}
               value={selectedBook?.bookId}
               select
             >
-              {books.map((b) => (
+              {JSON.parse(localStorage.getItem('books')).map((b: Book) => (
                 <MenuItem key={b.title + b.author} value={b.bookId}>
                   {b?.title}
                 </MenuItem>

@@ -3,7 +3,6 @@ import React from 'react';
 
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
 import { Book } from '../models/books';
 
 interface Props {
@@ -23,8 +22,6 @@ const ButtonsMenu = (props: Props) => {
     seeMenu,
     setSeeMenu,
     selectedBook,
-    setSelectedBook,
-    setUpsideDown,
   } = props;
   return (
     <Stack>

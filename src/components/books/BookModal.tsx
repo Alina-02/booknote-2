@@ -17,21 +17,18 @@ import { useForm } from '../../hooks/useForm';
 import { Book } from '../../models/books';
 import { BookTags } from '../../constants/bookTags';
 import { getCoverId } from '../../utils/utils';
-import { addNewBook, updateBook } from '../../firebase/database_services';
+import { addNewBook } from '../../firebase/database_services';
 import { Formik } from 'formik';
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  setBooks: React.Dispatch<React.SetStateAction<Book[]>>;
-  books: Book[];
   selectedBook?: Book;
   updateBookFunc: (updatedBook: Book) => void;
 }
 
 const BookModal = (props: Props) => {
-  const { open, onClose, setBooks, books, selectedBook, updateBookFunc } =
-    props;
+  const { open, onClose, selectedBook, updateBookFunc } = props;
 
   const theme = useTheme();
 
@@ -73,8 +70,10 @@ const BookModal = (props: Props) => {
 
       addNewBook(book);
 
+      const books = JSON.parse(localStorage.getItem('books'));
+
       const newBooks = [...books, book];
-      setBooks(newBooks);
+      localStorage.setItem('books', JSON.stringify(newBooks));
     }
     closeBookModal();
   };
