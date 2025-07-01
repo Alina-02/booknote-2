@@ -29,7 +29,7 @@ const QuoteCard = (props: Props) => {
         borderRadius: '10px',
       }}
     >
-      <Typography variant="body2" textAlign="justify">
+      <Typography variant="body1" textAlign="justify">
         {quote.text}
       </Typography>
 

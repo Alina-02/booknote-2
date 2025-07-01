@@ -29,7 +29,6 @@ interface Props {
 
 const BookModal = (props: Props) => {
   const { open, onClose, selectedBook, updateBookFunc } = props;
-
   const theme = useTheme();
 
   const [tags, setTags] = useState<string[]>(

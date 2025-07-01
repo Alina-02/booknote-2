@@ -12,6 +12,8 @@ import { Book } from '../../models/books';
 import { useForm } from '../../hooks/useForm';
 import { Quote } from '../../models/quotes';
 import { addNewQuote, udpateQuote } from '../../firebase/database_services';
+import { Formik } from 'formik';
+import { create } from 'domain';
 
 interface Props {
   open: boolean;
@@ -22,6 +24,7 @@ interface Props {
 
 const AddQuoteModal = (props: Props) => {
   const { open, onClose, book, selectedQuote } = props;
+  const allBooks = JSON.parse(localStorage.getItem('books'));
 
   const [selectedBook, setSelectedBook] = useState<Book | undefined>(book);
 
@@ -30,12 +33,6 @@ const AddQuoteModal = (props: Props) => {
       quote: '',
     },
   });
-
-  useEffect(() => {
-    if (book) {
-      setSelectedBook(book);
-    }
-  }, [book]);
 
   useEffect(() => {
     if (selectedQuote !== undefined) {
@@ -52,22 +49,15 @@ const AddQuoteModal = (props: Props) => {
     onClose();
   };
 
-  const createNewQuote = () => {
+  const handleQuoteSubmit = (form) => {
     const q: Quote = {
-      text: quote,
+      text: form.quote,
     };
-    if (selectedBook !== undefined) {
-      addNewQuote(q, selectedBook);
-    }
-    closeQuoteModal();
-  };
-
-  const updateQuote = () => {
-    const q: Quote = {
-      text: quote,
-    };
-    if (selectedBook !== undefined && selectedQuote !== undefined) {
-      udpateQuote(q, selectedQuote, selectedBook);
+    if (!selectedQuote) {
+      addNewQuote(q, form.book);
+      console.log('crea');
+    } else if (selectedQuote) {
+      udpateQuote(q, selectedQuote, form.book);
     }
     closeQuoteModal();
   };
@@ -90,64 +80,93 @@ const AddQuoteModal = (props: Props) => {
         <Stack alignItems="center" paddingX={7}>
           <Typography variant="h2">Add quote</Typography>
         </Stack>
-        <Stack spacing={2}>
-          <Stack>
-            <Typography variant="body1" fontWeight={600} ml={1}>
-              Book
-            </Typography>
-            <TextField
-              name="book"
-              title="Book"
-              onChange={(e) => {
-                setSelectedBook(
-                  JSON.parse(localStorage.getItem('books'))?.find(
-                    (b: Book) => b.bookId === e.target.value
-                  ) ?? undefined
-                );
-              }}
-              disabled={book !== undefined}
-              value={selectedBook?.bookId}
-              select
-            >
-              {JSON.parse(localStorage.getItem('books')).map((b: Book) => (
-                <MenuItem key={b.title + b.author} value={b.bookId}>
-                  {b?.title}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Stack>
-          <Stack>
-            <Typography variant="body1" fontWeight={600} ml={1}>
-              Quote
-            </Typography>
-            <TextField
-              name="quote"
-              title="Quote"
-              onChange={handleLogInFormChange}
-              value={quote}
-              multiline
-              maxRows={2}
-            />
-          </Stack>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between" spacing={30}>
-          <Button
-            variant="outlined"
-            onClick={closeQuoteModal}
-            sx={{ height: '40px' }}
-            fullWidth
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={selectedQuote ? updateQuote : createNewQuote}
-            sx={{ height: '40px' }}
-            fullWidth
-          >
-            Accept
-          </Button>
-        </Stack>
+
+        <Formik
+          initialValues={
+            book
+              ? {
+                  book: book,
+                  quote: '',
+                }
+              : { book: null, quote: '' }
+          }
+          onSubmit={handleQuoteSubmit}
+        >
+          {({
+            values,
+            handleSubmit,
+            handleChange,
+            isSubmitting,
+            setFieldValue,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <Stack spacing={3}>
+                <Stack spacing={2}>
+                  <Stack>
+                    <Typography variant="body1" fontWeight={600} ml={1}>
+                      Book
+                    </Typography>
+                    <TextField
+                      name="book"
+                      title="Book"
+                      onChange={(e) => {
+                        const book = allBooks?.find(
+                          (b: Book) => b.bookId === e.target.value
+                        );
+                        setFieldValue('book', book);
+                      }}
+                      disabled={book !== undefined}
+                      value={values.book?.bookId}
+                      select
+                    >
+                      {allBooks?.map((b: Book) => (
+                        <MenuItem key={b.title + b.author} value={b.bookId}>
+                          {b?.title}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Stack>
+                  <Stack>
+                    <Typography variant="body1" fontWeight={600} ml={1}>
+                      Quote
+                    </Typography>
+                    <TextField
+                      name="quote"
+                      title="Quote"
+                      onChange={handleChange}
+                      value={values.quote}
+                      multiline
+                      maxRows={2}
+                    />
+                  </Stack>
+                </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  spacing={30}
+                >
+                  <Button
+                    variant="outlined"
+                    onClick={closeQuoteModal}
+                    sx={{ height: '40px' }}
+                    fullWidth
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    variant="contained"
+                    sx={{ height: '40px' }}
+                    fullWidth
+                  >
+                    Accept
+                  </Button>
+                </Stack>
+              </Stack>
+            </form>
+          )}
+        </Formik>
       </Stack>
     </Dialog>
   );
