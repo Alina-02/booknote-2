@@ -24,6 +24,7 @@ interface Props {
   setSeeMenu: React.Dispatch<React.SetStateAction<boolean>>;
   seeMenu: boolean;
   deleteBookFunc: () => void;
+  deleteQuote: (quote: Quote) => void;
 }
 
 const SelectedBook = (props: Props) => {
@@ -35,6 +36,7 @@ const SelectedBook = (props: Props) => {
     setSelectedQuote,
     seeMenu,
     deleteBookFunc,
+    deleteQuote,
   } = props;
   const theme = useTheme();
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
@@ -143,11 +145,11 @@ const SelectedBook = (props: Props) => {
             {selectedBook?.quotes?.map((quote) => (
               <QuoteCard
                 quote={quote}
-                book={selectedBook}
                 onClick={() => {
                   setSelectedQuote(quote);
                   setOpenQuoteModal(true);
                 }}
+                deleteQuote={deleteQuote}
               />
             ))}
           </Masonry>

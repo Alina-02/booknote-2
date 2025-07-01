@@ -2,17 +2,15 @@ import { Paper, Stack, Typography, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 import { Quote } from '../../models/quotes';
 import SettingsButtons from '../SettingsButtons';
-import { Book } from '../../models/books';
-import { deleteQuote } from '../../firebase/database_services';
 
 interface Props {
   quote: Quote;
-  book: Book;
   onClick: () => void;
+  deleteQuote: (quote: Quote) => void;
 }
 
 const QuoteCard = (props: Props) => {
-  const { quote, book, onClick } = props;
+  const { quote, onClick, deleteQuote } = props;
   const theme = useTheme();
 
   const [hover, setHover] = useState<boolean>(false);
@@ -51,7 +49,7 @@ const QuoteCard = (props: Props) => {
             spacing={5}
             direction="row"
             onClickDeleteButton={() => {
-              deleteQuote(quote, book);
+              deleteQuote(quote);
             }}
             onClickEditButton={onClick}
           />

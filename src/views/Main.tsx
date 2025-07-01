@@ -10,6 +10,7 @@ import BookModal from '../components/books/BookModal';
 import ProfilePopover from '../components/ProfilePopover';
 import {
   deleteBook,
+  deleteQuote,
   getAllBooks,
   updateBook,
 } from '../firebase/database_services';
@@ -104,6 +105,29 @@ const Main = () => {
     }
   };
 
+  const deleteQuoteFunc = (quote: Quote) => {
+    if (selectedBook) {
+      deleteQuote(quote, selectedBook);
+
+      const booksJSON = localStorage.getItem('books');
+      if (booksJSON) {
+        const books = JSON.parse(booksJSON).filter(
+          (b: Book) => b.bookId !== selectedBook?.bookId
+        );
+        const newQuotes = selectedBook?.quotes?.filter(
+          (quote) => quote.text !== quote.text
+        );
+        const newBook = selectedBook;
+        newBook.quotes = newQuotes;
+        localStorage.setItem(
+          'books',
+          JSON.stringify(books.quotes.push(newBook))
+        );
+      }
+      setSelectedBook(undefined);
+    }
+  };
+
   return (
     <Stack
       direction="row"
@@ -152,6 +176,7 @@ const Main = () => {
           seeMenu={seeMenu}
           setSeeMenu={setSeeMenu}
           deleteBookFunc={deleteBookFunc}
+          deleteQuote={deleteQuoteFunc}
         />
       )}
 
@@ -228,6 +253,7 @@ const Main = () => {
                           quote={quote}
                           book={book}
                           onClick={() => {}}
+                          deleteQuote={deleteQuoteFunc}
                         />
                       );
                     });
