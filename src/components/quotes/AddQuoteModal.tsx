@@ -6,14 +6,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Book } from '../../models/books';
-import { useForm } from '../../hooks/useForm';
 import { Quote } from '../../models/quotes';
 import { addNewQuote, udpateQuote } from '../../firebase/database_services';
 import { Formik } from 'formik';
-import { create } from 'domain';
 
 interface Props {
   open: boolean;
@@ -25,27 +22,8 @@ interface Props {
 const AddQuoteModal = (props: Props) => {
   const { open, onClose, book, selectedQuote } = props;
   const allBooks = JSON.parse(localStorage.getItem('books'));
-
-  const [selectedBook, setSelectedBook] = useState<Book | undefined>(book);
-
-  const { handleLogInFormChange, quote, error, setError, setForm } = useForm({
-    initialState: {
-      quote: '',
-    },
-  });
-
-  useEffect(() => {
-    if (selectedQuote !== undefined) {
-      setForm({
-        quote: selectedQuote.text,
-      });
-    }
-  }, [selectedQuote]);
-
+  console.log(book);
   const closeQuoteModal = () => {
-    setForm({
-      quote: '',
-    });
     onClose();
   };
 
@@ -83,12 +61,14 @@ const AddQuoteModal = (props: Props) => {
 
         <Formik
           initialValues={
-            book
+            book && !selectedQuote
               ? {
                   book: book,
-                  quote: '',
+                  quote: null,
                 }
-              : { book: null, quote: '' }
+              : selectedQuote
+              ? { book: book, quote: selectedQuote }
+              : { book: null, quote: null }
           }
           onSubmit={handleQuoteSubmit}
         >
@@ -134,7 +114,7 @@ const AddQuoteModal = (props: Props) => {
                       name="quote"
                       title="Quote"
                       onChange={handleChange}
-                      value={values.quote}
+                      value={values.quote?.text}
                       multiline
                       maxRows={2}
                     />
