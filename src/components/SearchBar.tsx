@@ -33,6 +33,11 @@ const SearchBar = (props: Props) => {
         onChange={(e) => {
           setInputSearch(e.target.value.toLowerCase());
         }}
+        onKeyDown={(e) => {
+          if (e.code === 'Enter') {
+            handleSearch(inputSearch);
+          }
+        }}
       />
       <Button
         onClick={() => {
