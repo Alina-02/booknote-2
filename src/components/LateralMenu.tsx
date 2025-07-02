@@ -6,7 +6,8 @@ import HomeIcon from '@mui/icons-material/Home';
 
 import { Book } from '../models/books';
 import BookCard from './books/BookCard';
-import { motion } from 'framer-motion';
+
+import { Sidebar } from 'react-pro-sidebar';
 
 interface Props {
   seeMenu: boolean;
@@ -27,22 +28,16 @@ const LateralMenu = (props: Props) => {
     setOpenBookModal,
   } = props;
   const theme = useTheme();
+
   return (
-    <motion.div
-      transition={{ type: 'tween' }}
-      animate={{ x: seeMenu ? 430 : -430 }}
-      style={{ minWidth: seeMenu ? '422px' : 0 }}
-    >
+    <Sidebar collapsed={!seeMenu} collapsedWidth="0" width="350px">
       <Stack
-        minWidth="350px"
-        height="100%"
+        height="100vh"
         paddingX={2}
         paddingY={2}
         justifyContent="space-between"
         sx={{
           backgroundColor: theme.palette.primary.light,
-          position: 'absolute',
-          left: '-430px',
         }}
       >
         <Stack spacing={2}>
@@ -94,7 +89,7 @@ const LateralMenu = (props: Props) => {
           Add book
         </Button>
       </Stack>
-    </motion.div>
+    </Sidebar>
   );
 };
 

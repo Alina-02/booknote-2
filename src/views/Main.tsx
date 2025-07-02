@@ -132,7 +132,7 @@ const Main = () => {
     <Stack
       direction="row"
       display="flex"
-      height="100vh"
+      height={upsideDown ? '100%' : '100vh'}
       sx={{
         backgroundColor:
           theme.palette.mode === 'dark' ? DarkColors.background : 'white',
@@ -239,12 +239,13 @@ const Main = () => {
                 <SearchBar handleSearch={handleSearch} />
               </MotionBox>
               <Masonry
-                sx={{ paddingLeft: seeMenu ? 0 : 4 }}
+                sx={{
+                  paddingLeft: seeMenu ? 0 : 4,
+                }}
                 columns={{ xs: 1, sm: 2, md: 3 }}
                 spacing={1}
               >
                 {bookSearch?.map((book) => {
-                  console.log(bookSearch);
                   if (book && book?.quotes && book?.quotes.length) {
                     return book?.quotes.map((quote: Quote) => {
                       return (
