@@ -10,7 +10,7 @@ import {
 } from 'firebase/firestore';
 import { Quote } from '../models/quotes';
 
-export const addNewBook = async (book: Book) => {
+export const addNewBookFirebase = async (book: Book) => {
   try {
     const booksRef = collection(FirebaseDatabase, 'books');
 
@@ -28,7 +28,7 @@ export const addNewBook = async (book: Book) => {
   }
 };
 
-export const deleteBook = async (book: Book) => {
+export const deleteBookFirebase = async (book: Book) => {
   try {
     if (book.bookId) {
       await deleteDoc(doc(FirebaseDatabase, 'books', book.bookId));
@@ -38,7 +38,7 @@ export const deleteBook = async (book: Book) => {
   }
 };
 
-export const updateBook = async (book: Book) => {
+export const updateBookFirebase = async (book: Book) => {
   try {
     if (book.bookId) {
       const bookRef = doc(FirebaseDatabase, 'books', book.bookId);
@@ -56,7 +56,7 @@ export const updateBook = async (book: Book) => {
   }
 };
 
-export const getAllBooks = async () => {
+export const getAllBooksFirebase = async () => {
   const books: Book[] = [];
   try {
     const querySnapshot = await getDocs(collection(FirebaseDatabase, 'books'));
@@ -70,7 +70,7 @@ export const getAllBooks = async () => {
   return books;
 };
 
-export const addNewQuote = async (quote: Quote, book: Book) => {
+export const addNewQuoteFirebase = async (quote: Quote, book: Book) => {
   try {
     if (book.bookId) {
       const booksRef = doc(FirebaseDatabase, 'books', book.bookId);
@@ -90,7 +90,7 @@ export const addNewQuote = async (quote: Quote, book: Book) => {
   }
 };
 
-export const deleteQuote = async (quote: Quote, book: Book) => {
+export const deleteQuoteFirebase = async (quote: Quote, book: Book) => {
   try {
     if (book.bookId) {
       const bookDoc = doc(FirebaseDatabase, 'books', book.bookId);
@@ -107,7 +107,7 @@ export const deleteQuote = async (quote: Quote, book: Book) => {
   }
 };
 
-export const udpateQuote = async (
+export const udpateQuoteFirebase = async (
   quote: Quote,
   selectedQuote: Quote,
   book: Book
@@ -117,14 +117,15 @@ export const udpateQuote = async (
       const bookDoc = doc(FirebaseDatabase, 'books', book.bookId);
 
       const { quotes } = book;
+      if (quotes) {
+        const index = quotes?.findIndex((q) => q.text === selectedQuote.text);
+        quotes[index] = quote;
 
-      const index = quotes?.findIndex((q) => q.text === selectedQuote.text);
-      quotes[index] = quote;
-
-      await updateDoc(bookDoc, {
-        ...book,
-        quotes: quotes,
-      });
+        await updateDoc(bookDoc, {
+          ...book,
+          quotes: quotes,
+        });
+      }
     }
   } catch (e) {
     alert((e as Error).message + ' deleting a quote.');

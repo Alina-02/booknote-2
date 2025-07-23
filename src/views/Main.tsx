@@ -8,15 +8,9 @@ import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import { Book } from '../models/books';
 import BookModal from '../components/books/BookModal';
 import ProfilePopover from '../components/ProfilePopover';
-import {
-  deleteBook,
-  deleteQuote,
-  getAllBooks,
-  updateBook,
-} from '../firebase/database_services';
+
 import SearchBar from '../components/SearchBar';
 import { motion } from 'framer-motion';
-import AddQuoteModal from '../components/quotes/AddQuoteModal';
 import SelectedBook from './SelectedBook';
 import { Quote } from '../models/quotes';
 import LateralMenu from '../components/LateralMenu';
@@ -24,6 +18,10 @@ import ButtonsMenu from '../components/ButtonsMenu';
 import { DarkColors } from '../theme/theme';
 import QuoteCard from '../components/quotes/QuoteCard';
 import Masonry from '@mui/lab/Masonry';
+import { deleteBook, editBook } from '../utils/books';
+import { deleteQuote } from '../utils/quotes';
+import { getAllBooksFirebase } from '../firebase/database_services';
+import { AddQuoteModal } from '../components/quotes/AddQuoteModal';
 
 const Main = () => {
   const theme = useTheme();
@@ -44,7 +42,7 @@ const Main = () => {
   const [selectedQuote, setSelectedQuote] = useState<Quote>();
 
   useEffect(() => {
-    getAllBooks().then((books) => {
+    getAllBooksFirebase().then((books) => {
       localStorage.setItem('books', JSON.stringify(books));
       if (selectedBook) {
         const b = books.find((b) => b.bookId === selectedBook.bookId);
@@ -81,51 +79,15 @@ const Main = () => {
   };
 
   const updateBookFunc = (updatedBook: Book) => {
-    updateBook({ ...updatedBook, bookId: selectedBook?.bookId });
-    setSelectedBook(updatedBook);
-    const books = JSON.parse(localStorage.getItem('books'));
-    const bookIndex = books.findIndex((b) => b.bookId === updatedBook.bookId);
-    const newBooks = books;
-    newBooks[bookIndex] = updatedBook;
-    localStorage.setItem('books', JSON.stringify(newBooks));
+    editBook({ setSelectedBook, selectedBook, updatedBook });
   };
 
   const deleteBookFunc = () => {
-    if (selectedBook) {
-      deleteBook(selectedBook);
-
-      const booksJSON = localStorage.getItem('books');
-      if (booksJSON) {
-        const books = JSON.parse(booksJSON).filter(
-          (b: Book) => b.bookId !== selectedBook?.bookId
-        );
-        localStorage.setItem('books', JSON.stringify(books));
-      }
-      setSelectedBook(undefined);
-    }
+    deleteBook({ setSelectedBook, selectedBook });
   };
 
   const deleteQuoteFunc = (quote: Quote) => {
-    if (selectedBook) {
-      deleteQuote(quote, selectedBook);
-
-      const booksJSON = localStorage.getItem('books');
-      if (booksJSON) {
-        const books = JSON.parse(booksJSON).filter(
-          (b: Book) => b.bookId !== selectedBook?.bookId
-        );
-        const newQuotes = selectedBook?.quotes?.filter(
-          (quote) => quote.text !== quote.text
-        );
-        const newBook = selectedBook;
-        newBook.quotes = newQuotes;
-        localStorage.setItem(
-          'books',
-          JSON.stringify(books.quotes.push(newBook))
-        );
-      }
-      setSelectedBook(undefined);
-    }
+    deleteQuote({ setSelectedBook, selectedBook, quote });
   };
 
   return (
@@ -252,7 +214,6 @@ const Main = () => {
                         <QuoteCard
                           key={quote.text}
                           quote={quote}
-                          book={book}
                           onClick={() => {}}
                           deleteQuote={deleteQuoteFunc}
                         />

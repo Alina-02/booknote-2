@@ -9,8 +9,8 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { Book } from '../../models/books';
 import { Quote } from '../../models/quotes';
-import { addNewQuote, udpateQuote } from '../../firebase/database_services';
 import { Formik } from 'formik';
+import { addQuote, editQuote } from '../../utils/quotes';
 
 interface Props {
   open: boolean;
@@ -19,25 +19,30 @@ interface Props {
   selectedQuote?: Quote;
 }
 
-const AddQuoteModal = (props: Props) => {
+export const AddQuoteModal = (props: Props) => {
   const { open, onClose, book, selectedQuote } = props;
   const allBooks = JSON.parse(localStorage.getItem('books'));
-  console.log(book);
+
   const closeQuoteModal = () => {
     onClose();
   };
 
-  const handleQuoteSubmit = (form) => {
-    const q: Quote = {
-      text: form.quote,
-    };
-    if (!selectedQuote) {
-      addNewQuote(q, form.book);
-      console.log('crea');
-    } else if (selectedQuote) {
-      udpateQuote(q, selectedQuote, form.book);
+  const handleQuoteSubmit = (form: {
+    quote: Quote | null;
+    book: Book | null;
+  }) => {
+    if (form.quote && form.book) {
+      const quote: Quote = {
+        text: form?.quote.text,
+      };
+
+      if (!selectedQuote) {
+        addQuote({ quote, book: form.book });
+      } else if (selectedQuote) {
+        editQuote({ quote, selectedQuote, book: form.book });
+      }
+      closeQuoteModal();
     }
-    closeQuoteModal();
   };
 
   return (
@@ -61,12 +66,12 @@ const AddQuoteModal = (props: Props) => {
 
         <Formik
           initialValues={
-            book && !selectedQuote
+            book !== undefined && !selectedQuote
               ? {
                   book: book,
                   quote: null,
                 }
-              : selectedQuote
+              : book !== undefined && selectedQuote
               ? { book: book, quote: selectedQuote }
               : { book: null, quote: null }
           }
@@ -151,5 +156,3 @@ const AddQuoteModal = (props: Props) => {
     </Dialog>
   );
 };
-
-export default AddQuoteModal;

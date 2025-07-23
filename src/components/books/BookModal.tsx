@@ -17,8 +17,8 @@ import { useForm } from '../../hooks/useForm';
 import { Book } from '../../models/books';
 import { BookTags } from '../../constants/bookTags';
 import { getCoverId } from '../../utils/utils';
-import { addNewBook } from '../../firebase/database_services';
 import { Formik } from 'formik';
+import { addBook } from '../../utils/books';
 
 interface Props {
   open: boolean;
@@ -61,18 +61,7 @@ const BookModal = (props: Props) => {
     if (selectedBook) {
       updateBookFunc(book);
     } else {
-      if (cover) {
-        const coverId = getCoverId(book);
-        //const imageRef = ref(FirebaseStorage, `images/${coverId}`);
-        //uploadBytes(imageRef, cover);
-      }
-
-      addNewBook(book);
-
-      const books = JSON.parse(localStorage.getItem('books'));
-
-      const newBooks = [...books, book];
-      localStorage.setItem('books', JSON.stringify(newBooks));
+      addBook({ cover, book });
     }
     closeBookModal();
   };

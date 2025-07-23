@@ -6,7 +6,7 @@ import {
   Popover,
   useColorScheme,
 } from '@mui/material';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import { AuthContext } from '../context/authContext';
