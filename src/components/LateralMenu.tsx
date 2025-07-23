@@ -30,7 +30,12 @@ const LateralMenu = (props: Props) => {
   const theme = useTheme();
 
   return (
-    <Sidebar collapsed={!seeMenu} collapsedWidth="0" width="350px">
+    <Sidebar
+      collapsed={!seeMenu}
+      collapsedWidth="0"
+      width="350px"
+      style={{ borderRightStyle: 'none' }}
+    >
       <Stack
         height="100vh"
         paddingX={2}
