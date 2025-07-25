@@ -16,7 +16,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from '../../hooks/useForm';
 import { Book } from '../../models/books';
 import { BookTags } from '../../constants/bookTags';
-import { getCoverId } from '../../utils/utils';
 import { Formik } from 'formik';
 import { addBook } from '../../utils/books';
 
