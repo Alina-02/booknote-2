@@ -43,6 +43,7 @@ export const QuoteModal = (props: Props) => {
 
     if (quote && form.book && book) {
       if (!selectedQuote) {
+        console.log('Submit quote');
         addQuote({ quote: quote, setSelectedBook, book: form.book });
       } else if (selectedQuote) {
         editQuote({ quote: quote, selectedQuote, book: form.book });

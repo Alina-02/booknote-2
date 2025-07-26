@@ -18,6 +18,8 @@ interface AddQuoteProps {
 }
 
 export function addQuote(props: AddQuoteProps) {
+  console.count('addQuote called'); // Add this line
+
   const { book, setSelectedBook, quote } = props;
   const quotes = book?.quotes ? book?.quotes : [];
 
@@ -32,7 +34,7 @@ export function addQuote(props: AddQuoteProps) {
       const newBooks = editObjectFromAnArray({ array: books, object: newBook });
 
       localStorage.setItem('books', JSON.stringify(newBooks));
-
+      console.log(newBook);
       setSelectedBook(newBook);
       addNewQuoteFirebase(quote, book, newQuotes);
     }

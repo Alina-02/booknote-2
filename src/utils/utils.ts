@@ -17,20 +17,22 @@ export function addObjectToAnArray<Type extends Book | Quote>({
   }
 
   if ('bookId' in object) {
-    console.log('Añadiendo libro');
     if (array.every((o: Type) => (o as Book).bookId !== object.bookId)) {
-      array.push(object);
-      return array;
+      return [...array, object];
+    } else {
+      console.warn('Attempted to add a duplicate book (by bookId).');
+      return [...array];
     }
   } else if ('text' in object) {
-    console.log('Añadiendo quote');
     if (array.every((o: Type) => (o as Quote).text !== object.text)) {
-      array.push(object);
-      return array;
+      return [...array, object]; // Use spread operator to create a new array
+    } else {
+      console.warn('Attempted to add a duplicate quote (by text).');
+      return [...array];
     }
   }
 
-  return [];
+  return [...array];
 }
 
 export function editObjectFromAnArray<Type extends Book | Quote>({
