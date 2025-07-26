@@ -1,5 +1,5 @@
 import { FirebaseDatabase } from './config';
-import { Book } from '../models/books';
+import { Book } from '../../utils/models/books';
 import {
   collection,
   deleteDoc,
@@ -8,7 +8,7 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
-import { Quote } from '../models/quotes';
+import { Quote } from '../../utils/models/quotes';
 
 export const addNewBookFirebase = async (book: Book) => {
   try {

@@ -3,8 +3,8 @@ import {
   logoutFirebase,
   onAuthStateHasChanged,
   signInWithCredentials,
-} from '../firebase/services';
-import { logInWithCredentials } from '../firebase/services';
+} from '../services/firebase/services';
+import { logInWithCredentials } from '../services/firebase/services';
 
 export interface AuthStateContext {
   userId: string | null;

@@ -9,8 +9,8 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import QuoteCard from '../components/quotes/QuoteCard';
-import { Book } from '../models/books';
-import { Quote } from '../models/quotes';
+import { Book } from '../utils/models/books';
+import { Quote } from '../utils/models/quotes';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuIcon from '@mui/icons-material/Menu';

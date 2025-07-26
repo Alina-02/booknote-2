@@ -2,8 +2,8 @@ import {
   addNewBookFirebase,
   deleteBookFirebase,
   updateBookFirebase,
-} from '../firebase/database_services';
-import { Book } from '../models/books';
+} from '../services/firebase/database_services';
+import { Book } from './models/books';
 import { getCoverId } from './utils';
 
 interface AddBookProps {
@@ -21,10 +21,13 @@ export function addBook(props: AddBookProps) {
 
   addNewBookFirebase(book);
 
-  const books = JSON.parse(localStorage.getItem('books'));
+  const localStorageBooks = localStorage.getItem('books');
+  if (localStorageBooks) {
+    const books = JSON.parse(localStorageBooks);
 
-  const newBooks = [...books, book];
-  localStorage.setItem('books', JSON.stringify(newBooks));
+    const newBooks = [...books, book];
+    localStorage.setItem('books', JSON.stringify(newBooks));
+  }
 }
 
 interface EditBookProps {

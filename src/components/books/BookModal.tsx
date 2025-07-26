@@ -14,8 +14,8 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CloseIcon from '@mui/icons-material/Close';
 //import { addNewBook } from '../../firebase/database_services';
 import { useForm } from '../../hooks/useForm';
-import { Book } from '../../models/books';
-import { BookTags } from '../../constants/bookTags';
+import { Book } from '../../utils/models/books';
+import { BookTags } from '../../utils/bookTags';
 import { Formik } from 'formik';
 import { addBook } from '../../utils/books';
 

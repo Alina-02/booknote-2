@@ -5,14 +5,14 @@ import React, { useEffect, useState } from 'react';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 
-import { Book } from '../models/books';
+import { Book } from '../utils/models/books';
 import BookModal from '../components/books/BookModal';
 import ProfilePopover from '../components/ProfilePopover';
 
 import SearchBar from '../components/SearchBar';
 import { motion } from 'framer-motion';
 import SelectedBook from './SelectedBook';
-import { Quote } from '../models/quotes';
+import { Quote } from '../utils/models/quotes';
 import LateralMenu from '../components/LateralMenu';
 import ButtonsMenu from '../components/ButtonsMenu';
 import { DarkColors } from '../theme/theme';
@@ -20,7 +20,7 @@ import QuoteCard from '../components/quotes/QuoteCard';
 import Masonry from '@mui/lab/Masonry';
 import { deleteBook, editBook } from '../utils/books';
 import { deleteQuote } from '../utils/quotes';
-import { getAllBooksFirebase } from '../firebase/database_services';
+import { getAllBooksFirebase } from '../services/firebase/database_services';
 import { AddQuoteModal } from '../components/quotes/AddQuoteModal';
 
 const Main = () => {
@@ -44,6 +44,7 @@ const Main = () => {
   useEffect(() => {
     getAllBooksFirebase().then((books) => {
       localStorage.setItem('books', JSON.stringify(books));
+
       if (selectedBook) {
         const b = books.find((b) => b.bookId === selectedBook.bookId);
         setSelectedBook(b);

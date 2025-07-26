@@ -7,8 +7,8 @@ import {
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Book } from '../../models/books';
-import { Quote } from '../../models/quotes';
+import { Book } from '../../utils/models/books';
+import { Quote } from '../../utils/models/quotes';
 import { Formik } from 'formik';
 import { addQuote, editQuote } from '../../utils/quotes';
 

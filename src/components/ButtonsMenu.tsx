@@ -3,7 +3,7 @@ import React from 'react';
 
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Book } from '../models/books';
+import { Book } from '../utils/models/books';
 
 interface Props {
   setAnchorEl: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>;

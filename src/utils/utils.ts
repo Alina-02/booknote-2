@@ -1,31 +1,28 @@
-import { Book } from '../models/books';
+import { Book } from './models/books';
+import { Quote } from './models/quotes';
 
 export const getCoverId = (book: Book) => {
   return (book.title + book.author).replace(/ /g, '').toLowerCase();
 };
 
-export function addObjectToAnArray<
-  Type extends { id?: string; text?: string }
->({
+export function addObjectToAnArray<Type extends Book | Quote>({
   array,
   object,
-  isBook,
 }: {
   array: Type[];
   object: Type;
-  isBook: boolean;
 }): Type[] {
   if (array.length === 0) {
     return [object];
   }
 
-  if (isBook) {
-    if (array.every((o: Type) => o.id !== object.id)) {
+  if ('bookId' in object) {
+    if (array.every((o: Type) => (o as Book).bookId !== object.bookId)) {
       array.push(object);
       return array;
     }
-  } else {
-    if (array.every((o: Type) => o.text !== object.text)) {
+  } else if ('text' in object) {
+    if (array.every((o: Type) => (o as Quote).text !== object.text)) {
       array.push(object);
       return array;
     }
@@ -34,27 +31,29 @@ export function addObjectToAnArray<
   return [];
 }
 
-export function editObjectFromAnArray<
-  Type extends { id?: string; text?: string }
->({
+export function editObjectFromAnArray<Type extends Book | Quote>({
   array,
+  originalObject,
   object,
-  isBook,
 }: {
   array: Type[];
+  originalObject?: Type;
   object: Type;
-  isBook: boolean;
 }): Type[] {
   if (array.length === 1) {
     return [object];
   }
 
-  if (isBook) {
-    const index = array.findIndex((o: Type) => o.id === object.id);
+  if ('bookId' in object) {
+    const index = array.findIndex(
+      (o: Type) => (o as Book).bookId === object.bookId
+    );
     array[index] = object;
     return array;
-  } else {
-    const index = array.findIndex((o: Type) => o.text === object.text);
+  } else if (originalObject && 'text' in originalObject && 'text' in object) {
+    const index = array.findIndex(
+      (o: Type) => (o as Quote).text === originalObject.text
+    );
     array[index] = object;
     return array;
   }
@@ -62,25 +61,21 @@ export function editObjectFromAnArray<
   return [];
 }
 
-export function deleteObjectFromAnArray<
-  Type extends { id?: string; text?: string }
->({
+export function deleteObjectFromAnArray<Type extends Book | Quote>({
   array,
   object,
-  isBook,
 }: {
   array: Type[];
   object: Type;
-  isBook: boolean;
 }): Type[] {
   if (array.length === 1) {
     return [object];
   }
 
-  if (isBook) {
-    return array.filter((o: Type) => o.id !== object.id);
-  } else {
-    return array.filter((o: Type) => o.text !== object.text);
+  if ('bookId' in object) {
+    return array.filter((o: Type) => (o as Book).bookId !== object.bookId);
+  } else if ('text' in object) {
+    return array.filter((o: Type) => (o as Quote).text !== object.text);
   }
 
   return [];

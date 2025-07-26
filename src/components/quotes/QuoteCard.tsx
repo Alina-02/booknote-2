@@ -1,6 +1,6 @@
 import { Paper, Stack, Typography, useTheme } from '@mui/material';
 import React, { useState } from 'react';
-import { Quote } from '../../models/quotes';
+import { Quote } from '../../utils/models/quotes';
 import SettingsButtons from '../SettingsButtons';
 
 interface Props {

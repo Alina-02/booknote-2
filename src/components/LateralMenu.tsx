@@ -4,7 +4,7 @@ import React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 
-import { Book } from '../models/books';
+import { Book } from '../utils/models/books';
 import BookCard from './books/BookCard';
 
 import { Sidebar } from 'react-pro-sidebar';
