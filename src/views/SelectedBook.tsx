@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Masonry from '@mui/lab/Masonry';
 import {
   Button,
@@ -7,16 +8,18 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import React, { useState } from 'react';
+
 import QuoteCard from '../components/quotes/QuoteCard';
+import DeleteBookModal from '../components/books/DeleteBookModal';
+
 import { Book } from '../utils/models/books';
 import { Quote } from '../utils/models/quotes';
+import { ModalState } from '../utils/modals';
+
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import DeleteBookModal from '../components/books/DeleteBookModal';
-import { ModalState } from '../utils/modals';
 interface Props {
   setOpenQuoteModal: React.Dispatch<React.SetStateAction<ModalState>>;
   setOpenBookModal: React.Dispatch<React.SetStateAction<ModalState>>;
@@ -79,7 +82,7 @@ const SelectedBook = (props: Props) => {
               height: '50px',
               color: theme.palette.primary.contrastText,
             }}
-            onClick={(e) => {
+            onClick={() => {
               setOpenBookModal(ModalState.EDITING);
             }}
           >
@@ -94,7 +97,7 @@ const SelectedBook = (props: Props) => {
               height: '50px',
               color: theme.palette.primary.contrastText,
             }}
-            onClick={(e) => {
+            onClick={() => {
               setDeleteModal(true);
             }}
           >

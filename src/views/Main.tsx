@@ -1,28 +1,31 @@
+import React, { useEffect, useState } from 'react';
+
 import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { Stack, useTheme } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import Masonry from '@mui/lab/Masonry';
 
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 
 import { Book } from '../utils/models/books';
+import { Quote } from '../utils/models/quotes';
+import { deleteBook, editBook } from '../utils/books';
+import { deleteQuote } from '../utils/quotes';
+import { ModalState } from '../utils/modals';
+
+import { motion } from 'framer-motion';
+import SelectedBook from './SelectedBook';
+
+import LateralMenu from '../components/LateralMenu';
+import ButtonsMenu from '../components/ButtonsMenu';
+import QuoteCard from '../components/quotes/QuoteCard';
+import SearchBar from '../components/SearchBar';
+import { QuoteModal } from '../components/quotes/QuoteModal';
 import BookModal from '../components/books/BookModal';
 import ProfilePopover from '../components/ProfilePopover';
 
-import SearchBar from '../components/SearchBar';
-import { motion } from 'framer-motion';
-import SelectedBook from './SelectedBook';
-import { Quote } from '../utils/models/quotes';
-import LateralMenu from '../components/LateralMenu';
-import ButtonsMenu from '../components/ButtonsMenu';
 import { DarkColors } from '../theme/theme';
-import QuoteCard from '../components/quotes/QuoteCard';
-import Masonry from '@mui/lab/Masonry';
-import { deleteBook, editBook } from '../utils/books';
-import { deleteQuote } from '../utils/quotes';
 import { getAllBooksFirebase } from '../services/firebase/database_services';
-import { QuoteModal } from '../components/quotes/QuoteModal';
-import { ModalState } from '../utils/modals';
 
 const Main = () => {
   const theme = useTheme();

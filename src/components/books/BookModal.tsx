@@ -213,6 +213,7 @@ const BookModal = (props: Props) => {
                     </Typography>
 
                     <TextField
+                      disabled={modalState === ModalState.EDITING}
                       sx={{ height: '100%' }}
                       onChange={handleChange}
                       value={values.quotes ? values.quotes[0] : ''}

@@ -1,5 +1,5 @@
 import { Paper, Stack, Typography, useTheme } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Quote } from '../../utils/models/quotes';
 import SettingsButtons from '../SettingsButtons';
 

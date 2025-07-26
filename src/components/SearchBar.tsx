@@ -1,5 +1,5 @@
 import { Box, Button, InputBase, useTheme } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 interface Props {
   handleSearch: (inputSearch: string) => void;

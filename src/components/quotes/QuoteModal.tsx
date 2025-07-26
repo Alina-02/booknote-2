@@ -24,7 +24,9 @@ interface Props {
 
 export const QuoteModal = (props: Props) => {
   const { modalState, onClose, book, setSelectedBook, selectedQuote } = props;
-  const allBooks = JSON.parse(localStorage.getItem('books'));
+
+  const localStorageBooks = localStorage.getItem('books');
+  const allBooks = localStorageBooks ? JSON.parse(localStorageBooks) : [];
 
   const open =
     modalState === ModalState.CREATING || modalState === ModalState.EDITING;
