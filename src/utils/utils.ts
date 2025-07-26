@@ -25,7 +25,7 @@ export function addObjectToAnArray<Type extends Book | Quote>({
     }
   } else if ('text' in object) {
     if (array.every((o: Type) => (o as Quote).text !== object.text)) {
-      return [...array, object]; // Use spread operator to create a new array
+      return [...array, object];
     } else {
       console.warn('Attempted to add a duplicate quote (by text).');
       return [...array];
