@@ -70,7 +70,11 @@ export const getAllBooksFirebase = async () => {
   return books;
 };
 
-export const addNewQuoteFirebase = async (quote: Quote, book: Book) => {
+export const addNewQuoteFirebase = async (
+  quote: Quote,
+  book: Book,
+  newQuotes: Quote[]
+) => {
   try {
     if (book.bookId) {
       const booksRef = doc(FirebaseDatabase, 'books', book.bookId);
@@ -78,7 +82,7 @@ export const addNewQuoteFirebase = async (quote: Quote, book: Book) => {
       const { quotes } = book;
       quotes?.push(quote);
 
-      const newQuotes = quotes ?? [quote];
+      //const newQuotes = quotes ?? [quote];
 
       await setDoc(booksRef, {
         ...book,

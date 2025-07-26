@@ -17,11 +17,13 @@ export function addObjectToAnArray<Type extends Book | Quote>({
   }
 
   if ('bookId' in object) {
+    console.log('Añadiendo libro');
     if (array.every((o: Type) => (o as Book).bookId !== object.bookId)) {
       array.push(object);
       return array;
     }
   } else if ('text' in object) {
+    console.log('Añadiendo quote');
     if (array.every((o: Type) => (o as Quote).text !== object.text)) {
       array.push(object);
       return array;
@@ -68,15 +70,45 @@ export function deleteObjectFromAnArray<Type extends Book | Quote>({
   array: Type[];
   object: Type;
 }): Type[] {
-  if (array.length === 1) {
-    return [object];
+  if (!array || array.length === 0) {
+    return [];
   }
+
+  let key: 'bookId' | 'text';
+  let valueToMatch: string | undefined;
 
   if ('bookId' in object) {
-    return array.filter((o: Type) => (o as Book).bookId !== object.bookId);
+    key = 'bookId';
+    valueToMatch = (object as Book).bookId;
   } else if ('text' in object) {
-    return array.filter((o: Type) => (o as Quote).text !== object.text);
+    key = 'text';
+    valueToMatch = (object as Quote).text;
+  } else {
+    return array;
   }
 
-  return [];
+  const newArray: Type[] = [];
+  let foundAndRemoved = false;
+
+  for (let i = 0; i < array.length; i++) {
+    const currentObject = array[i];
+    let matches = false;
+
+    if (key === 'bookId' && (currentObject as Book).bookId === valueToMatch) {
+      matches = true;
+    } else if (
+      key === 'text' &&
+      (currentObject as Quote).text === valueToMatch
+    ) {
+      matches = true;
+    }
+
+    if (matches && !foundAndRemoved) {
+      foundAndRemoved = true;
+    } else {
+      newArray.push(currentObject);
+    }
+  }
+
+  return newArray;
 }

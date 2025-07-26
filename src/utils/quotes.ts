@@ -13,26 +13,30 @@ import {
 
 interface AddQuoteProps {
   book: Book | null;
+  setSelectedBook: (value: React.SetStateAction<Book | undefined>) => void;
   quote: Quote | null;
 }
 
 export function addQuote(props: AddQuoteProps) {
-  const { book, quote } = props;
+  const { book, setSelectedBook, quote } = props;
   const quotes = book?.quotes;
 
   if (book && quote && quotes) {
     const newQuotes = addObjectToAnArray({ array: quotes, object: quote });
-    const newBook = book;
+    const newBook = { ...book };
     newBook.quotes = newQuotes;
 
     const localStorageBooks = localStorage.getItem('books');
     if (localStorageBooks) {
       const books = JSON.parse(localStorageBooks);
       const newBooks = editObjectFromAnArray({ array: books, object: newBook });
-      localStorage.setItem('books', JSON.stringify(newBooks));
-    }
 
-    addNewQuoteFirebase(quote, book);
+      localStorage.setItem('books', JSON.stringify(newBooks));
+
+      setSelectedBook(newBook);
+      console.log(newBook, 'new book');
+      addNewQuoteFirebase(quote, book, newQuotes);
+    }
   }
 }
 
@@ -76,19 +80,23 @@ export function deleteQuote(props: DeleteQuoteProps) {
   const { selectedBook, setSelectedBook, quote } = props;
   const quotes = selectedBook?.quotes;
 
+  console.log('delete quote');
+
   if (selectedBook && quotes) {
     const newQuotes = deleteObjectFromAnArray({
       array: quotes,
       object: quote,
     });
-    const newBook = selectedBook;
+    const newBook = { ...selectedBook };
     newBook.quotes = newQuotes;
+    console.log(newBook, 'new book');
     setSelectedBook(newBook);
 
     const localStorageBooks = localStorage.getItem('books');
     if (localStorageBooks) {
       const books = JSON.parse(localStorageBooks);
       const newBooks = editObjectFromAnArray({ array: books, object: newBook });
+      console.log(newBooks, 'new books plural');
       localStorage.setItem('books', JSON.stringify(newBooks));
     }
 

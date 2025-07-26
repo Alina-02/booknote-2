@@ -124,7 +124,8 @@ const SelectedBook = (props: Props) => {
           title={selectedBook?.title}
           deleteBookFunc={deleteBookFunc}
         />
-        {selectedBook?.quotes?.length > 0 ? (
+        {selectedBook.quotes !== undefined &&
+        selectedBook?.quotes?.length > 0 ? (
           <Masonry
             sx={{ paddingLeft: seeMenu ? 0 : 4 }}
             columns={{ xs: 1, sm: 2, md: 3 }}
@@ -148,6 +149,7 @@ const SelectedBook = (props: Props) => {
             </Paper>
             {selectedBook?.quotes?.map((quote) => (
               <QuoteCard
+                key={quote.text}
                 quote={quote}
                 onClick={() => {
                   setSelectedQuote(quote);

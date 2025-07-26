@@ -17,11 +17,13 @@ interface Props {
   modalState: ModalState;
   onClose: () => void;
   book?: Book;
+  setSelectedBook: (value: React.SetStateAction<Book | undefined>) => void;
+
   selectedQuote?: Quote;
 }
 
-export const AddQuoteModal = (props: Props) => {
-  const { modalState, onClose, book, selectedQuote } = props;
+export const QuoteModal = (props: Props) => {
+  const { modalState, onClose, book, setSelectedBook, selectedQuote } = props;
   const allBooks = JSON.parse(localStorage.getItem('books'));
 
   const open =
@@ -32,18 +34,18 @@ export const AddQuoteModal = (props: Props) => {
   };
 
   const handleQuoteSubmit = (form: {
-    quote: Quote | null;
+    textQuote: string | null;
     book: Book | null;
   }) => {
-    if (form.quote && form.book) {
-      const quote: Quote = {
-        text: form?.quote.text,
-      };
+    const quote: Quote = {
+      text: form.textQuote ? form.textQuote : '',
+    };
 
+    if (quote && form.book && book) {
       if (!selectedQuote) {
-        addQuote({ quote, book: form.book });
+        addQuote({ quote: quote, setSelectedBook, book: form.book });
       } else if (selectedQuote) {
-        editQuote({ quote, selectedQuote, book: form.book });
+        editQuote({ quote: quote, selectedQuote, book: form.book });
       }
       closeQuoteModal();
     }
@@ -73,11 +75,11 @@ export const AddQuoteModal = (props: Props) => {
             book !== undefined && !selectedQuote
               ? {
                   book: book,
-                  quote: null,
+                  textQuote: null,
                 }
               : book !== undefined && selectedQuote
-              ? { book: book, quote: selectedQuote }
-              : { book: null, quote: null }
+              ? { book: book, textQuote: selectedQuote.text }
+              : { book: null, textQuote: null }
           }
           onSubmit={handleQuoteSubmit}
         >
@@ -120,10 +122,10 @@ export const AddQuoteModal = (props: Props) => {
                       Quote
                     </Typography>
                     <TextField
-                      name="quote"
+                      name="textQuote"
                       title="Quote"
                       onChange={handleChange}
-                      value={values.quote?.text}
+                      value={values.textQuote}
                       multiline
                       maxRows={2}
                     />

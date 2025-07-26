@@ -21,7 +21,7 @@ import Masonry from '@mui/lab/Masonry';
 import { deleteBook, editBook } from '../utils/books';
 import { deleteQuote } from '../utils/quotes';
 import { getAllBooksFirebase } from '../services/firebase/database_services';
-import { AddQuoteModal } from '../components/quotes/AddQuoteModal';
+import { QuoteModal } from '../components/quotes/QuoteModal';
 import { ModalState } from '../utils/modals';
 
 const Main = () => {
@@ -114,13 +114,14 @@ const Main = () => {
         selectedBook={selectedBook}
         updateBookFunc={updateBookFunc}
       />
-      <AddQuoteModal
+      <QuoteModal
         modalState={openQuoteModal}
         onClose={() => {
           setSelectedQuote(undefined);
           setOpenQuoteModal(ModalState.CLOSED);
         }}
         book={selectedBook}
+        setSelectedBook={setSelectedBook}
         selectedQuote={selectedQuote}
       />
       <ProfilePopover

@@ -83,7 +83,11 @@ const LateralMenu = (props: Props) => {
           </Stack>
           <Stack spacing={1} sx={{ overflowY: 'scroll' }} maxHeight="750px">
             {JSON.parse(localStorage.getItem('books'))?.map((book: Book) => (
-              <BookCard book={book} onClick={() => onClickBookCard(book)} />
+              <BookCard
+                book={book}
+                onClick={() => onClickBookCard(book)}
+                key={book.bookId}
+              />
             ))}
           </Stack>
         </Stack>
