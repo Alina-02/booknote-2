@@ -44,6 +44,7 @@ const LateralMenu = (props: Props) => {
         justifyContent="space-between"
         sx={{
           backgroundColor: theme.palette.primary.light,
+          overflow: 'hidden',
         }}
       >
         <Stack spacing={2}>
@@ -81,7 +82,7 @@ const LateralMenu = (props: Props) => {
               </Button>
             </Tooltip>
           </Stack>
-          <Stack spacing={1} sx={{ overflowY: 'scroll' }} maxHeight="750px">
+          <Stack spacing={1} sx={{ overflow: 'scroll' }} height="650px">
             {JSON.parse(localStorage.getItem('books'))?.map((book: Book) => (
               <BookCard
                 book={book}
