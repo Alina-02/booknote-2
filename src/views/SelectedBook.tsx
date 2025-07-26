@@ -153,7 +153,7 @@ const SelectedBook = (props: Props) => {
                 quote={quote}
                 onClick={() => {
                   setSelectedQuote(quote);
-                  setOpenQuoteModal(ModalState.CREATING);
+                  setOpenQuoteModal(ModalState.EDITING);
                 }}
                 deleteQuote={deleteQuote}
               />

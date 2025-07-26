@@ -34,7 +34,6 @@ export function addQuote(props: AddQuoteProps) {
       const newBooks = editObjectFromAnArray({ array: books, object: newBook });
 
       localStorage.setItem('books', JSON.stringify(newBooks));
-      console.log(newBook);
       setSelectedBook(newBook);
       addNewQuoteFirebase(quote, book, newQuotes);
     }
@@ -44,11 +43,12 @@ export function addQuote(props: AddQuoteProps) {
 interface EditQuoteProps {
   quote: Quote;
   selectedQuote: Quote;
+  setSelectedBook: (value: React.SetStateAction<Book | undefined>) => void;
   book: Book | null;
 }
 
 export function editQuote(props: EditQuoteProps) {
-  const { quote, selectedQuote, book } = props;
+  const { quote, selectedQuote, setSelectedBook, book } = props;
   const quotes = book?.quotes;
 
   if (book && quotes) {
@@ -57,9 +57,10 @@ export function editQuote(props: EditQuoteProps) {
       originalObject: selectedQuote,
       object: quote,
     });
-    const newBook = book;
+    const newBook = { ...book };
     newBook.quotes = newQuotes;
 
+    setSelectedBook(newBook);
     const localStorageBooks = localStorage.getItem('books');
     if (localStorageBooks) {
       const books = JSON.parse(localStorageBooks);
@@ -81,8 +82,6 @@ export function deleteQuote(props: DeleteQuoteProps) {
   const { selectedBook, setSelectedBook, quote } = props;
   const quotes = selectedBook?.quotes;
 
-  console.log('delete quote');
-
   if (selectedBook && quotes) {
     const newQuotes = deleteObjectFromAnArray({
       array: quotes,
@@ -90,14 +89,12 @@ export function deleteQuote(props: DeleteQuoteProps) {
     });
     const newBook = { ...selectedBook };
     newBook.quotes = newQuotes;
-    console.log(newBook, 'new book');
     setSelectedBook(newBook);
 
     const localStorageBooks = localStorage.getItem('books');
     if (localStorageBooks) {
       const books = JSON.parse(localStorageBooks);
       const newBooks = editObjectFromAnArray({ array: books, object: newBook });
-      console.log(newBooks, 'new books plural');
       localStorage.setItem('books', JSON.stringify(newBooks));
     }
 
