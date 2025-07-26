@@ -22,6 +22,7 @@ import { deleteBook, editBook } from '../utils/books';
 import { deleteQuote } from '../utils/quotes';
 import { getAllBooksFirebase } from '../services/firebase/database_services';
 import { AddQuoteModal } from '../components/quotes/AddQuoteModal';
+import { ModalState } from '../utils/modals';
 
 const Main = () => {
   const theme = useTheme();
@@ -33,8 +34,12 @@ const Main = () => {
   );
   const [upsideDown, setUpsideDown] = useState(false);
 
-  const [openBookModal, setOpenBookModal] = useState<boolean>(false);
-  const [openQuoteModal, setOpenQuoteModal] = useState<boolean>(false);
+  const [openBookModal, setOpenBookModal] = useState<ModalState>(
+    ModalState.CLOSED
+  );
+  const [openQuoteModal, setOpenQuoteModal] = useState<ModalState>(
+    ModalState.CLOSED
+  );
 
   const [bookSearch, setBookSearch] = useState<Book[]>([]);
 
@@ -57,20 +62,22 @@ const Main = () => {
   const handleSearch = (inputSearch: string) => {
     setUpsideDown(true);
 
-    const filteredBooks = JSON.parse(localStorage.getItem('books')).filter(
-      (book: Book) => {
-        if (inputSearch === '') {
-          return book;
-        } else {
-          return (
-            book.author.toLowerCase().includes(inputSearch) ||
-            book.title.toLowerCase().includes(inputSearch)
-          );
+    const localStorageBooks = localStorage.getItem('books');
+    if (localStorageBooks) {
+      const filteredBooks = JSON.parse(localStorageBooks).filter(
+        (book: Book) => {
+          if (inputSearch === '') {
+            return book;
+          } else {
+            return (
+              book.author.toLowerCase().includes(inputSearch) ||
+              book.title.toLowerCase().includes(inputSearch)
+            );
+          }
         }
-      }
-    );
-
-    setBookSearch(filteredBooks);
+      );
+      setBookSearch(filteredBooks);
+    }
   };
 
   const onClickBookCard = (book: Book) => {
@@ -102,16 +109,16 @@ const Main = () => {
       }}
     >
       <BookModal
-        open={openBookModal}
-        onClose={() => setOpenBookModal(false)}
+        modalState={openBookModal}
+        onClose={() => setOpenBookModal(ModalState.CLOSED)}
         selectedBook={selectedBook}
         updateBookFunc={updateBookFunc}
       />
       <AddQuoteModal
-        open={openQuoteModal}
+        modalState={openQuoteModal}
         onClose={() => {
           setSelectedQuote(undefined);
-          setOpenQuoteModal(false);
+          setOpenQuoteModal(ModalState.CLOSED);
         }}
         book={selectedBook}
         selectedQuote={selectedQuote}
@@ -231,7 +238,7 @@ const Main = () => {
                 <Button
                   variant="contained"
                   sx={{ borderRadius: 100 }}
-                  onClick={() => setOpenBookModal(true)}
+                  onClick={() => setOpenBookModal(ModalState.CREATING)}
                 >
                   <MenuBookIcon />
                 </Button>
@@ -240,7 +247,7 @@ const Main = () => {
                 <Button
                   variant="contained"
                   sx={{ borderRadius: 100 }}
-                  onClick={() => setOpenQuoteModal(true)}
+                  onClick={() => setOpenQuoteModal(ModalState.CREATING)}
                 >
                   <FormatQuoteIcon />
                 </Button>

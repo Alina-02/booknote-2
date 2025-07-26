@@ -12,36 +12,31 @@ import {
 import React, { useRef, useState } from 'react';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CloseIcon from '@mui/icons-material/Close';
-//import { addNewBook } from '../../firebase/database_services';
-import { useForm } from '../../hooks/useForm';
 import { Book } from '../../utils/models/books';
 import { BookTags } from '../../utils/bookTags';
 import { Formik } from 'formik';
 import { addBook } from '../../utils/books';
+import { ModalState } from '../../utils/modals';
 
 interface Props {
-  open: boolean;
+  modalState: ModalState;
   onClose: () => void;
   selectedBook?: Book;
   updateBookFunc: (updatedBook: Book) => void;
 }
 
 const BookModal = (props: Props) => {
-  const { open, onClose, selectedBook, updateBookFunc } = props;
+  const { modalState, onClose, selectedBook, updateBookFunc } = props;
   const theme = useTheme();
+
+  const open =
+    modalState === ModalState.CREATING || modalState === ModalState.EDITING;
 
   const [tags, setTags] = useState<string[]>(
     selectedBook ? selectedBook.tags : []
   );
   const [cover, setCover] = useState<File | null>(null);
   const hiddenFileInput = useRef(null);
-
-  const { setForm } = useForm({
-    initialState: {
-      title: selectedBook ? selectedBook?.title : '',
-      author: selectedBook ? selectedBook?.author : '',
-    },
-  });
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -67,10 +62,7 @@ const BookModal = (props: Props) => {
 
   const closeBookModal = () => {
     setTags([]);
-    setForm({
-      title: '',
-      author: '',
-    });
+
     onClose();
   };
 
@@ -95,7 +87,7 @@ const BookModal = (props: Props) => {
 
         <Formik
           initialValues={
-            selectedBook
+            modalState === ModalState.EDITING && selectedBook
               ? {
                   title: selectedBook.title,
                   author: selectedBook.author,
@@ -220,16 +212,14 @@ const BookModal = (props: Props) => {
                       First quote
                     </Typography>
 
-                    <Box height="175px">
-                      <TextField
-                        sx={{ height: '175px' }}
-                        onChange={handleChange}
-                        value={values.quotes ? values.quotes[0] : ''}
-                        maxRows="4"
-                        multiline
-                        fullWidth
-                      />
-                    </Box>
+                    <TextField
+                      sx={{ height: '100%' }}
+                      onChange={handleChange}
+                      value={values.quotes ? values.quotes[0] : ''}
+                      maxRows="6"
+                      multiline
+                      fullWidth
+                    />
                   </Stack>
                 </Stack>
                 <Stack

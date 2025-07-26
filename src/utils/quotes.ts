@@ -68,20 +68,20 @@ export function editQuote(props: EditQuoteProps) {
 
 interface DeleteQuoteProps {
   setSelectedBook: (value: React.SetStateAction<Book | undefined>) => void;
-  book: Book | undefined;
+  selectedBook: Book | undefined;
   quote: Quote;
 }
 
 export function deleteQuote(props: DeleteQuoteProps) {
-  const { book, setSelectedBook, quote } = props;
-  const quotes = book?.quotes;
+  const { selectedBook, setSelectedBook, quote } = props;
+  const quotes = selectedBook?.quotes;
 
-  if (book && quotes) {
+  if (selectedBook && quotes) {
     const newQuotes = deleteObjectFromAnArray({
       array: quotes,
       object: quote,
     });
-    const newBook = book;
+    const newBook = selectedBook;
     newBook.quotes = newQuotes;
     setSelectedBook(newBook);
 
@@ -92,6 +92,6 @@ export function deleteQuote(props: DeleteQuoteProps) {
       localStorage.setItem('books', JSON.stringify(newBooks));
     }
 
-    deleteQuoteFirebase(quote, book);
+    deleteQuoteFirebase(quote, selectedBook);
   }
 }

@@ -63,13 +63,13 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 10,
-          height: 57,
+
           display: 'flex',
           alignItems: 'center',
         },
         notchedOutline: {
           borderRadius: 10,
-          height: 57,
+
           display: 'flex',
           alignItems: 'center',
         },

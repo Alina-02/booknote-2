@@ -16,9 +16,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import DeleteBookModal from '../components/books/DeleteBookModal';
+import { ModalState } from '../utils/modals';
 interface Props {
-  setOpenQuoteModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenBookModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenQuoteModal: React.Dispatch<React.SetStateAction<ModalState>>;
+  setOpenBookModal: React.Dispatch<React.SetStateAction<ModalState>>;
   selectedBook: Book;
   setSelectedQuote: React.Dispatch<React.SetStateAction<Quote | undefined>>;
   setSeeMenu: React.Dispatch<React.SetStateAction<boolean>>;
@@ -79,7 +80,7 @@ const SelectedBook = (props: Props) => {
               color: theme.palette.primary.contrastText,
             }}
             onClick={(e) => {
-              setOpenBookModal(true);
+              setOpenBookModal(ModalState.EDITING);
             }}
           >
             <EditIcon fontSize="medium" />
@@ -138,7 +139,10 @@ const SelectedBook = (props: Props) => {
                 justifyContent: 'center',
               }}
             >
-              <Button fullWidth onClick={() => setOpenQuoteModal(true)}>
+              <Button
+                fullWidth
+                onClick={() => setOpenQuoteModal(ModalState.EDITING)}
+              >
                 Add quote
               </Button>
             </Paper>
@@ -147,7 +151,7 @@ const SelectedBook = (props: Props) => {
                 quote={quote}
                 onClick={() => {
                   setSelectedQuote(quote);
-                  setOpenQuoteModal(true);
+                  setOpenQuoteModal(ModalState.CREATING);
                 }}
                 deleteQuote={deleteQuote}
               />
@@ -158,7 +162,7 @@ const SelectedBook = (props: Props) => {
             height="100%"
             alignItems="center"
             justifyContent="center"
-            onClick={() => setOpenQuoteModal(true)}
+            onClick={() => setOpenQuoteModal(ModalState.CREATING)}
           >
             <Button variant="contained" sx={{ width: '500px' }}>
               Nothing to see, but you can add something

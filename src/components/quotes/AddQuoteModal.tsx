@@ -11,17 +11,21 @@ import { Book } from '../../utils/models/books';
 import { Quote } from '../../utils/models/quotes';
 import { Formik } from 'formik';
 import { addQuote, editQuote } from '../../utils/quotes';
+import { ModalState } from '../../utils/modals';
 
 interface Props {
-  open: boolean;
+  modalState: ModalState;
   onClose: () => void;
   book?: Book;
   selectedQuote?: Quote;
 }
 
 export const AddQuoteModal = (props: Props) => {
-  const { open, onClose, book, selectedQuote } = props;
+  const { modalState, onClose, book, selectedQuote } = props;
   const allBooks = JSON.parse(localStorage.getItem('books'));
+
+  const open =
+    modalState === ModalState.CREATING || modalState === ModalState.EDITING;
 
   const closeQuoteModal = () => {
     onClose();

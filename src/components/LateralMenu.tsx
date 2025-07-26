@@ -8,6 +8,7 @@ import { Book } from '../utils/models/books';
 import BookCard from './books/BookCard';
 
 import { Sidebar } from 'react-pro-sidebar';
+import { ModalState } from '../utils/modals';
 
 interface Props {
   seeMenu: boolean;
@@ -15,7 +16,7 @@ interface Props {
   setUpsideDown: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedBook: React.Dispatch<React.SetStateAction<Book | undefined>>;
   onClickBookCard: (book: Book) => void;
-  setOpenBookModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenBookModal: React.Dispatch<React.SetStateAction<ModalState>>;
 }
 
 const LateralMenu = (props: Props) => {
@@ -89,7 +90,7 @@ const LateralMenu = (props: Props) => {
         <Button
           sx={{ marginTop: 2 }}
           variant="contained"
-          onClick={() => setOpenBookModal(true)}
+          onClick={() => setOpenBookModal(ModalState.CREATING)}
         >
           Add book
         </Button>

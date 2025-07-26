@@ -14,7 +14,7 @@ interface AddBookProps {
 export function addBook(props: AddBookProps) {
   const { cover, book } = props;
   if (cover) {
-    const coverId = getCoverId(book);
+    //const coverId = getCoverId(book);
     //const imageRef = ref(FirebaseStorage, `images/${coverId}`);
     //uploadBytes(imageRef, cover);
   }
@@ -41,11 +41,17 @@ export function editBook(props: EditBookProps) {
 
   updateBookFirebase({ ...updatedBook, bookId: selectedBook?.bookId });
   setSelectedBook(updatedBook);
-  const books = JSON.parse(localStorage.getItem('books'));
-  const bookIndex = books.findIndex((b) => b.bookId === updatedBook.bookId);
-  const newBooks = books;
-  newBooks[bookIndex] = updatedBook;
-  localStorage.setItem('books', JSON.stringify(newBooks));
+
+  const localStorageBooks = localStorage.getItem('books');
+  if (localStorageBooks) {
+    const books = JSON.parse(localStorageBooks);
+    const bookIndex = books.findIndex(
+      (b: Book) => b.bookId === updatedBook.bookId
+    );
+    const newBooks = books;
+    newBooks[bookIndex] = updatedBook;
+    localStorage.setItem('books', JSON.stringify(newBooks));
+  }
 }
 
 interface DeleteBookProps {
