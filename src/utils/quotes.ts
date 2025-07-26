@@ -19,9 +19,9 @@ interface AddQuoteProps {
 
 export function addQuote(props: AddQuoteProps) {
   const { book, setSelectedBook, quote } = props;
-  const quotes = book?.quotes;
+  const quotes = book?.quotes ? book?.quotes : [];
 
-  if (book && quote && quotes) {
+  if (book && quote) {
     const newQuotes = addObjectToAnArray({ array: quotes, object: quote });
     const newBook = { ...book };
     newBook.quotes = newQuotes;
@@ -34,7 +34,6 @@ export function addQuote(props: AddQuoteProps) {
       localStorage.setItem('books', JSON.stringify(newBooks));
 
       setSelectedBook(newBook);
-      console.log(newBook, 'new book');
       addNewQuoteFirebase(quote, book, newQuotes);
     }
   }

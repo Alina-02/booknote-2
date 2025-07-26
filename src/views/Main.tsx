@@ -44,6 +44,7 @@ const Main = () => {
   const [bookSearch, setBookSearch] = useState<Book[]>([]);
 
   const [selectedBook, setSelectedBook] = useState<Book>();
+  console.log(selectedBook);
   const [selectedQuote, setSelectedQuote] = useState<Quote>();
 
   useEffect(() => {
