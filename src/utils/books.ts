@@ -1,3 +1,5 @@
+import { ref, uploadBytes } from 'firebase/storage';
+import { FirebaseStorage } from '../services/firebase/config';
 import {
   addNewBookFirebase,
   deleteBookFirebase,
@@ -14,17 +16,16 @@ interface AddBookProps {
 export function addBook(props: AddBookProps) {
   const { cover, book } = props;
   if (cover) {
-    //const coverId = getCoverId(book);
-    //const imageRef = ref(FirebaseStorage, `images/${coverId}`);
-    //uploadBytes(imageRef, cover);
+    const coverId = getCoverId(book);
+    const imageRef = ref(FirebaseStorage, `images/${coverId}`);
+    uploadBytes(imageRef, cover);
   }
 
   addNewBookFirebase(book);
-
+  console.log(book);
   const localStorageBooks = localStorage.getItem('books');
   if (localStorageBooks) {
     const books = JSON.parse(localStorageBooks);
-
     const newBooks = [...books, book];
     localStorage.setItem('books', JSON.stringify(newBooks));
   }

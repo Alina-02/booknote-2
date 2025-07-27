@@ -41,7 +41,6 @@ const BookModal = (props: Props) => {
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      console.log('setea');
       const file = e.target.files[0];
       setCover(file);
       setCoverImageUrl(URL.createObjectURL(file));
@@ -64,10 +63,10 @@ const BookModal = (props: Props) => {
       title: values.title,
       author: values.author,
       tags: values.tags,
-      quotes: [],
+      quotes: values.quotes,
     };
 
-    if (selectedBook) {
+    if (modalState === ModalState.EDITING) {
       updateBookFunc(book);
     } else {
       addBook({ cover, book });
@@ -109,7 +108,7 @@ const BookModal = (props: Props) => {
                   author: selectedBook.author,
                   tags: selectedBook.tags,
                 }
-              : { title: '', author: '', tags: [''], quotes: [] }
+              : { title: '', author: '', tags: [''], quotes: [{ text: '' }] }
           }
           onSubmit={createNewBook}
         >
@@ -239,8 +238,11 @@ const BookModal = (props: Props) => {
                     <TextField
                       disabled={modalState === ModalState.EDITING}
                       sx={{ height: '100%' }}
-                      onChange={handleChange}
-                      value={values.quotes ? values.quotes[0] : ''}
+                      onChange={(e) => {
+                        const firstQuote = e.target.value;
+                        setFieldValue('quotes', [{ text: firstQuote }]);
+                      }}
+                      value={values.quotes ? values.quotes[0].text : ''}
                       maxRows="6"
                       multiline
                       fullWidth
