@@ -9,7 +9,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import { Book } from '../../utils/models/books';
@@ -36,13 +36,28 @@ const BookModal = (props: Props) => {
     selectedBook ? selectedBook.tags : []
   );
   const [cover, setCover] = useState<File | null>(null);
-  const hiddenFileInput = useRef(null);
+  const [coverImageUrl, setCoverImageUrl] = useState<string | null>(null);
+  const hiddenFileInput = useRef<HTMLInputElement>(null);
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setCover(e.target.files[0]);
+      console.log('setea');
+      const file = e.target.files[0];
+      setCover(file);
+      setCoverImageUrl(URL.createObjectURL(file));
+    } else {
+      setCover(null);
+      setCoverImageUrl(null);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (coverImageUrl) {
+        URL.revokeObjectURL(coverImageUrl);
+      }
+    };
+  }, [coverImageUrl]);
 
   const createNewBook = (values: Book) => {
     const book: Book = {
@@ -62,7 +77,8 @@ const BookModal = (props: Props) => {
 
   const closeBookModal = () => {
     setTags([]);
-
+    setCover(null);
+    setCoverImageUrl(null);
     onClose();
   };
 
@@ -184,13 +200,21 @@ const BookModal = (props: Props) => {
                       justifyContent="center"
                       alignItems="center"
                       borderRadius="10px"
-                      sx={{ backgroundColor: theme.palette.primary.light }}
+                      sx={{
+                        backgroundImage: coverImageUrl
+                          ? `url(${coverImageUrl})`
+                          : 'none',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                        backgroundColor: theme.palette.primary.light,
+                      }}
                     >
                       <input
                         id="file"
                         type="file"
                         style={{ display: 'none' }}
-                        onChange={handleChange}
+                        onChange={handleCoverChange}
                         ref={hiddenFileInput}
                         accept="image/png,image/jpeg"
                       />
