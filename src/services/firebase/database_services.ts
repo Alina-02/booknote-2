@@ -135,5 +135,3 @@ export const udpateQuoteFirebase = async (
     alert((e as Error).message + ' deleting a quote.');
   }
 };
-
-export const getQuotesFromBook = (bookId: Book) => {};
