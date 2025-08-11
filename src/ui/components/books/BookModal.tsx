@@ -12,11 +12,11 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CloseIcon from '@mui/icons-material/Close';
-import { Book } from '../../utils/models/books';
-import { BookTags } from '../../utils/bookTags';
+import { Book } from '../../../domain/models/books';
+import { BookTags } from '../../../domain/bookTags';
 import { Formik } from 'formik';
-import { addBook } from '../../utils/books';
-import { ModalState } from '../../utils/modals';
+import { ModalState } from '../../../domain/modals';
+import { addBook } from '../../../application/books';
 
 interface Props {
   modalState: ModalState;

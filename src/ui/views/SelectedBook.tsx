@@ -12,21 +12,19 @@ import {
 import QuoteCard from '../components/quotes/QuoteCard';
 import DeleteBookModal from '../components/books/DeleteBookModal';
 
-import { Book } from '../utils/models/books';
-import { Quote } from '../utils/models/quotes';
-import { ModalState } from '../utils/modals';
+import { Quote } from '../../domain/models/quotes';
+import { ModalState } from '../../domain/modals';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useStore } from '../store/useStore';
 
 interface Props {
   setOpenQuoteModal: React.Dispatch<React.SetStateAction<ModalState>>;
   setOpenBookModal: React.Dispatch<React.SetStateAction<ModalState>>;
-  selectedBook: Book;
   setSelectedQuote: React.Dispatch<React.SetStateAction<Quote | undefined>>;
-  setSeeMenu: React.Dispatch<React.SetStateAction<boolean>>;
-  seeMenu: boolean;
+
   deleteBookFunc: () => void;
   deleteQuote: (quote: Quote) => void;
 }
@@ -35,14 +33,14 @@ const SelectedBook = (props: Props) => {
   const {
     setOpenQuoteModal,
     setOpenBookModal,
-    selectedBook,
-    setSeeMenu,
+
     setSelectedQuote,
-    seeMenu,
+
     deleteBookFunc,
     deleteQuote,
   } = props;
   const theme = useTheme();
+  const { selectedBook } = useStore();
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
   return (
@@ -68,7 +66,7 @@ const SelectedBook = (props: Props) => {
               color: theme.palette.primary.contrastText,
             }}
             onClick={() => {
-              setSeeMenu(!seeMenu);
+              //setSeeMenu(!seeMenu);
             }}
           >
             <MenuIcon sx={{ fontSize: '30px' }} />
@@ -107,7 +105,7 @@ const SelectedBook = (props: Props) => {
       </Stack>
       <Stack
         width="100%"
-        height="100%"
+        height="100vh"
         paddingX={3}
         paddingBottom={3}
         overflow="scroll"
@@ -119,18 +117,18 @@ const SelectedBook = (props: Props) => {
             color: theme.palette.mode === 'dark' ? 'white' : 'black',
           }}
         >
-          <Typography variant="h5">{selectedBook.title}</Typography>
+          <Typography variant="h5">{selectedBook?.title}</Typography>
         </Stack>
         <DeleteBookModal
           open={deleteModal}
           setOpen={setDeleteModal}
-          title={selectedBook?.title}
+          title={selectedBook ? selectedBook.title : 'No title'}
           deleteBookFunc={deleteBookFunc}
         />
-        {selectedBook.quotes !== undefined &&
+        {selectedBook?.quotes !== undefined &&
         selectedBook?.quotes?.length > 0 ? (
           <Masonry
-            sx={{ paddingLeft: seeMenu ? 0 : 4 }}
+            sx={{ paddingLeft: 4 }}
             columns={{ xs: 1, sm: 2, md: 3 }}
             spacing={1}
           >

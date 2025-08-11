@@ -7,23 +7,23 @@ import {
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Book } from '../../utils/models/books';
-import { Quote } from '../../utils/models/quotes';
+import { Book } from '../../../domain/models/books';
+import { Quote } from '../../../domain/models/quotes';
 import { Formik } from 'formik';
-import { addQuote, editQuote } from '../../utils/quotes';
-import { ModalState } from '../../utils/modals';
+import { addQuote, editQuote } from '../../../application/quotes';
+import { ModalState } from '../../../domain/modals';
+import { useStore } from '../../store/useStore';
 
 interface Props {
   modalState: ModalState;
   onClose: () => void;
-  book?: Book;
-  setSelectedBook: (value: React.SetStateAction<Book | undefined>) => void;
 
   selectedQuote?: Quote;
 }
 
 export const QuoteModal = (props: Props) => {
-  const { modalState, onClose, book, setSelectedBook, selectedQuote } = props;
+  const { modalState, onClose, selectedQuote } = props;
+  const { selectedBook, setSelectedBook } = useStore();
 
   const localStorageBooks = localStorage.getItem('books');
   const allBooks = localStorageBooks ? JSON.parse(localStorageBooks) : [];
@@ -43,7 +43,7 @@ export const QuoteModal = (props: Props) => {
       text: form.textQuote ? form.textQuote : '',
     };
 
-    if (quote && form.book && book) {
+    if (quote && form.book && selectedBook) {
       if (!selectedQuote) {
         addQuote({ quote: quote, setSelectedBook, book: form.book });
       } else if (selectedQuote) {
@@ -79,15 +79,15 @@ export const QuoteModal = (props: Props) => {
 
         <Formik
           initialValues={
-            book !== undefined && !selectedQuote
+            selectedBook !== null && !selectedQuote
               ? {
-                  book: book,
+                  book: selectedBook,
                   textQuote: null,
                 }
-              : book !== undefined &&
+              : selectedBook !== undefined &&
                 selectedQuote &&
                 modalState === ModalState.EDITING
-              ? { book: book, textQuote: selectedQuote.text }
+              ? { book: selectedBook, textQuote: selectedQuote.text }
               : { book: null, textQuote: null }
           }
           onSubmit={handleQuoteSubmit}
@@ -115,7 +115,7 @@ export const QuoteModal = (props: Props) => {
                         );
                         setFieldValue('book', book);
                       }}
-                      disabled={book !== undefined}
+                      disabled={selectedBook !== null}
                       value={values.book?.bookId}
                       select
                     >

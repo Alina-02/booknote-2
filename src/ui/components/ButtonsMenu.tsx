@@ -1,28 +1,22 @@
 import { Button, Stack, Tooltip } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 
 import PersonIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Book } from '../utils/models/books';
+import ProfilePopover from './ProfilePopover';
 
 interface Props {
-  setAnchorEl: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>;
-  setOpenProfilePopover: React.Dispatch<React.SetStateAction<boolean>>;
   seeMenu: boolean;
   setSeeMenu: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedBook: Book | undefined;
-  setSelectedBook: React.Dispatch<React.SetStateAction<Book | undefined>>;
-  setUpsideDown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ButtonsMenu = (props: Props) => {
-  const {
-    setAnchorEl,
-    setOpenProfilePopover,
-    seeMenu,
-    setSeeMenu,
-    selectedBook,
-  } = props;
+  const { seeMenu, setSeeMenu } = props;
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+  const [openProfilePopover, setOpenProfilePopover] = useState<boolean>(false);
+
   return (
     <Stack>
       <Button
@@ -33,6 +27,7 @@ const ButtonsMenu = (props: Props) => {
           position: 'absolute',
           top: 10,
           right: 10,
+          zIndex: 2,
         }}
         onClick={(e) => {
           setAnchorEl(e.currentTarget);
@@ -41,26 +36,32 @@ const ButtonsMenu = (props: Props) => {
       >
         <PersonIcon fontSize="large" />
       </Button>
-      {!seeMenu && !selectedBook && (
-        <Tooltip title="Books" placement={'right'} arrow>
-          <Button
-            variant={'contained'}
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-              position: 'absolute',
-              top: 10,
-              left: 10,
-            }}
-            onClick={() => {
-              setSeeMenu(!seeMenu);
-            }}
-          >
-            <MenuIcon sx={{ fontSize: '30px' }} />
-          </Button>
-        </Tooltip>
-      )}
+
+      <ProfilePopover
+        open={openProfilePopover}
+        handleClose={() => setOpenProfilePopover(false)}
+        anchorEl={anchorEl}
+      />
+
+      <Tooltip title="Books" placement={'right'} arrow>
+        <Button
+          variant={'contained'}
+          size="small"
+          sx={{
+            width: '30px',
+            height: '50px',
+            position: 'absolute',
+            top: 10,
+            left: 10,
+          }}
+          onClick={() => {
+            setSeeMenu(!seeMenu);
+          }}
+        >
+          <MenuIcon sx={{ fontSize: '30px' }} />
+        </Button>
+      </Tooltip>
+
       {/*selectedBook && !seeMenu && (
         <Tooltip title="Main page" arrow>
           <Button

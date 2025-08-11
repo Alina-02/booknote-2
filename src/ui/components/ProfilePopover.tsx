@@ -9,8 +9,8 @@ import {
 import { useContext } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ContrastIcon from '@mui/icons-material/Contrast';
-import { AuthContext } from '../context/authContext';
-import { useNavigate } from 'react-router';
+import { AuthContext } from '../../context/authContext';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   open: boolean;

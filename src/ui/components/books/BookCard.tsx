@@ -1,5 +1,5 @@
 import React, { RefObject, useEffect } from 'react';
-import { Book } from '../../utils/models/books';
+import { Book } from '../../../domain/models/books';
 import {
   Card,
   CardActionArea,
@@ -10,8 +10,8 @@ import {
   useTheme,
 } from '@mui/material';
 import { ref, getDownloadURL } from 'firebase/storage';
-import { FirebaseStorage } from '../../services/firebase/config';
-import { getCoverId } from '../../utils/utils';
+import { FirebaseStorage } from '../../../infrastructure/config';
+import { getCoverId } from '../../../utils/utils';
 
 interface Props {
   book: Book;

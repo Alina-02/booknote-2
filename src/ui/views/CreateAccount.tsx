@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 
-import { useForm } from '../hooks/useForm';
+import { useForm } from '../../hooks/useForm';
 import { Button, Stack, TextField, Typography } from '@mui/material';
-import { AuthContext } from '../context/authContext';
+import { AuthContext } from '../../context/authContext';
 
 const CreateAccount = () => {
   const navigate = useNavigate();

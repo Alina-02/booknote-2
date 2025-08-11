@@ -11,8 +11,8 @@ import {
 import { Stack } from '@mui/system';
 
 import { useNavigate } from 'react-router-dom';
-import { useForm } from '../hooks/useForm';
-import { AuthContext } from '../context/authContext';
+import { useForm } from '../../hooks/useForm';
+import { AuthContext } from '../../context/authContext';
 
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';

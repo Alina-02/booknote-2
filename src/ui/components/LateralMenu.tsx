@@ -1,34 +1,24 @@
 import { Button, Stack, Tooltip, useTheme } from '@mui/material';
-import React from 'react';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 
-import { Book } from '../utils/models/books';
 import BookCard from './books/BookCard';
 
 import { Sidebar } from 'react-pro-sidebar';
-import { ModalState } from '../utils/modals';
+import { Book } from '../../domain/models/books';
+import { useStore } from '../store/useStore';
 
 interface Props {
   seeMenu: boolean;
   setSeeMenu: React.Dispatch<React.SetStateAction<boolean>>;
-  setUpsideDown: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedBook: React.Dispatch<React.SetStateAction<Book | undefined>>;
-  onClickBookCard: (book: Book) => void;
-  setOpenBookModal: React.Dispatch<React.SetStateAction<ModalState>>;
 }
 
 const LateralMenu = (props: Props) => {
-  const {
-    seeMenu,
-    setSeeMenu,
-    setUpsideDown,
-    setSelectedBook,
-    onClickBookCard,
-    setOpenBookModal,
-  } = props;
+  const { seeMenu, setSeeMenu } = props;
   const theme = useTheme();
+
+  const { setSelectedBook } = useStore();
 
   return (
     <Sidebar
@@ -73,32 +63,31 @@ const LateralMenu = (props: Props) => {
                   height: '50px',
                 }}
                 onClick={() => {
-                  setUpsideDown(false);
                   setSeeMenu(false);
-                  setSelectedBook(undefined);
+                  setSelectedBook(null);
                 }}
               >
                 <HomeIcon sx={{ fontSize: '30px' }} />
               </Button>
             </Tooltip>
           </Stack>
-          <Stack spacing={1} sx={{ overflow: 'scroll' }} height="650px">
+          <Stack spacing={1} sx={{ overflow: 'scroll' }} height="700px">
             {JSON.parse(localStorage.getItem('books'))?.map((book: Book) => (
               <BookCard
                 book={book}
-                onClick={() => onClickBookCard(book)}
+                onClick={() => setSelectedBook(book)}
                 key={book.bookId}
               />
             ))}
           </Stack>
         </Stack>
-        <Button
+        {/*<Button
           sx={{ marginTop: 2 }}
           variant="contained"
           onClick={() => setOpenBookModal(ModalState.CREATING)}
         >
           Add book
-        </Button>
+        </Button>*/}
       </Stack>
     </Sidebar>
   );

@@ -1,10 +1,10 @@
 import { createContext, JSX, useEffect, useState } from 'react';
 import {
+  logInWithCredentials,
   logoutFirebase,
   onAuthStateHasChanged,
   signInWithCredentials,
-} from '../services/firebase/services';
-import { logInWithCredentials } from '../services/firebase/services';
+} from '../infrastructure/services';
 
 export interface AuthStateContext {
   userId: string | null;

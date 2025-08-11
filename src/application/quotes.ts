@@ -1,19 +1,19 @@
+import { Book } from '../domain/models/books';
+import { Quote } from '../domain/models/quotes';
 import {
   addNewQuoteFirebase,
   deleteQuoteFirebase,
   udpateQuoteFirebase,
-} from '../services/firebase/database_services';
-import { Book } from './models/books';
-import { Quote } from './models/quotes';
+} from '../infrastructure/database_services';
 import {
   addObjectToAnArray,
   deleteObjectFromAnArray,
   editObjectFromAnArray,
-} from './utils';
+} from '../utils/utils';
 
 interface AddQuoteProps {
   book: Book | null;
-  setSelectedBook: (value: React.SetStateAction<Book | undefined>) => void;
+  setSelectedBook: (book: Book | null) => void;
   quote: Quote | null;
 }
 
@@ -43,7 +43,7 @@ export function addQuote(props: AddQuoteProps) {
 interface EditQuoteProps {
   quote: Quote;
   selectedQuote: Quote;
-  setSelectedBook: (value: React.SetStateAction<Book | undefined>) => void;
+  setSelectedBook: (book: Book | null) => void;
   book: Book | null;
 }
 
@@ -73,8 +73,8 @@ export function editQuote(props: EditQuoteProps) {
 }
 
 interface DeleteQuoteProps {
-  setSelectedBook: (value: React.SetStateAction<Book | undefined>) => void;
-  selectedBook: Book | undefined;
+  setSelectedBook: (book: Book | null) => void;
+  selectedBook: Book | null;
   quote: Quote;
 }
 

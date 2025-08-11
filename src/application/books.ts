@@ -1,12 +1,12 @@
 import { ref, uploadBytes } from 'firebase/storage';
-import { FirebaseStorage } from '../services/firebase/config';
+import { FirebaseStorage } from '../infrastructure/config';
+import { Book } from '../domain/models/books';
+import { getCoverId } from '../utils/utils';
 import {
   addNewBookFirebase,
   deleteBookFirebase,
   updateBookFirebase,
-} from '../services/firebase/database_services';
-import { Book } from './models/books';
-import { getCoverId } from './utils';
+} from '../infrastructure/database_services';
 
 interface AddBookProps {
   cover: File | null;
@@ -32,8 +32,8 @@ export function addBook(props: AddBookProps) {
 }
 
 interface EditBookProps {
-  setSelectedBook: (value: React.SetStateAction<Book | undefined>) => void;
-  selectedBook: Book | undefined;
+  setSelectedBook: (book: Book | null) => void;
+  selectedBook: Book | null;
   updatedBook: Book;
 }
 
@@ -56,8 +56,8 @@ export function editBook(props: EditBookProps) {
 }
 
 interface DeleteBookProps {
-  setSelectedBook: (value: React.SetStateAction<Book | undefined>) => void;
-  selectedBook: Book | undefined;
+  setSelectedBook: (book: Book | null) => void;
+  selectedBook: Book | null;
 }
 
 export function deleteBook(props: DeleteBookProps) {
@@ -72,6 +72,6 @@ export function deleteBook(props: DeleteBookProps) {
       );
       localStorage.setItem('books', JSON.stringify(books));
     }
-    setSelectedBook(undefined);
+    setSelectedBook(null);
   }
 }
