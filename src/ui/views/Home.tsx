@@ -118,6 +118,7 @@ const Home = () => {
                   sx={{
                     height: '55px',
                     color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                    fontSize: { sm: '3rem', md: '4rem' },
                   }}
                 >
                   Find a
@@ -126,6 +127,7 @@ const Home = () => {
                   variant="h1"
                   sx={{
                     color: theme.palette.mode === 'dark' ? 'white' : 'black',
+                    fontSize: { sm: '4rem', md: '6rem' },
                   }}
                 >
                   BookNote
@@ -135,17 +137,7 @@ const Home = () => {
 
             {!selectedBook && (
               <>
-                <MotionBox
-                  width={550}
-                  maxWidth={675}
-                  initial={false}
-                  animate={{
-                    y: 0,
-                  }}
-                  transition={{ type: 'spring', stiffness: 100 }}
-                >
-                  <SearchBar handleSearch={handleSearch} />
-                </MotionBox>
+                <SearchBar handleSearch={handleSearch} />
                 <Masonry
                   sx={{
                     paddingLeft: 4,

@@ -18,7 +18,7 @@ const SearchBar = (props: Props) => {
         borderRadius: '50px',
         overflow: 'hidden',
         width: '100%',
-        maxWidth: 675,
+        maxWidth: 575,
         backgroundColor: theme.palette.primary.light,
       }}
     >

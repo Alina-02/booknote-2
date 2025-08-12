@@ -1,10 +1,13 @@
-import React, { PropsWithChildren, useState } from 'react';
-import LateralMenu from '../components/LateralMenu';
+import { PropsWithChildren, useState } from 'react';
+import LateralMenu from '../components/lateralMenu/LateralMenu';
 import ButtonsMenu from '../components/ButtonsMenu';
-import { Box, Stack } from '@mui/material';
+import { Box, Stack, useMediaQuery } from '@mui/material';
 
 const Layout = ({ children }: PropsWithChildren) => {
   const [seeMenu, setSeeMenu] = useState<boolean>(false);
+  const isMobile = useMediaQuery('(min-width:600px)');
+
+  const onlyMenu = isMobile && seeMenu;
 
   return (
     <Stack direction="row">
@@ -12,7 +15,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 
       <Box sx={{ width: '100%' }}>
         <ButtonsMenu seeMenu={seeMenu} setSeeMenu={setSeeMenu} />
-        {children}
+        {onlyMenu ? <></> : children}
       </Box>
     </Stack>
   );

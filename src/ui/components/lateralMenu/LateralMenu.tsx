@@ -1,13 +1,13 @@
-import { Button, Stack, Tooltip, useTheme } from '@mui/material';
+import { Button, Stack, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 
-import BookCard from './books/BookCard';
+import BookCard from '../books/BookCard';
 
 import { Sidebar } from 'react-pro-sidebar';
-import { Book } from '../../domain/models/books';
-import { useStore } from '../store/useStore';
+import { Book } from '../../../domain/models/books';
+import { useStore } from '../../store/useStore';
 
 interface Props {
   seeMenu: boolean;
@@ -17,6 +17,7 @@ interface Props {
 const LateralMenu = (props: Props) => {
   const { seeMenu, setSeeMenu } = props;
   const theme = useTheme();
+  const isMobile = useMediaQuery('(min-width:600px)');
 
   const { setSelectedBook, books } = useStore();
 
@@ -24,7 +25,7 @@ const LateralMenu = (props: Props) => {
     <Sidebar
       collapsed={!seeMenu}
       collapsedWidth="0"
-      width="350px"
+      width={isMobile ? '100vw' : '350px'}
       style={{ borderRightStyle: 'none' }}
     >
       <Stack
@@ -73,13 +74,16 @@ const LateralMenu = (props: Props) => {
           </Stack>
           <Stack
             spacing={1}
-            sx={{ overflowY: 'scroll', paddingRight: 1.5 }}
+            sx={{ overflowY: 'auto', paddingRight: 1.5 }}
             height="calc(100vh - 100px)"
           >
             {books?.map((book: Book) => (
               <BookCard
                 book={book}
-                onClick={() => setSelectedBook(book)}
+                onClick={() => {
+                  setSeeMenu(false);
+                  setSelectedBook(book);
+                }}
                 key={book.bookId}
               />
             ))}

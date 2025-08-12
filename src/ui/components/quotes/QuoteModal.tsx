@@ -74,7 +74,12 @@ export const QuoteModal = (props: Props) => {
       </Button>
       <Stack mx={3} mb={3} mt={1} spacing={3}>
         <Stack alignItems="center" paddingX={7}>
-          <Typography variant="h2">Add quote</Typography>
+          <Typography
+            variant="h2"
+            sx={{ fontSize: { sm: '4rem', md: '5rem' } }}
+          >
+            Add quote
+          </Typography>
         </Stack>
 
         <Formik
