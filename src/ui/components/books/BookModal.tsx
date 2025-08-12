@@ -101,7 +101,7 @@ const BookModal = (props: Props) => {
             variant="h2"
             sx={{ fontSize: { sm: '4rem', md: '6rem' } }}
           >
-            Add book
+            {modalState !== ModalState.CREATING ? 'Edit book' : 'Add book'}
           </Typography>
         </Stack>
 

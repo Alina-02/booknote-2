@@ -90,7 +90,7 @@ const SelectedBook = (props: Props) => {
         </Button>
       </Tooltip>
 
-      <Stack width="100%" paddingX={3} paddingBottom={3} overflow="scroll">
+      <Stack width="100%" paddingX={10} paddingBottom={3} overflow="scroll">
         <Stack
           alignItems="center"
           padding={5}

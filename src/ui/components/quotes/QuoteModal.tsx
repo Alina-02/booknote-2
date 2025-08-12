@@ -79,7 +79,7 @@ export const QuoteModal = (props: Props) => {
             variant="h2"
             sx={{ fontSize: { sm: '4rem', md: '5rem' } }}
           >
-            Add quote
+            {modalState !== ModalState.CREATING ? 'Edit quote' : 'Add quote'}
           </Typography>
         </Stack>
 
