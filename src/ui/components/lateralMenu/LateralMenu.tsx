@@ -1,4 +1,4 @@
-import { Button, Stack, Tooltip, useMediaQuery, useTheme } from '@mui/material';
+import { Button, Stack, Tooltip, useTheme } from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
@@ -6,6 +6,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import BookCard from '../books/BookCard';
 
 import { Sidebar } from 'react-pro-sidebar';
+import { useMediaQuery } from 'react-responsive';
+
 import { Book } from '../../../domain/models/books';
 import { useStore } from '../../store/useStore';
 
@@ -17,7 +19,7 @@ interface Props {
 const LateralMenu = (props: Props) => {
   const { seeMenu, setSeeMenu } = props;
   const theme = useTheme();
-  const isMobile = useMediaQuery('(min-width:600px)');
+  const isMobile = useMediaQuery({ maxWidth: 700 });
 
   const { setSelectedBook, books } = useStore();
 

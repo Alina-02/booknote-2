@@ -17,7 +17,6 @@ import { ModalState } from '../../domain/modals';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import MenuIcon from '@mui/icons-material/Menu';
 import { useStore } from '../store/useStore';
 
 interface Props {
@@ -52,58 +51,45 @@ const SelectedBook = (props: Props) => {
       justifyContent="center"
       direction="row"
     >
-      <Stack
-        minWidth="70px"
-        width="70px"
-        height="100%"
-        sx={{ backgroundColor: theme.palette.primary.main }}
-      >
-        <Tooltip title="Books" arrow>
-          <Button
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-              color: theme.palette.primary.contrastText,
-            }}
-            onClick={() => {
-              //setSeeMenu(!seeMenu);
-            }}
-          >
-            <MenuIcon sx={{ fontSize: '30px' }} />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Edit book" arrow>
-          <Button
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-              color: theme.palette.primary.contrastText,
-            }}
-            onClick={() => {
-              setOpenBookModal(ModalState.EDITING);
-            }}
-          >
-            <EditIcon fontSize="medium" />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Delete book" arrow>
-          <Button
-            size="small"
-            sx={{
-              width: '30px',
-              height: '50px',
-              color: theme.palette.primary.contrastText,
-            }}
-            onClick={() => {
-              setDeleteModal(true);
-            }}
-          >
-            <DeleteIcon fontSize="medium" />
-          </Button>
-        </Tooltip>
-      </Stack>
+      <Tooltip title="Edit book" placement={'right'} arrow>
+        <Button
+          size="small"
+          variant={'contained'}
+          sx={{
+            width: '50px',
+            height: '50px',
+            position: 'absolute',
+            top: 70,
+            left: 10,
+            zIndex: 2,
+          }}
+          onClick={() => {
+            setOpenBookModal(ModalState.EDITING);
+          }}
+        >
+          <EditIcon fontSize="medium" />
+        </Button>
+      </Tooltip>
+      <Tooltip title="Delete book" placement={'right'} arrow>
+        <Button
+          size="small"
+          variant={'contained'}
+          sx={{
+            width: '50px',
+            height: '50px',
+            position: 'absolute',
+            top: 130,
+            left: 10,
+            zIndex: 2,
+          }}
+          onClick={() => {
+            setDeleteModal(true);
+          }}
+        >
+          <DeleteIcon fontSize="medium" />
+        </Button>
+      </Tooltip>
+
       <Stack width="100%" paddingX={3} paddingBottom={3} overflow="scroll">
         <Stack
           alignItems="center"

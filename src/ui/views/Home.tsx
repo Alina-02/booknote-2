@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Stack, Tooltip, Typography } from '@mui/material';
+import { Button, Stack, Tooltip, Typography } from '@mui/material';
 
 import { ModalState } from '../../domain/modals';
 import { Book } from '../../domain/models/books';
@@ -12,7 +12,6 @@ import { deleteQuote } from '../../application/quotes';
 
 import { DarkColors, theme } from '../theme/theme';
 import { useStore } from '../store/useStore';
-import { motion } from 'framer-motion';
 
 import Masonry from '@mui/lab/Masonry';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -33,8 +32,6 @@ const Home = () => {
   const [openQuoteModal, setOpenQuoteModal] = useState<ModalState>(
     ModalState.CLOSED
   );
-
-  const MotionBox = motion(Box);
 
   const handleSearch = (inputSearch: string) => {
     const localStorageBooks = localStorage.getItem('books');
