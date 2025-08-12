@@ -8,6 +8,21 @@ body {
 * {
   -ms-overflow-style: none;
 }
+
 ::-webkit-scrollbar {
-  display: none;
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #785d53;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5e443b;
 }

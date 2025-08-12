@@ -46,6 +46,7 @@ const SelectedBook = (props: Props) => {
   return (
     <Stack
       width="100%"
+      height="100%"
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -54,7 +55,7 @@ const SelectedBook = (props: Props) => {
       <Stack
         minWidth="70px"
         width="70px"
-        height="100vh"
+        height="100%"
         sx={{ backgroundColor: theme.palette.primary.main }}
       >
         <Tooltip title="Books" arrow>
@@ -103,13 +104,7 @@ const SelectedBook = (props: Props) => {
           </Button>
         </Tooltip>
       </Stack>
-      <Stack
-        width="100%"
-        height="100vh"
-        paddingX={3}
-        paddingBottom={3}
-        overflow="scroll"
-      >
+      <Stack width="100%" paddingX={3} paddingBottom={3} overflow="scroll">
         <Stack
           alignItems="center"
           padding={5}

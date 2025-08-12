@@ -8,6 +8,7 @@ interface StoreState {
   addBook: (book: Book) => void;
   removeBook: (bookId: string) => void;
   updateBook: (book: Book) => void;
+  setBooks: (books: Book[]) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -25,4 +26,5 @@ export const useStore = create<StoreState>((set) => ({
         book.bookId === updatedBook.bookId ? updatedBook : book
       ),
     })),
+  setBooks: (books) => set(() => ({ books: books })),
 }));

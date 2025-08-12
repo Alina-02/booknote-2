@@ -6,11 +6,12 @@ import Home from './Home';
 import { useStore } from '../store/useStore';
 
 const Main = () => {
-  const { selectedBook, setSelectedBook } = useStore();
+  const { selectedBook, setSelectedBook, setBooks } = useStore();
 
   useEffect(() => {
     getAllBooksFirebase().then((books) => {
       localStorage.setItem('books', JSON.stringify(books));
+      setBooks(books);
 
       if (selectedBook) {
         const b = books.find((b) => b.bookId === selectedBook.bookId);

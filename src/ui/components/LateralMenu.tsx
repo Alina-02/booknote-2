@@ -18,7 +18,7 @@ const LateralMenu = (props: Props) => {
   const { seeMenu, setSeeMenu } = props;
   const theme = useTheme();
 
-  const { setSelectedBook } = useStore();
+  const { setSelectedBook, books } = useStore();
 
   return (
     <Sidebar
@@ -29,8 +29,8 @@ const LateralMenu = (props: Props) => {
     >
       <Stack
         height="100vh"
-        paddingX={2}
-        paddingY={2}
+        paddingX={'10px'}
+        paddingY={'10px'}
         justifyContent="space-between"
         sx={{
           backgroundColor: theme.palette.primary.light,
@@ -71,8 +71,12 @@ const LateralMenu = (props: Props) => {
               </Button>
             </Tooltip>
           </Stack>
-          <Stack spacing={1} sx={{ overflow: 'scroll' }} height="700px">
-            {JSON.parse(localStorage.getItem('books'))?.map((book: Book) => (
+          <Stack
+            spacing={1}
+            sx={{ overflowY: 'scroll', paddingRight: 1.5 }}
+            height="calc(100vh - 100px)"
+          >
+            {books?.map((book: Book) => (
               <BookCard
                 book={book}
                 onClick={() => setSelectedBook(book)}
