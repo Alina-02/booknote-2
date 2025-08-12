@@ -8,8 +8,6 @@ import { Quote } from '../../domain/models/quotes';
 import QuoteCard from '../components/quotes/QuoteCard';
 import SearchBar from '../components/SearchBar';
 
-import { deleteQuote } from '../../application/quotes';
-
 import { DarkColors, theme } from '../theme/theme';
 import { useStore } from '../store/useStore';
 
@@ -19,7 +17,10 @@ import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import BookModal from '../components/books/BookModal';
 import { QuoteModal } from '../components/quotes/QuoteModal';
 import SelectedBook from './SelectedBook';
-import { deleteBook, editBook } from '../../application/books';
+
+import { editBook } from '../../application/books/updateBook';
+import { deleteBook } from '../../application/books/deleteBook';
+import { deleteQuote } from '../../application/quotes/deleteQuote';
 
 const Home = () => {
   const { selectedBook, setSelectedBook } = useStore();

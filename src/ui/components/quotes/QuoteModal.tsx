@@ -10,9 +10,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Book } from '../../../domain/models/books';
 import { Quote } from '../../../domain/models/quotes';
 import { Formik } from 'formik';
-import { addQuote, editQuote } from '../../../application/quotes';
 import { ModalState } from '../../../domain/modals';
 import { useStore } from '../../store/useStore';
+import { addQuote } from '../../../application/quotes/addQuote';
+import { editQuote } from '../../../application/quotes/updateQuote';
 
 interface Props {
   modalState: ModalState;

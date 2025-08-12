@@ -16,7 +16,7 @@ import { Book } from '../../../domain/models/books';
 import { BookTags } from '../../../domain/bookTags';
 import { Formik } from 'formik';
 import { ModalState } from '../../../domain/modals';
-import { addBook } from '../../../application/books';
+import { addBook } from '../../../application/books/addBook';
 
 interface Props {
   modalState: ModalState;

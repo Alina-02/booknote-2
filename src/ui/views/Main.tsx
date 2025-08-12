@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 
-import { getAllBooksFirebase } from '../../infrastructure/database_services';
 import Layout from './Layout';
 import Home from './Home';
 import { useStore } from '../store/useStore';
+import { getBooks } from '../../application/books/getBooks';
 
 const Main = () => {
   const { selectedBook, setSelectedBook, setBooks } = useStore();
 
   useEffect(() => {
-    getAllBooksFirebase().then((books) => {
+    getBooks().then((books) => {
       localStorage.setItem('books', JSON.stringify(books));
       setBooks(books);
 
