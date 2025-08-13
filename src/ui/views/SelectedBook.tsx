@@ -18,6 +18,7 @@ import { ModalState } from '../../domain/modals';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useStore } from '../store/useStore';
+import { DarkColors } from '../theme/theme';
 
 interface Props {
   setOpenQuoteModal: React.Dispatch<React.SetStateAction<ModalState>>;
@@ -50,6 +51,10 @@ const SelectedBook = (props: Props) => {
       alignItems="center"
       justifyContent="center"
       direction="row"
+      sx={{
+        backgroundColor:
+          theme.palette.mode === 'dark' ? DarkColors.background : 'white',
+      }}
     >
       <Tooltip title="Edit book" placement={'right'} arrow>
         <Button
@@ -90,7 +95,13 @@ const SelectedBook = (props: Props) => {
         </Button>
       </Tooltip>
 
-      <Stack width="100%" paddingX={10} paddingBottom={3} overflow="scroll">
+      <Stack
+        width="100%"
+        paddingLeft={10}
+        paddingRight={3}
+        paddingBottom={3}
+        overflow="scroll"
+      >
         <Stack
           alignItems="center"
           padding={5}

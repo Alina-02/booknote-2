@@ -28,7 +28,7 @@ const LateralMenu = (props: Props) => {
       collapsed={!seeMenu}
       collapsedWidth="0"
       width={isMobile ? '100vw' : '350px'}
-      style={{ borderRightStyle: 'none' }}
+      style={{ borderRightStyle: 'none', position: 'fixed', zIndex: 3 }}
     >
       <Stack
         height="100vh"

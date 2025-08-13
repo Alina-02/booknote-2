@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Stack, Tooltip, Typography } from '@mui/material';
+import { Button, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 
 import { ModalState } from '../../domain/modals';
 import { Book } from '../../domain/models/books';
@@ -8,7 +8,7 @@ import { Quote } from '../../domain/models/quotes';
 import QuoteCard from '../components/quotes/QuoteCard';
 import SearchBar from '../components/SearchBar';
 
-import { DarkColors, theme } from '../theme/theme';
+import { DarkColors } from '../theme/theme';
 import { useStore } from '../store/useStore';
 
 import Masonry from '@mui/lab/Masonry';
@@ -24,6 +24,7 @@ import { deleteQuote } from '../../application/quotes/deleteQuote';
 
 const Home = () => {
   const { selectedBook, setSelectedBook } = useStore();
+  const theme = useTheme();
 
   const [selectedQuote, setSelectedQuote] = useState<Quote>();
   const [bookSearch, setBookSearch] = useState<Book[]>([]);
@@ -91,6 +92,7 @@ const Home = () => {
         />
       )}
       <Stack
+        id="main-home-stack"
         direction="row"
         display="flex"
         height={'100vh'}
@@ -101,6 +103,7 @@ const Home = () => {
       >
         {!selectedBook && (
           <Stack
+            id="home-title-stack"
             width="100%"
             display="flex"
             alignItems="center"
