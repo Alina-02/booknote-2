@@ -13,7 +13,7 @@ export interface AuthStateContext {
   handleLoginWithCredentials: (
     password: string,
     email: string
-  ) => Promise<void>;
+  ) => Promise<boolean>;
 
   handleRegisterWithCredentials: (
     password: string,
@@ -23,7 +23,7 @@ export interface AuthStateContext {
 }
 
 const initialState: Pick<AuthStateContext, 'status' | 'userId'> = {
-  status: 'checking',
+  status: 'no-authenticated',
   userId: null,
 };
 
@@ -36,18 +36,25 @@ interface IElement {
 export const AuthProvider = ({ children }: IElement) => {
   const [session, setSession] = useState(initialState);
 
+  console.log(session, 'sesion');
+
   useEffect(() => {
     onAuthStateHasChanged(setSession);
   }, []);
 
   const handleLogOut = async () => {
     logoutFirebase();
+    console.log('logout');
     setSession({ userId: null, status: 'no-authenticated' });
   };
 
   const validateAuth = (userId: string | undefined) => {
-    if (userId) return setSession({ userId, status: 'authenticated' });
+    if (userId) {
+      setSession({ userId, status: 'authenticated' });
+      return true;
+    }
     handleLogOut();
+    return false;
   };
 
   const checking = () =>
@@ -59,7 +66,7 @@ export const AuthProvider = ({ children }: IElement) => {
   ) => {
     checking();
     const userId = await logInWithCredentials({ email, password });
-    validateAuth(userId);
+    return validateAuth(userId);
   };
 
   const handleRegisterWithCredentials = async (

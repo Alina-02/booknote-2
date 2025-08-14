@@ -8,7 +8,6 @@ export const getAllBooksFirebase = async () => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
-
     if (!user) {
       console.error('User is not authenticated.');
       return books;
