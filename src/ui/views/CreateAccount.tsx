@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 import { useForm } from '../../hooks/useForm';
 import { Button, Stack, TextField, Typography } from '@mui/material';
