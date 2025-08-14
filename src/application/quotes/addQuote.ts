@@ -7,10 +7,11 @@ interface AddQuoteProps {
   book: Book | null;
   setSelectedBook: (book: Book | null) => void;
   quote: Quote | null;
+  setBooks: (books: Book[]) => void;
 }
 
 export function addQuote(props: AddQuoteProps) {
-  const { book, setSelectedBook, quote } = props;
+  const { book, setSelectedBook, quote, setBooks } = props;
   const quotes = book?.quotes ? book?.quotes : [];
 
   if (book && quote) {
@@ -23,6 +24,7 @@ export function addQuote(props: AddQuoteProps) {
       const books = JSON.parse(localStorageBooks);
       const newBooks = editObjectFromAnArray({ array: books, object: newBook });
 
+      setBooks(newBooks);
       localStorage.setItem('books', JSON.stringify(newBooks));
       setSelectedBook(newBook);
       addNewQuoteFirebase(book, newQuotes);

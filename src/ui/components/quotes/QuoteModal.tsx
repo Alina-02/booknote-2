@@ -24,7 +24,7 @@ interface Props {
 
 export const QuoteModal = (props: Props) => {
   const { modalState, onClose, selectedQuote } = props;
-  const { selectedBook, setSelectedBook } = useStore();
+  const { selectedBook, setSelectedBook, setBooks } = useStore();
 
   const localStorageBooks = localStorage.getItem('books');
   const allBooks = localStorageBooks ? JSON.parse(localStorageBooks) : [];
@@ -46,13 +46,14 @@ export const QuoteModal = (props: Props) => {
 
     if (quote && form.book && selectedBook) {
       if (!selectedQuote) {
-        addQuote({ quote: quote, setSelectedBook, book: form.book });
+        addQuote({ quote: quote, setSelectedBook, book: form.book, setBooks });
       } else if (selectedQuote) {
         editQuote({
           quote: quote,
           selectedQuote,
           book: form.book,
           setSelectedBook,
+          setBooks,
         });
       }
       closeQuoteModal();

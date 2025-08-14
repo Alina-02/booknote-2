@@ -25,6 +25,7 @@ import { deleteQuote } from '../../application/quotes/deleteQuote';
 const Home = () => {
   const { selectedBook, setSelectedBook } = useStore();
   const theme = useTheme();
+  const { setBooks } = useStore();
 
   const [selectedQuote, setSelectedQuote] = useState<Quote>();
   const [bookSearch, setBookSearch] = useState<Book[]>([]);
@@ -55,15 +56,15 @@ const Home = () => {
   };
 
   const updateBookFunc = (updatedBook: Book) => {
-    editBook({ setSelectedBook, selectedBook, updatedBook });
+    editBook({ setSelectedBook, selectedBook, updatedBook, setBooks });
   };
 
   const deleteBookFunc = () => {
-    deleteBook({ setSelectedBook, selectedBook });
+    deleteBook({ setSelectedBook, selectedBook, setBooks });
   };
 
   const deleteQuoteFunc = (quote: Quote) => {
-    deleteQuote({ setSelectedBook, selectedBook, quote });
+    deleteQuote({ setSelectedBook, selectedBook, quote, setBooks });
   };
 
   return (

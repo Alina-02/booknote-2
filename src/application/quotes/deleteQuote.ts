@@ -10,10 +10,11 @@ interface DeleteQuoteProps {
   setSelectedBook: (book: Book | null) => void;
   selectedBook: Book | null;
   quote: Quote;
+  setBooks: (books: Book[]) => void;
 }
 
 export function deleteQuote(props: DeleteQuoteProps) {
-  const { selectedBook, setSelectedBook, quote } = props;
+  const { selectedBook, setSelectedBook, quote, setBooks } = props;
   const quotes = selectedBook?.quotes;
 
   if (selectedBook && quotes) {
@@ -29,6 +30,7 @@ export function deleteQuote(props: DeleteQuoteProps) {
     if (localStorageBooks) {
       const books = JSON.parse(localStorageBooks);
       const newBooks = editObjectFromAnArray({ array: books, object: newBook });
+      setBooks(newBooks);
       localStorage.setItem('books', JSON.stringify(newBooks));
     }
 

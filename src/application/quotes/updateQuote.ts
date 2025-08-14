@@ -8,10 +8,11 @@ interface EditQuoteProps {
   selectedQuote: Quote;
   setSelectedBook: (book: Book | null) => void;
   book: Book | null;
+  setBooks: (books: Book[]) => void;
 }
 
 export function editQuote(props: EditQuoteProps) {
-  const { quote, selectedQuote, setSelectedBook, book } = props;
+  const { quote, selectedQuote, setSelectedBook, book, setBooks } = props;
   const quotes = book?.quotes;
 
   if (book && quotes) {
@@ -28,6 +29,7 @@ export function editQuote(props: EditQuoteProps) {
     if (localStorageBooks) {
       const books = JSON.parse(localStorageBooks);
       const newBooks = editObjectFromAnArray({ array: books, object: newBook });
+      setBooks(newBooks);
       localStorage.setItem('books', JSON.stringify(newBooks));
     }
 

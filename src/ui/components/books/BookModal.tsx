@@ -17,6 +17,7 @@ import { BookTags } from '../../../domain/bookTags';
 import { Formik } from 'formik';
 import { ModalState } from '../../../domain/modals';
 import { addBook } from '../../../application/books/addBook';
+import { useStore } from '../../store/useStore';
 
 interface Props {
   modalState: ModalState;
@@ -27,6 +28,7 @@ interface Props {
 
 const BookModal = (props: Props) => {
   const { modalState, onClose, selectedBook, updateBookFunc } = props;
+  const { setBooks } = useStore();
   const theme = useTheme();
 
   const open =
@@ -69,7 +71,7 @@ const BookModal = (props: Props) => {
     if (modalState === ModalState.EDITING) {
       updateBookFunc(book);
     } else {
-      addBook({ cover, book });
+      addBook({ cover, book, setBooks });
     }
     closeBookModal();
   };

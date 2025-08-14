@@ -4,10 +4,11 @@ import { deleteBookFirebase } from '../../infrastructure/books/deleteBookFirebas
 interface DeleteBookProps {
   setSelectedBook: (book: Book | null) => void;
   selectedBook: Book | null;
+  setBooks: (books: Book[]) => void;
 }
 
 export function deleteBook(props: DeleteBookProps) {
-  const { selectedBook, setSelectedBook } = props;
+  const { selectedBook, setSelectedBook, setBooks } = props;
   if (selectedBook) {
     deleteBookFirebase(selectedBook?.bookId);
 
@@ -16,6 +17,7 @@ export function deleteBook(props: DeleteBookProps) {
       const books = JSON.parse(booksJSON).filter(
         (b: Book) => b.bookId !== selectedBook?.bookId
       );
+      setBooks(books);
       localStorage.setItem('books', JSON.stringify(books));
     }
     setSelectedBook(null);
