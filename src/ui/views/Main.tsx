@@ -9,7 +9,8 @@ const Main = () => {
   const { selectedBook, setSelectedBook, setBooks } = useStore();
 
   useEffect(() => {
-    getBooks({ setBooks }).then((books) => {
+    getBooks().then((books) => {
+      setBooks(books);
       if (selectedBook) {
         const b = books.find((b) => b.bookId === selectedBook.bookId);
         if (b) {

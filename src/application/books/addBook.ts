@@ -7,11 +7,10 @@ import { addNewBookFirebase } from '../../infrastructure/books/addBookFirebase';
 interface AddBookProps {
   cover: File | null;
   book: Book;
-  setBooks: (books: Book[]) => void;
 }
 
 export function addBook(props: AddBookProps) {
-  const { cover, book, setBooks } = props;
+  const { cover, book } = props;
   if (cover) {
     const coverId = getCoverId(book);
     const imageRef = ref(FirebaseStorage, `images/${coverId}`);
@@ -23,8 +22,10 @@ export function addBook(props: AddBookProps) {
   const localStorageBooks = localStorage.getItem('books');
   if (localStorageBooks) {
     const books = JSON.parse(localStorageBooks);
-    const newBooks = [...books, book];
-    setBooks(books);
+    const newBooks: Book[] = [...books, book];
+
     localStorage.setItem('books', JSON.stringify(newBooks));
+    return newBooks ? newBooks : null;
   }
+  return null;
 }

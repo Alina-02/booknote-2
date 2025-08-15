@@ -56,15 +56,24 @@ const Home = () => {
   };
 
   const updateBookFunc = (updatedBook: Book) => {
-    editBook({ setSelectedBook, selectedBook, updatedBook, setBooks });
+    const newBooks = editBook({ setSelectedBook, selectedBook, updatedBook });
+    if (newBooks) {
+      setBooks(newBooks);
+    }
   };
 
   const deleteBookFunc = () => {
-    deleteBook({ setSelectedBook, selectedBook, setBooks });
+    const newBooks = deleteBook({ setSelectedBook, selectedBook });
+    if (newBooks) {
+      setBooks(newBooks);
+    }
   };
 
   const deleteQuoteFunc = (quote: Quote) => {
-    deleteQuote({ setSelectedBook, selectedBook, quote, setBooks });
+    const newBooks = deleteQuote({ setSelectedBook, selectedBook, quote });
+    if (newBooks) {
+      setBooks(newBooks);
+    }
   };
 
   return (

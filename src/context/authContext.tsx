@@ -23,7 +23,7 @@ export interface AuthStateContext {
 }
 
 const initialState: Pick<AuthStateContext, 'status' | 'userId'> = {
-  status: 'no-authenticated',
+  status: 'checking',
   userId: null,
 };
 
@@ -36,15 +36,12 @@ interface IElement {
 export const AuthProvider = ({ children }: IElement) => {
   const [session, setSession] = useState(initialState);
 
-  console.log(session, 'sesion');
-
   useEffect(() => {
     onAuthStateHasChanged(setSession);
   }, []);
 
   const handleLogOut = async () => {
     logoutFirebase();
-    console.log('logout');
     setSession({ userId: null, status: 'no-authenticated' });
   };
 

@@ -62,7 +62,6 @@ const LogIn = () => {
       if (correctLogIn) {
         goToMain();
       } else {
-        // Here you can set a general error or field-specific errors
         setFieldError('email', 'Invalid credentials');
         setFieldError('password', 'Invalid credentials');
       }
@@ -76,15 +75,6 @@ const LogIn = () => {
   const goToCreateAccount = () => {
     navigate('/create-account');
   };
-
-  if (status === 'checking')
-    return (
-      <Stack height="100vh" justifyContent="center" alignItems="center">
-        <Typography variant="h5">
-          Checking credentials, wait a moment...
-        </Typography>
-      </Stack>
-    );
 
   return (
     <form onSubmit={formik.handleSubmit}>

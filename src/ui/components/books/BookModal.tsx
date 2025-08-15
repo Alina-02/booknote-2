@@ -71,7 +71,10 @@ const BookModal = (props: Props) => {
     if (modalState === ModalState.EDITING) {
       updateBookFunc(book);
     } else {
-      addBook({ cover, book, setBooks });
+      const newBooks = addBook({ cover, book });
+      if (newBooks) {
+        setBooks(newBooks);
+      }
     }
     closeBookModal();
   };

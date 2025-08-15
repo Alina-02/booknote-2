@@ -13,7 +13,6 @@ interface PropsRegister {
 type StateDispatch = any;
 
 export const onAuthStateHasChanged = (setSession: StateDispatch) => {
-  console.log('entra en esto');
   onAuthStateChanged(FirebaseAuth, (user) => {
     if (!user) return setSession({ status: 'no-authenticated', userId: null });
     setSession({ status: 'authenticated', userId: user!.uid });

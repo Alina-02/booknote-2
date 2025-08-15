@@ -5,11 +5,10 @@ interface EditBookProps {
   setSelectedBook: (book: Book | null) => void;
   selectedBook: Book | null;
   updatedBook: Book;
-  setBooks: (books: Book[]) => void;
 }
 
 export function editBook(props: EditBookProps) {
-  const { setSelectedBook, selectedBook, updatedBook, setBooks } = props;
+  const { setSelectedBook, selectedBook, updatedBook } = props;
 
   updateBookFirebase({ ...updatedBook, bookId: selectedBook?.bookId });
   setSelectedBook(updatedBook);
@@ -23,7 +22,8 @@ export function editBook(props: EditBookProps) {
     const newBooks = books;
     newBooks[bookIndex] = updatedBook;
 
-    setBooks(newBooks);
     localStorage.setItem('books', JSON.stringify(newBooks));
+    return newBooks ? newBooks : null;
   }
+  return null;
 }
