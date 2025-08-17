@@ -1,3 +1,4 @@
+import { BookTags } from '../../../domain/bookTags';
 import { Book } from '../../../domain/models/books';
 import {
   Card,
@@ -27,7 +28,12 @@ const BookCard = (props: Props) => {
       }}
     >
       <CardMedia
-        sx={{ width: 40, backgroundColor: theme.palette.primary.main }}
+        sx={{
+          width: 40,
+          backgroundColor:
+            BookTags.find((tag) => tag.name === book?.tag)?.color ??
+            theme.palette.primary.main,
+        }}
       />
       <CardActionArea onClick={onClick}>
         <CardContent
