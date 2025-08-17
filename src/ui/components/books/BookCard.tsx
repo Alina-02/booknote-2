@@ -1,4 +1,3 @@
-import React, { RefObject, useEffect } from 'react';
 import { Book } from '../../../domain/models/books';
 import {
   Card,
@@ -9,9 +8,6 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { ref, getDownloadURL } from 'firebase/storage';
-import { FirebaseStorage } from '../../../infrastructure/config';
-import { getCoverId } from '../../../utils/utils';
 
 interface Props {
   book: Book;
@@ -21,21 +17,6 @@ interface Props {
 const BookCard = (props: Props) => {
   const theme = useTheme();
   const { book, onClick } = props;
-
-  const coverRef = React.createRef();
-
-  useEffect(() => {
-    if (book?.bookCover) {
-      const coverId = getCoverId(book);
-      getDownloadURL(ref(FirebaseStorage, `images/${coverId}`)).then((url) => {
-        const img = coverRef.current;
-
-        if (img != null) {
-          img.setAttribute('src', url);
-        }
-      });
-    }
-  }, []);
 
   return (
     <Card
@@ -78,19 +59,10 @@ const BookCard = (props: Props) => {
           </Typography>
         </CardContent>
       </CardActionArea>
-      {book?.bookCover && (
-        <CardMedia
-          component="img"
-          ref={coverRef as RefObject<HTMLImageElement | null>}
-          sx={{ width: 140 }}
-          alt={`${book.title} cover`}
-        />
-      )}
-      {!book?.bookCover && (
-        <CardMedia
-          sx={{ width: 140, backgroundColor: theme.palette.primary.main }}
-        />
-      )}
+
+      <CardMedia
+        sx={{ width: 140, backgroundColor: theme.palette.primary.main }}
+      />
     </Card>
   );
 };

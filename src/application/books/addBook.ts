@@ -1,21 +1,12 @@
-import { ref, uploadBytes } from 'firebase/storage';
 import { Book } from '../../domain/models/books';
-import { getCoverId } from '../../utils/utils';
-import { FirebaseStorage } from '../../infrastructure/config';
 import { addNewBookFirebase } from '../../infrastructure/books/addBookFirebase';
 
 interface AddBookProps {
-  cover: File | null;
   book: Book;
 }
 
 export function addBook(props: AddBookProps) {
-  const { cover, book } = props;
-  if (cover) {
-    const coverId = getCoverId(book);
-    const imageRef = ref(FirebaseStorage, `images/${coverId}`);
-    uploadBytes(imageRef, cover);
-  }
+  const { book } = props;
 
   addNewBookFirebase(book);
 

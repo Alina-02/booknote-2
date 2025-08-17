@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Chip,
   Dialog,
@@ -7,10 +6,8 @@ import {
   Stack,
   TextField,
   Typography,
-  useTheme,
 } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Book } from '../../../domain/models/books';
 import { BookTags } from '../../../domain/bookTags';
@@ -28,8 +25,7 @@ interface Props {
 
 const BookModal = (props: Props) => {
   const { modalState, onClose, selectedBook, updateBookFunc } = props;
-  const { setBooks, books } = useStore();
-  const theme = useTheme();
+  const { setBooks } = useStore();
 
   const open =
     modalState === ModalState.CREATING || modalState === ModalState.EDITING;
@@ -37,28 +33,6 @@ const BookModal = (props: Props) => {
   const [tags, setTags] = useState<string[]>(
     selectedBook ? selectedBook.tags : []
   );
-  const [cover, setCover] = useState<File | null>(null);
-  const [coverImageUrl, setCoverImageUrl] = useState<string | null>(null);
-  const hiddenFileInput = useRef<HTMLInputElement>(null);
-
-  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      setCover(file);
-      setCoverImageUrl(URL.createObjectURL(file));
-    } else {
-      setCover(null);
-      setCoverImageUrl(null);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (coverImageUrl) {
-        URL.revokeObjectURL(coverImageUrl);
-      }
-    };
-  }, [coverImageUrl]);
 
   const createNewBook = (values: Book) => {
     const book: Book = {
@@ -71,7 +45,7 @@ const BookModal = (props: Props) => {
     if (modalState === ModalState.EDITING) {
       updateBookFunc(book);
     } else {
-      const newBooks = addBook({ cover, book });
+      const newBooks = addBook({ book });
       if (newBooks) {
         setBooks(newBooks);
       }
@@ -81,8 +55,6 @@ const BookModal = (props: Props) => {
 
   const closeBookModal = () => {
     setTags([]);
-    setCover(null);
-    setCoverImageUrl(null);
     onClose();
   };
 
@@ -198,53 +170,10 @@ const BookModal = (props: Props) => {
                   </Stack>
                 </Stack>
                 <Stack direction="row" spacing={3}>
-                  <Stack spacing={1}>
-                    <Typography variant="body1" fontWeight={600} ml={1}>
-                      Cover
-                    </Typography>
-                    <Box
-                      height="175px"
-                      width="175px"
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      borderRadius="10px"
-                      sx={{
-                        backgroundImage: coverImageUrl
-                          ? `url(${coverImageUrl})`
-                          : 'none',
-                        backgroundSize: 'cover',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
-                        backgroundColor: theme.palette.primary.light,
-                      }}
-                    >
-                      <input
-                        id="file"
-                        type="file"
-                        style={{ display: 'none' }}
-                        onChange={handleCoverChange}
-                        ref={hiddenFileInput}
-                        accept="image/png,image/jpeg"
-                      />
-                      <Button
-                        fullWidth
-                        sx={{ height: '100%' }}
-                        onClick={() => {
-                          if (hiddenFileInput !== null) {
-                            hiddenFileInput?.current.click();
-                          }
-                        }}
-                      >
-                        <FileUploadIcon fontSize="large" />
-                      </Button>
-                    </Box>
-                  </Stack>
-                  <Stack minWidth="200px" spacing={1} width="100%">
+                  <Stack minHeight="200px" spacing={1} width="100%">
                     <Typography variant="body1" fontWeight={600} ml={1}>
                       First quote
                     </Typography>
-
                     <TextField
                       disabled={modalState === ModalState.EDITING}
                       sx={{ height: '100%' }}
@@ -262,7 +191,7 @@ const BookModal = (props: Props) => {
                 <Stack
                   direction="row"
                   justifyContent="space-between"
-                  spacing={30}
+                  spacing={2}
                   paddingTop={2}
                 >
                   <Button

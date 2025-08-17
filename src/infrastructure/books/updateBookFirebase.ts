@@ -15,7 +15,7 @@ export const updateBookFirebase = async (book: Book) => {
 
     if (book.bookId) {
       const { uid } = user;
-      const { title, author, bookCover, tags } = book;
+      const { title, author, tags } = book;
 
       const bookRef = doc(FirebaseDatabase, `users/${uid}/books`, book.bookId);
 
@@ -23,7 +23,6 @@ export const updateBookFirebase = async (book: Book) => {
         title: title,
         author: author,
         tags: tags,
-        bookCover: bookCover ? bookCover : null,
       });
     }
   } catch (e) {

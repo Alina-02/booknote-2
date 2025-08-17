@@ -1,10 +1,6 @@
 import { Book } from '../domain/models/books';
 import { Quote } from '../domain/models/quotes';
 
-export const getCoverId = (book: Book) => {
-  return (book.title + book.author).replace(/ /g, '').toLowerCase();
-};
-
 export function addObjectToAnArray<Type extends Book | Quote>({
   array,
   object,

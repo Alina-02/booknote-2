@@ -159,7 +159,7 @@ export const QuoteModal = (props: Props) => {
                 <Stack
                   direction="row"
                   justifyContent="space-between"
-                  spacing={30}
+                  spacing={2}
                 >
                   <Button
                     variant="outlined"
