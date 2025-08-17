@@ -84,14 +84,14 @@ const LateralMenu = (props: Props) => {
             sx={{ overflowY: 'auto', paddingRight: 1.5 }}
             height="calc(100vh - 100px)"
           >
-            {books?.map((book: Book) => (
+            {books?.map((book: Book, index) => (
               <BookCard
                 book={book}
                 onClick={() => {
                   setSeeMenu(false);
                   setSelectedBook(book);
                 }}
-                key={book.bookId}
+                key={`${book.bookId}` + index}
               />
             ))}
           </Stack>

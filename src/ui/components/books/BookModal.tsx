@@ -65,7 +65,7 @@ const BookModal = (props: Props) => {
       title: values.title,
       author: values.author,
       tags: values.tags,
-      quotes: values.quotes,
+      quotes: values?.quotes[0].text.trim() === '' ? undefined : values.quotes,
     };
 
     if (modalState === ModalState.EDITING) {
