@@ -2,12 +2,11 @@ import { Book } from '../../domain/models/books';
 import { deleteBookFirebase } from '../../infrastructure/books/deleteBookFirebase';
 
 interface DeleteBookProps {
-  setSelectedBook: (book: Book | null) => void;
   selectedBook: Book | null;
 }
 
 export function deleteBook(props: DeleteBookProps) {
-  const { selectedBook, setSelectedBook } = props;
+  const { selectedBook } = props;
   if (selectedBook) {
     deleteBookFirebase(selectedBook?.bookId);
 
@@ -20,6 +19,5 @@ export function deleteBook(props: DeleteBookProps) {
       localStorage.setItem('books', JSON.stringify(books));
       return books ? books : null;
     }
-    setSelectedBook(null);
   }
 }

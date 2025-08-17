@@ -56,9 +56,10 @@ const Home = () => {
   };
 
   const deleteBookFunc = () => {
-    const newBooks = deleteBook({ setSelectedBook, selectedBook });
+    const newBooks = deleteBook({ selectedBook });
     if (newBooks) {
       setBooks(newBooks);
+      setSelectedBook(null);
     }
   };
 
