@@ -55,13 +55,6 @@ const Home = () => {
     }
   };
 
-  const updateBookFunc = (updatedBook: Book) => {
-    const newBooks = editBook({ setSelectedBook, selectedBook, updatedBook });
-    if (newBooks) {
-      setBooks(newBooks);
-    }
-  };
-
   const deleteBookFunc = () => {
     const newBooks = deleteBook({ setSelectedBook, selectedBook });
     if (newBooks) {
@@ -81,7 +74,7 @@ const Home = () => {
       <BookModal
         modalState={openBookModal}
         onClose={() => setOpenBookModal(ModalState.CLOSED)}
-        updateBookFunc={updateBookFunc}
+        setSelectedBook={setSelectedBook}
       />
       <QuoteModal
         modalState={openQuoteModal}

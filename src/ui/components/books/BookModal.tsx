@@ -14,17 +14,17 @@ import { Formik } from 'formik';
 import { ModalState } from '../../../domain/modals';
 import { addBook } from '../../../application/books/addBook';
 import { useStore } from '../../store/useStore';
+import { editBook } from '../../../application/books/updateBook';
 
 interface Props {
   modalState: ModalState;
   onClose: () => void;
-  selectedBook?: Book;
-  updateBookFunc: (updatedBook: Book) => void;
+  setSelectedBook: (book: Book | null) => void;
 }
 
 const BookModal = (props: Props) => {
-  const { modalState, onClose, selectedBook, updateBookFunc } = props;
-  const { setBooks } = useStore();
+  const { modalState, onClose, setSelectedBook } = props;
+  const { setBooks, selectedBook } = useStore();
 
   const theme = useTheme();
 
@@ -32,16 +32,27 @@ const BookModal = (props: Props) => {
     modalState === ModalState.CREATING || modalState === ModalState.EDITING;
 
   const createNewBook = (values: Book) => {
-    const book: Book = {
-      title: values.title,
-      author: values.author,
-      tag: values.tag,
-      quotes: values?.quotes[0].text.trim() === '' ? undefined : values.quotes,
-    };
+    if (selectedBook) {
+      const updatedBook: Book = {
+        bookId: selectedBook?.bookId,
+        title: values.title,
+        author: values.author,
+        tag: values.tag,
+      };
 
-    if (modalState === ModalState.EDITING) {
-      updateBookFunc(book);
+      const newBooks = editBook({ setSelectedBook, selectedBook, updatedBook });
+      if (newBooks) {
+        setBooks(newBooks);
+      }
     } else {
+      const book: Book = {
+        title: values.title,
+        author: values.author,
+        tag: values.tag,
+        quotes:
+          values?.quotes[0].text.trim() === '' ? undefined : values.quotes,
+      };
+
       const newBooks = addBook({ book });
       if (newBooks) {
         setBooks(newBooks);
@@ -110,6 +121,7 @@ const BookModal = (props: Props) => {
                       onChange={handleChange}
                       value={values.title}
                       fullWidth
+                      required
                     />
                   </Stack>
                   <Stack width="100%">
@@ -122,6 +134,7 @@ const BookModal = (props: Props) => {
                       onChange={handleChange}
                       value={values.author}
                       fullWidth
+                      required
                     />
                   </Stack>
                 </Stack>
@@ -141,7 +154,6 @@ const BookModal = (props: Props) => {
                     }}
                   >
                     {BookTags.map((tag) => {
-                      console.log(values.tag, 'tag');
                       const selected = values.tag === tag?.name;
                       return (
                         <Chip
@@ -166,25 +178,26 @@ const BookModal = (props: Props) => {
                     })}
                   </Stack>
                 </Stack>
-                <Stack direction="row" spacing={3}>
-                  <Stack minHeight="200px" spacing={1} width="100%">
-                    <Typography variant="body1" fontWeight={600} ml={1}>
-                      First quote
-                    </Typography>
-                    <TextField
-                      disabled={modalState === ModalState.EDITING}
-                      sx={{ height: '100%' }}
-                      onChange={(e) => {
-                        const firstQuote = e.target.value;
-                        setFieldValue('quotes', [{ text: firstQuote }]);
-                      }}
-                      value={values.quotes ? values.quotes[0].text : ''}
-                      maxRows="6"
-                      multiline
-                      fullWidth
-                    />
+                {modalState === ModalState.CREATING && (
+                  <Stack direction="row" spacing={3}>
+                    <Stack minHeight="200px" spacing={1} width="100%">
+                      <Typography variant="body1" fontWeight={600} ml={1}>
+                        First quote
+                      </Typography>
+                      <TextField
+                        sx={{ height: '100%' }}
+                        onChange={(e) => {
+                          const firstQuote = e.target.value;
+                          setFieldValue('quotes', [{ text: firstQuote }]);
+                        }}
+                        value={values.quotes ? values.quotes[0].text : ''}
+                        maxRows="6"
+                        multiline
+                        fullWidth
+                      />
+                    </Stack>
                   </Stack>
-                </Stack>
+                )}
                 <Stack
                   direction="row"
                   justifyContent="space-between"
