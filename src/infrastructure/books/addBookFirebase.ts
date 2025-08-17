@@ -14,13 +14,14 @@ export const addNewBookFirebase = async (book: Book) => {
     }
 
     const { uid } = user;
-    const { title, author, quotes } = book;
+    const { title, author, tag, quotes } = book;
 
     const userBooksRef = collection(FirebaseDatabase, `users/${uid}/books`);
 
     await setDoc(doc(userBooksRef), {
       title: title,
       author: author,
+      tag: tag,
       quotes: quotes ? quotes : [],
     });
   } catch (e) {

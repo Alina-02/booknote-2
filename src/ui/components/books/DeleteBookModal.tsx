@@ -25,17 +25,28 @@ const DeleteBookModal = (props: Props) => {
           </Typography>
           <Typography variant="body2">{title}</Typography>
         </Stack>
-        <Stack justifyContent="space-between" direction="row" width="100%">
+        <Stack
+          justifyContent="space-between"
+          direction="row"
+          width="100%"
+          spacing={2}
+        >
           <Button
             variant="outlined"
             size="small"
             onClick={() => {
               setOpen(false);
             }}
+            fullWidth
           >
             Cancel
           </Button>
-          <Button variant="contained" size="small" onClick={onDeleteBook}>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={onDeleteBook}
+            fullWidth
+          >
             Delete
           </Button>
         </Stack>

@@ -4,6 +4,6 @@ export interface Book {
   title: string;
   author: string;
   bookId?: string;
-  tags: string[];
+  tag: string;
   quotes?: Quote[];
 }

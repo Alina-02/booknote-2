@@ -15,14 +15,14 @@ export const updateBookFirebase = async (book: Book) => {
 
     if (book.bookId) {
       const { uid } = user;
-      const { title, author, tags } = book;
+      const { title, author, tag } = book;
 
       const bookRef = doc(FirebaseDatabase, `users/${uid}/books`, book.bookId);
 
       await setDoc(bookRef, {
         title: title,
         author: author,
-        tags: tags,
+        tag: tag,
       });
     }
   } catch (e) {

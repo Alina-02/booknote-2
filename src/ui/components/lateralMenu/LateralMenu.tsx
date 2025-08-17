@@ -27,7 +27,7 @@ const LateralMenu = (props: Props) => {
     <Sidebar
       collapsed={!seeMenu}
       collapsedWidth="0"
-      width={isMobile ? '100vw' : '350px'}
+      width={isMobile ? '100vw' : '300px'}
       style={{
         borderRightStyle: 'none',
         position: 'fixed',

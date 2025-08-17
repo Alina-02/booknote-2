@@ -2,12 +2,11 @@ import {
   Button,
   Chip,
   Dialog,
-  getContrastRatio,
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from '@mui/material';
-import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Book } from '../../../domain/models/books';
 import { BookTags } from '../../../domain/bookTags';
@@ -27,18 +26,16 @@ const BookModal = (props: Props) => {
   const { modalState, onClose, selectedBook, updateBookFunc } = props;
   const { setBooks } = useStore();
 
+  const theme = useTheme();
+
   const open =
     modalState === ModalState.CREATING || modalState === ModalState.EDITING;
-
-  const [tags, setTags] = useState<string[]>(
-    selectedBook ? selectedBook.tags : []
-  );
 
   const createNewBook = (values: Book) => {
     const book: Book = {
       title: values.title,
       author: values.author,
-      tags: values.tags,
+      tag: values.tag,
       quotes: values?.quotes[0].text.trim() === '' ? undefined : values.quotes,
     };
 
@@ -54,7 +51,6 @@ const BookModal = (props: Props) => {
   };
 
   const closeBookModal = () => {
-    setTags([]);
     onClose();
   };
 
@@ -88,9 +84,9 @@ const BookModal = (props: Props) => {
               ? {
                   title: selectedBook.title,
                   author: selectedBook.author,
-                  tags: selectedBook.tags,
+                  tag: selectedBook.tag,
                 }
-              : { title: '', author: '', tags: [''], quotes: [{ text: '' }] }
+              : { title: '', author: '', tag: '', quotes: [{ text: '' }] }
           }
           onSubmit={createNewBook}
         >
@@ -131,16 +127,22 @@ const BookModal = (props: Props) => {
                 </Stack>
                 <Stack spacing={1}>
                   <Typography variant="body1" fontWeight={600} ml={1}>
-                    Add tags
+                    Add genre
                   </Typography>
                   <Stack
                     direction="row"
                     spacing={1}
                     paddingBottom={1}
-                    sx={{ overflowX: 'scroll' }}
+                    sx={{
+                      overflowY: 'auto',
+                      '&::-webkit-scrollbar': {
+                        height: '10px',
+                      },
+                    }}
                   >
                     {BookTags.map((tag) => {
-                      const selected = values.tags?.includes(tag?.name);
+                      console.log(values.tag, 'tag');
+                      const selected = values.tag === tag?.name;
                       return (
                         <Chip
                           key={tag.name}
@@ -148,20 +150,15 @@ const BookModal = (props: Props) => {
                           sx={{
                             backgroundColor: selected ? tag.color : 'auto',
                             color: selected
-                              ? getContrastRatio(tag.color, '#fff') > 4.5
-                                ? '#fff'
-                                : '#111'
+                              ? theme.palette.getContrastText(tag.color)
                               : 'auto',
                           }}
                           clickable
                           onClick={() => {
                             if (selected) {
-                              setFieldValue(
-                                'tags',
-                                tags.filter((t) => t !== tag.name)
-                              );
+                              setFieldValue('tag', undefined);
                             } else {
-                              setFieldValue('tags', [...tags, tag.name]);
+                              setFieldValue('tag', tag.name);
                             }
                           }}
                         />

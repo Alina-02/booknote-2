@@ -26,11 +26,14 @@ const BookCard = (props: Props) => {
         minHeight: '85px',
       }}
     >
+      <CardMedia
+        sx={{ width: 40, backgroundColor: theme.palette.primary.main }}
+      />
       <CardActionArea onClick={onClick}>
         <CardContent
           sx={{
             flex: '1 0 auto',
-            width: '250px',
+            width: '230px',
 
             paddingTop: 0,
           }}
@@ -59,10 +62,6 @@ const BookCard = (props: Props) => {
           </Typography>
         </CardContent>
       </CardActionArea>
-
-      <CardMedia
-        sx={{ width: 140, backgroundColor: theme.palette.primary.main }}
-      />
     </Card>
   );
 };
