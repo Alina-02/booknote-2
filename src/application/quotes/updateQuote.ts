@@ -4,35 +4,33 @@ import { udpateQuoteFirebase } from '../../infrastructure/quotes/updateQuoteFire
 import { editObjectFromAnArray } from '../../utils/utils';
 
 interface EditQuoteProps {
-  quote: Quote;
-  selectedQuote: Quote;
-  setSelectedBook: (book: Book | null) => void;
+  newQuote: Quote;
+  originalQuote: Quote;
   book: Book | null;
 }
 
 export function editQuote(props: EditQuoteProps) {
-  const { quote, selectedQuote, setSelectedBook, book } = props;
+  const { newQuote, originalQuote, book } = props;
   const quotes = book?.quotes;
 
   if (book && quotes) {
     const newQuotes = editObjectFromAnArray({
       array: quotes,
-      originalObject: selectedQuote,
-      object: quote,
+      originalObject: originalQuote,
+      object: newQuote,
     });
     const newBook = { ...book };
     newBook.quotes = newQuotes;
 
-    setSelectedBook(newBook);
+    udpateQuoteFirebase(book);
+
     const localStorageBooks = localStorage.getItem('books');
     if (localStorageBooks) {
       const books = JSON.parse(localStorageBooks);
       const newBooks = editObjectFromAnArray({ array: books, object: newBook });
       localStorage.setItem('books', JSON.stringify(newBooks));
-      return newBooks ? newBooks : null;
+      return newBooks ? { newBook, newBooks } : null;
     }
-
-    udpateQuoteFirebase(quote, selectedQuote, book);
   }
   return null;
 }

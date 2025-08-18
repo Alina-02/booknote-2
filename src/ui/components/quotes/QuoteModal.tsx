@@ -55,14 +55,15 @@ export const QuoteModal = (props: Props) => {
           setBooks(newBooks);
         }
       } else if (selectedQuote) {
-        const newBooks = editQuote({
-          quote: quote,
-          selectedQuote,
+        const news = editQuote({
+          newQuote: quote,
+          originalQuote: selectedQuote,
           book: form.book,
-          setSelectedBook,
         });
-        if (newBooks) {
-          setBooks(newBooks);
+
+        if (news) {
+          setSelectedBook(news.newBook);
+          setBooks(news.newBooks);
         }
       }
       closeQuoteModal();

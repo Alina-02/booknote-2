@@ -1,14 +1,9 @@
 import { doc, updateDoc } from 'firebase/firestore';
 import { Book } from '../../domain/models/books';
-import { Quote } from '../../domain/models/quotes';
 import { FirebaseDatabase } from '../config';
 import { getAuth } from 'firebase/auth';
 
-export const udpateQuoteFirebase = async (
-  quote: Quote,
-  selectedQuote: Quote,
-  book: Book
-) => {
+export const udpateQuoteFirebase = async (book: Book) => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
@@ -24,15 +19,10 @@ export const udpateQuoteFirebase = async (
 
       const { quotes } = book;
       if (quotes) {
-        const index = quotes?.findIndex((q) => q.text === selectedQuote.text);
-        if (index > -1) {
-          quotes[index] = quote;
-
-          await updateDoc(bookDoc, {
-            ...book,
-            quotes: quotes,
-          });
-        }
+        await updateDoc(bookDoc, {
+          ...book,
+          quotes: quotes,
+        });
       }
     }
   } catch (e) {
