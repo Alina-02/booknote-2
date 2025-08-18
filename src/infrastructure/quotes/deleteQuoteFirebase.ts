@@ -4,7 +4,14 @@ import { Quote } from '../../domain/models/quotes';
 import { Book } from '../../domain/models/books';
 import { getAuth } from 'firebase/auth';
 
-export const deleteQuoteFirebase = async (quote: Quote, book: Book) => {
+interface Props {
+  newQuotes: Quote[];
+  book: Book;
+}
+
+export const deleteQuoteFirebase = async (props: Props) => {
+  const { newQuotes, book } = props;
+
   try {
     const auth = getAuth();
     const user = auth.currentUser;
@@ -18,11 +25,9 @@ export const deleteQuoteFirebase = async (quote: Quote, book: Book) => {
       const { uid } = user;
       const bookDoc = doc(FirebaseDatabase, `users/${uid}/books`, book.bookId);
 
-      const { quotes } = book;
-
       await updateDoc(bookDoc, {
         ...book,
-        quotes: quotes?.filter((q) => quote.text !== q.text),
+        quotes: newQuotes,
       });
     }
   } catch (e) {

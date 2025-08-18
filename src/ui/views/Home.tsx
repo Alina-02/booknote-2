@@ -18,7 +18,6 @@ import BookModal from '../components/books/BookModal';
 import { QuoteModal } from '../components/quotes/QuoteModal';
 import SelectedBook from './SelectedBook';
 
-import { editBook } from '../../application/books/updateBook';
 import { deleteBook } from '../../application/books/deleteBook';
 import { deleteQuote } from '../../application/quotes/deleteQuote';
 
@@ -64,9 +63,10 @@ const Home = () => {
   };
 
   const deleteQuoteFunc = (quote: Quote) => {
-    const newBooks = deleteQuote({ setSelectedBook, selectedBook, quote });
-    if (newBooks) {
-      setBooks(newBooks);
+    const news = deleteQuote({ selectedBook, quote });
+    if (news) {
+      setBooks(news.newBooks);
+      setSelectedBook(news.newBook);
     }
   };
 

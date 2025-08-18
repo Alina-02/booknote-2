@@ -7,13 +7,12 @@ import {
 } from '../../utils/utils';
 
 interface DeleteQuoteProps {
-  setSelectedBook: (book: Book | null) => void;
   selectedBook: Book | null;
   quote: Quote;
 }
 
 export function deleteQuote(props: DeleteQuoteProps) {
-  const { selectedBook, setSelectedBook, quote } = props;
+  const { selectedBook, quote } = props;
   const quotes = selectedBook?.quotes;
 
   if (selectedBook && quotes) {
@@ -23,17 +22,17 @@ export function deleteQuote(props: DeleteQuoteProps) {
     });
     const newBook = { ...selectedBook };
     newBook.quotes = newQuotes;
-    setSelectedBook(newBook);
+
+    deleteQuoteFirebase({ newQuotes, book: selectedBook });
 
     const localStorageBooks = localStorage.getItem('books');
     if (localStorageBooks) {
       const books = JSON.parse(localStorageBooks);
       const newBooks = editObjectFromAnArray({ array: books, object: newBook });
       localStorage.setItem('books', JSON.stringify(newBooks));
-      return newBooks ? newBooks : null;
-    }
 
-    deleteQuoteFirebase(quote, selectedBook);
+      return newBooks ? { newBook, newBooks } : null;
+    }
   }
   return null;
 }
