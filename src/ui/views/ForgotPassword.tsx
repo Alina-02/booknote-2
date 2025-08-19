@@ -118,15 +118,23 @@ const ForgotPassword = () => {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            disabled={loading || !formik.isValid}
-          >
-            {loading ? <CircularProgress size={24} /> : 'Send Password Reset'}
-          </Button>
+          <Stack alignItems="center" spacing={0.5} sx={{ mt: 3, mb: 2 }}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={loading || !formik.isValid}
+            >
+              {loading ? <CircularProgress size={24} /> : 'Send Password Reset'}
+            </Button>
+            <Typography
+              variant="body1"
+              onClick={goToLogIn}
+              sx={{ cursor: 'pointer', textDecoration: 'underline' }}
+            >
+              Return to LogIn
+            </Typography>
+          </Stack>
         </Box>
 
         {message && (
@@ -140,13 +148,6 @@ const ForgotPassword = () => {
             {error}
           </Alert>
         )}
-        <Typography
-          variant="body1"
-          onClick={goToLogIn}
-          sx={{ cursor: 'pointer', textDecoration: 'underline' }}
-        >
-          Return to LogIn
-        </Typography>
       </Stack>
     </Container>
   );

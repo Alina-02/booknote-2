@@ -72,9 +72,9 @@ const CreateAccount = () => {
           <Typography
             variant="body1"
             onClick={goToLogIn}
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: 'pointer', textDecoration: 'underline' }}
           >
-            Return to log in
+            Return to LogIn
           </Typography>
         </Stack>
       </Stack>

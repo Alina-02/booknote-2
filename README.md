@@ -12,7 +12,7 @@ A small web app to save your favorite book quotes, built with React and Firebase
 
 - [x] Add, update and delete books.
 - [x] Add, update and delete quotes.
-- [] Sign in, sign up and sign out.
+- [x] Sign in, sign up and sign out.
 - [] Dark mode
 - [] Search bar
 
