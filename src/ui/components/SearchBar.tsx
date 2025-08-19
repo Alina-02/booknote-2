@@ -23,7 +23,8 @@ const SearchBar = (props: Props) => {
       }}
     >
       <InputBase
-        placeholder="Search..."
+        placeholder="Search by book or author..."
+        value={inputSearch}
         sx={{
           flex: 1,
           paddingLeft: 3,
@@ -36,18 +37,20 @@ const SearchBar = (props: Props) => {
         onKeyDown={(e) => {
           if (e.code === 'Enter') {
             handleSearch(inputSearch);
+            setInputSearch('');
           }
         }}
       />
       <Button
         onClick={() => {
           handleSearch(inputSearch);
+          setInputSearch('');
         }}
         variant="contained"
         sx={{
           borderRadius: 0,
 
-          color: '#000',
+          color: 'white',
           fontWeight: 600,
           textTransform: 'none',
           px: 4,

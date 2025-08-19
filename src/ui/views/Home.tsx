@@ -38,6 +38,10 @@ const Home = () => {
   const handleSearch = (inputSearch: string) => {
     const localStorageBooks = localStorage.getItem('books');
     if (localStorageBooks) {
+      if (!inputSearch.trim().length) {
+        setBookSearch([]);
+        return;
+      }
       const filteredBooks = JSON.parse(localStorageBooks).filter(
         (book: Book) => {
           if (inputSearch === '') {
@@ -143,28 +147,30 @@ const Home = () => {
             {!selectedBook && (
               <>
                 <SearchBar handleSearch={handleSearch} />
-                <Masonry
-                  sx={{
-                    paddingLeft: 4,
-                  }}
-                  columns={{ xs: 1, sm: 2, md: 3 }}
-                  spacing={1}
-                >
-                  {bookSearch?.map((book) => {
-                    if (book && book?.quotes && book?.quotes.length) {
-                      return book?.quotes.map((quote: Quote) => {
-                        return (
-                          <QuoteCard
-                            key={quote.text}
-                            quote={quote}
-                            onClick={() => {}}
-                            deleteQuote={deleteQuoteFunc}
-                          />
-                        );
-                      });
-                    }
-                  })}
-                </Masonry>
+                {bookSearch.length > 0 && (
+                  <Masonry
+                    sx={{
+                      paddingLeft: 4,
+                    }}
+                    columns={{ xs: 1, sm: 2, md: 3 }}
+                    spacing={1}
+                  >
+                    {bookSearch?.map((book) => {
+                      if (book && book?.quotes && book?.quotes.length) {
+                        return book?.quotes.map((quote: Quote) => {
+                          return (
+                            <QuoteCard
+                              key={quote.text}
+                              quote={quote}
+                              onClick={() => {}}
+                              deleteQuote={deleteQuoteFunc}
+                            />
+                          );
+                        });
+                      }
+                    })}
+                  </Masonry>
+                )}
               </>
             )}
             {!selectedBook && (
