@@ -10,18 +10,18 @@ A small web app to save your favorite book quotes, built with React and Firebase
 
 ## Basic functionalities
 
-[x] Add, update and delete books.
-[x] Add, update and delete quotes.
-[] Sign in, sign up and sign out.
-[] Dark mode
-[] Search bar
+- [x] Add, update and delete books.
+- [x] Add, update and delete quotes.
+- [] Sign in, sign up and sign out.
+- [] Dark mode
+- [] Search bar
 
 ## More functionalities
 
-[] Order the book's menu by genre.
-[] Books search bar
-[] Favourite books
-[] Favourtie quotes
+- [] Order the book's menu by genre.
+- [] Books search bar
+- [] Favourite books
+- [] Favourtie quotes
 
 Libraries:
 
