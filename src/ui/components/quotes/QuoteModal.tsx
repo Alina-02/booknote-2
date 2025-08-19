@@ -14,11 +14,27 @@ import { ModalState } from '../../../domain/modals';
 import { useStore } from '../../store/useStore';
 import { addQuote } from '../../../application/quotes/addQuote';
 import { editQuote } from '../../../application/quotes/updateQuote';
+import * as yup from 'yup';
+
+const validationSchema = yup.object().shape({
+  book: yup
+    .object()
+    .shape({
+      bookId: yup.string().required(),
+      title: yup.string().required(),
+      author: yup.string().required(),
+    })
+    .nullable()
+    .required('A book must be selected.'),
+  textQuote: yup
+    .string()
+    .nullable()
+    .required('The quote text cannot be empty.'),
+});
 
 interface Props {
   modalState: ModalState;
   onClose: () => void;
-
   selectedQuote?: Quote;
 }
 
@@ -108,6 +124,7 @@ export const QuoteModal = (props: Props) => {
               : { book: null, textQuote: null }
           }
           onSubmit={handleQuoteSubmit}
+          validationSchema={validationSchema}
         >
           {({
             values,
