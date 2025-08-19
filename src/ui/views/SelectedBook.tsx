@@ -100,7 +100,7 @@ const SelectedBook = (props: Props) => {
         paddingLeft={10}
         paddingRight={3}
         paddingBottom={3}
-        overflow="scroll"
+        overflow="auto"
       >
         <Stack
           alignItems="center"

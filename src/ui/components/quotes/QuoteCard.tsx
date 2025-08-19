@@ -23,7 +23,10 @@ const QuoteCard = (props: Props) => {
       sx={{
         position: 'relative',
         padding: 2,
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor:
+          theme.palette.mode === 'dark'
+            ? theme.palette.primary.dark
+            : theme.palette.primary.light,
         borderRadius: '10px',
       }}
     >

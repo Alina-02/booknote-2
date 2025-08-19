@@ -41,7 +41,11 @@ const LateralMenu = (props: Props) => {
         paddingY={'10px'}
         justifyContent="space-between"
         sx={{
-          backgroundColor: theme.palette.primary.light,
+          backgroundColor:
+            theme.palette.mode === 'dark'
+              ? theme.palette.primary.dark
+              : theme.palette.primary.light,
+
           overflow: 'hidden',
         }}
       >

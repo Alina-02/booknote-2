@@ -30,6 +30,7 @@ const SearchBar = (props: Props) => {
           paddingLeft: 3,
           paddingY: 1.2,
           fontSize: '1rem',
+          color: 'black',
         }}
         onChange={(e) => {
           setInputSearch(e.target.value.toLowerCase());

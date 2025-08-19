@@ -1,4 +1,4 @@
-import { Button, Stack, Tooltip } from '@mui/material';
+import { Button, Stack, Tooltip, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 
 import PersonIcon from '@mui/icons-material/Person';
@@ -16,6 +16,7 @@ const ButtonsMenu = (props: Props) => {
     null
   );
   const [openProfilePopover, setOpenProfilePopover] = useState<boolean>(false);
+  const theme = useTheme();
 
   return (
     <Stack>
@@ -34,7 +35,15 @@ const ButtonsMenu = (props: Props) => {
           setOpenProfilePopover(true);
         }}
       >
-        <PersonIcon fontSize="large" />
+        <PersonIcon
+          fontSize="large"
+          sx={{
+            color:
+              theme.palette.mode === 'dark'
+                ? theme.palette.primary.light
+                : 'primary',
+          }}
+        />
       </Button>
 
       <ProfilePopover
