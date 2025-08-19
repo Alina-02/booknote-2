@@ -3,8 +3,8 @@ import LogIn from './ui/views/LogIn';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import CreateAccount from './ui/views/CreateAccount';
 import { AuthContext } from './context/authContext';
-import { useContext, useEffect } from 'react';
-import { Stack, Typography } from '@mui/material';
+import { useContext } from 'react';
+import ForgotPassword from './ui/views/ForgotPassword';
 
 interface PrivateRouteProps {
   children: React.ReactNode;
@@ -21,21 +21,11 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 function App() {
   const { status } = useContext(AuthContext);
 
-  if (status === 'checking') {
-    return (
-      <Stack height="100vh" justifyContent="center" alignItems="center">
-        <Typography variant="h5">
-          Checking credentials, wait a moment...
-        </Typography>
-      </Stack>
-    );
-  }
-
   return (
     <Routes>
       <Route path="/" element={<LogIn />} />
       <Route path="/create-account" element={<CreateAccount />} />
-
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route
         path="/main"
         element={

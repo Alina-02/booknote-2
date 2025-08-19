@@ -59,7 +59,9 @@ const LogIn = () => {
         values.email,
         values.password
       );
+
       if (correctLogIn) {
+        console.log('go to main');
         goToMain();
       } else {
         setFieldError('email', 'Invalid credentials');
@@ -69,12 +71,27 @@ const LogIn = () => {
   });
 
   const goToMain = () => {
+    console.log('navigate');
     navigate('/main');
   };
 
   const goToCreateAccount = () => {
     navigate('/create-account');
   };
+
+  const goToForgotPassword = () => {
+    navigate('/forgot-password');
+  };
+
+  if (status === 'checking') {
+    return (
+      <Stack height="100vh" justifyContent="center" alignItems="center">
+        <Typography variant="h5">
+          Checking credentials, wait a moment...
+        </Typography>
+      </Stack>
+    );
+  }
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -87,7 +104,7 @@ const LogIn = () => {
         </Stack>
         <Stack spacing={2.5} width="370px">
           {formik.errors.email && formik.touched.email && (
-            <Alert severity="error">{formik.errors.email}</Alert>
+            <Alert severity="error">Invalid credentials</Alert>
           )}
           <Stack>
             <Typography variant="body1" fontWeight="600" ml={1}>
@@ -141,7 +158,12 @@ const LogIn = () => {
                 {formik.errors.password}
               </Typography>
             )}
-            <Typography variant="body1" ml={1} sx={{ cursor: 'pointer' }}>
+            <Typography
+              variant="body1"
+              ml={1}
+              sx={{ cursor: 'pointer', textDecoration: 'underline' }}
+              onClick={goToForgotPassword}
+            >
               Have you forgotten your password?
             </Typography>
           </Stack>
@@ -157,7 +179,7 @@ const LogIn = () => {
             <Typography
               variant="body1"
               onClick={goToCreateAccount}
-              sx={{ cursor: 'pointer' }}
+              sx={{ cursor: 'pointer', textDecoration: 'underline' }}
             >
               Create an account
             </Typography>

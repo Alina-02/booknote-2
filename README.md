@@ -23,7 +23,7 @@ A small web app to save your favorite book quotes, built with React and Firebase
 - [] Favourite books
 - [] Favourtie quotes
 
-Libraries:
+## Libraries
 
 - Zustand
 - MUI
