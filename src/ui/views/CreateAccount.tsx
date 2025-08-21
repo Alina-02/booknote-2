@@ -2,11 +2,13 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useForm } from '../../hooks/useForm';
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import { Button, Stack, TextField, Typography, useTheme } from '@mui/material';
 import { AuthContext } from '../../context/authContext';
+import { DarkColors } from '../theme/theme';
 
 const CreateAccount = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const { handleRegisterWithCredentials } = useContext(AuthContext);
 
   const { handleLogInFormChange, password, email } = useForm({
@@ -27,12 +29,26 @@ const CreateAccount = () => {
   };
 
   return (
-    <Stack height="100%" display="flex" alignItems="center">
+    <Stack
+      height="100vh"
+      display="flex"
+      alignItems="center"
+      sx={{
+        backgroundColor:
+          theme.palette.mode === 'dark' ? DarkColors.background : 'white',
+        color: theme.palette.mode === 'dark' ? 'white' : 'black',
+      }}
+    >
       <Stack margin={10} alignItems="center">
-        <Typography variant="h3" sx={{ height: '55px' }}>
+        <Typography
+          variant="h3"
+          sx={{ height: '55px', fontSize: { sm: '3rem', md: '4rem' } }}
+        >
           Save your
         </Typography>
-        <Typography variant="h1">BookNotes</Typography>
+        <Typography variant="h1" sx={{ fontSize: { sm: '4rem', md: '6rem' } }}>
+          BookNotes
+        </Typography>
       </Stack>
       <Stack spacing={3} width="370px">
         <Stack>

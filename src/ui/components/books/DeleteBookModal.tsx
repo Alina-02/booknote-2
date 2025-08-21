@@ -1,4 +1,4 @@
-import { Button, Dialog, Stack, Typography } from '@mui/material';
+import { Button, Dialog, Stack, Typography, useTheme } from '@mui/material';
 import React from 'react';
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 
 const DeleteBookModal = (props: Props) => {
   const { open, setOpen, title, deleteBookFunc } = props;
+  const theme = useTheme();
 
   const onDeleteBook = () => {
     deleteBookFunc();
@@ -36,6 +37,16 @@ const DeleteBookModal = (props: Props) => {
             size="small"
             onClick={() => {
               setOpen(false);
+            }}
+            sx={{
+              color:
+                theme.palette.mode === 'dark'
+                  ? theme.palette.primary.light
+                  : 'primary',
+              borderColor:
+                theme.palette.mode === 'dark'
+                  ? theme.palette.primary.light
+                  : 'primary',
             }}
             fullWidth
           >

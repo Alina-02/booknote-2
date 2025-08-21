@@ -77,7 +77,15 @@ const BookModal = (props: Props) => {
           color: theme.palette.grey[500],
         })}
       >
-        <CloseIcon fontSize="large" color="primary" />
+        <CloseIcon
+          fontSize="large"
+          sx={{
+            color:
+              theme.palette.mode === 'dark'
+                ? theme.palette.primary.light
+                : 'primary',
+          }}
+        />
       </Button>
       <Stack mx={3} mb={3} mt={1} spacing={3}>
         <Stack alignItems="center">
@@ -207,7 +215,17 @@ const BookModal = (props: Props) => {
                   <Button
                     variant="outlined"
                     onClick={onClose}
-                    sx={{ height: '40px' }}
+                    sx={{
+                      height: '40px',
+                      color:
+                        theme.palette.mode === 'dark'
+                          ? theme.palette.primary.light
+                          : 'primary',
+                      borderColor:
+                        theme.palette.mode === 'dark'
+                          ? theme.palette.primary.light
+                          : 'primary',
+                    }}
                     fullWidth
                   >
                     Cancel

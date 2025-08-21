@@ -4,7 +4,6 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {
-  Container,
   TextField,
   Button,
   Typography,
@@ -12,9 +11,11 @@ import {
   CircularProgress,
   Alert,
   Stack,
+  useTheme,
 } from '@mui/material';
 import { FirebaseAuth } from '../../infrastructure/config';
 import { useNavigate } from 'react-router-dom';
+import { DarkColors } from '../theme/theme';
 
 // Define a validation schema using Yup
 const validationSchema = yup.object({
@@ -30,6 +31,7 @@ const ForgotPassword = () => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const formik = useFormik({
     initialValues: {
@@ -46,11 +48,10 @@ const ForgotPassword = () => {
         setMessage(
           'A password reset link has been sent to your email address.'
         );
-      } catch (err) {
-        // Clear message on error
+      } catch (error) {
         setMessage('');
 
-        const errorCode = err.code;
+        const errorCode = error.code;
 
         switch (errorCode) {
           case 'auth/user-not-found':
@@ -61,7 +62,7 @@ const ForgotPassword = () => {
             break;
           default:
             setError('Failed to send password reset email. Please try again.');
-            console.error(err);
+            console.error(error);
         }
       } finally {
         setLoading(false);
@@ -74,7 +75,16 @@ const ForgotPassword = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Stack
+      height="100vh"
+      display="flex"
+      alignItems="center"
+      sx={{
+        backgroundColor:
+          theme.palette.mode === 'dark' ? DarkColors.background : 'white',
+        color: theme.palette.mode === 'dark' ? 'white' : 'black',
+      }}
+    >
       <Stack
         sx={{
           marginTop: 8,
@@ -149,7 +159,7 @@ const ForgotPassword = () => {
           </Alert>
         )}
       </Stack>
-    </Container>
+    </Stack>
   );
 };
 

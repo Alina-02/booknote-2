@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Stack, useTheme } from '@mui/system';
 
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/authContext';
@@ -18,6 +18,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { DarkColors } from '../theme/theme';
 
 const logInValidationSchema = Yup.object({
   email: Yup.string()
@@ -33,6 +34,7 @@ const LogIn = () => {
   const { handleLoginWithCredentials, status } = useContext(AuthContext);
 
   const [showPassword, setShowPassword] = React.useState(false);
+  const theme = useTheme();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -85,7 +87,16 @@ const LogIn = () => {
 
   if (status === 'checking') {
     return (
-      <Stack height="100vh" justifyContent="center" alignItems="center">
+      <Stack
+        height="100vh"
+        justifyContent="center"
+        alignItems="center"
+        sx={{
+          backgroundColor:
+            theme.palette.mode === 'dark' ? DarkColors.background : 'white',
+          color: theme.palette.mode === 'dark' ? 'white' : 'black',
+        }}
+      >
         <Typography variant="h5">
           Checking credentials, wait a moment...
         </Typography>
@@ -95,12 +106,32 @@ const LogIn = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Stack height="100%" display="flex" alignItems="center">
+      <Stack
+        height="100vh"
+        display="flex"
+        alignItems="center"
+        sx={{
+          backgroundColor:
+            theme.palette.mode === 'dark' ? DarkColors.background : 'white',
+          color: theme.palette.mode === 'dark' ? 'white' : 'black',
+        }}
+      >
         <Stack margin={10} alignItems="center">
-          <Typography variant="h3" sx={{ height: '55px' }}>
+          <Typography
+            variant="h3"
+            sx={{
+              height: '55px',
+              fontSize: { sm: '3rem', md: '4rem' },
+            }}
+          >
             Save your
           </Typography>
-          <Typography variant="h1">BookNotes</Typography>
+          <Typography
+            variant="h1"
+            sx={{ fontSize: { sm: '4rem', md: '6rem' } }}
+          >
+            BookNotes
+          </Typography>
         </Stack>
         <Stack spacing={2.5} width="370px">
           {formik.errors.email && formik.touched.email && (

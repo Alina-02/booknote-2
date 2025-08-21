@@ -18,6 +18,7 @@ A small web app to save your favorite book quotes, built with React and Firebase
 
 ## More functionalities
 
+- [] Close menu clicking outside.
 - [] Order the book's menu by genre.
 - [] Books search bar
 - [] Favourite books

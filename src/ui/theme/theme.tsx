@@ -66,6 +66,13 @@ export const theme = createTheme({
 
           display: 'flex',
           alignItems: 'center',
+
+          '& input:-webkit-autofill': {
+            WebkitBoxShadow: '0 0 0 100px rgba(120, 93, 83, 0.8) inset',
+            WebkitTextFillColor: '#fff',
+            caretColor: '#fff',
+            borderRadius: 'inherit',
+          },
         },
         notchedOutline: {
           borderRadius: 10,

@@ -5,6 +5,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Book } from '../../../domain/models/books';
@@ -41,6 +42,7 @@ interface Props {
 export const QuoteModal = (props: Props) => {
   const { modalState, onClose, selectedQuote } = props;
   const { selectedBook, setSelectedBook, setBooks } = useStore();
+  const theme = useTheme();
 
   const localStorageBooks = localStorage.getItem('books');
   const allBooks = localStorageBooks ? JSON.parse(localStorageBooks) : [];
@@ -98,7 +100,16 @@ export const QuoteModal = (props: Props) => {
           color: theme.palette.grey[500],
         })}
       >
-        <CloseIcon fontSize="large" color="primary" />
+        <CloseIcon
+          fontSize="large"
+          color="primary"
+          sx={{
+            color:
+              theme.palette.mode === 'dark'
+                ? theme.palette.primary.light
+                : 'primary',
+          }}
+        />
       </Button>
       <Stack mx={3} mb={3} mt={1} spacing={3}>
         <Stack alignItems="center" paddingX={7}>
@@ -182,7 +193,17 @@ export const QuoteModal = (props: Props) => {
                   <Button
                     variant="outlined"
                     onClick={closeQuoteModal}
-                    sx={{ height: '40px' }}
+                    sx={{
+                      height: '40px',
+                      color:
+                        theme.palette.mode === 'dark'
+                          ? theme.palette.primary.light
+                          : 'primary',
+                      borderColor:
+                        theme.palette.mode === 'dark'
+                          ? theme.palette.primary.light
+                          : 'primary',
+                    }}
                     fullWidth
                   >
                     Cancel
